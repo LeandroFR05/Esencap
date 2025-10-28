@@ -23,15 +23,28 @@ class InsumoController extends Controller
     }
 
     public function store(Request $request): RedirectResponse {
+        $validated = $request->validate([
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:max_width=2000,max_height=2000',
+        ]);
+
+        if ($request->hasFile('foto'))
+            // Si se subió una imagen, la guardamos
+            $fotoPath = $request->file('foto')->store('uploads', 'public');
+        else 
+            // Si no se subió nada, dejamos el valor en null
+            $fotoPath = null;
+
         $insumo = Insumo::create([
             'nombre' => $request->input('nombre'),
+            'foto' => $fotoPath,
             'contenidoPorUnidad' => $request->input('contenidoPorUnidad'),
             'idFamilia' => $request->input('idFamilia'),
             'fase' => $request->input('fase'),
         ]);
 
         LoteInsumo::create([
-            'idInsumo' => $insumo->id,
+            'idInsumo' => $insumo->idInsumo,
+            'numeroLote' => 1,
             'stock' => $request->input('stock'),
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
@@ -54,8 +67,14 @@ class InsumoController extends Controller
     }
 
     public function reponerStore(Request $request, Insumo $insumo): RedirectResponse {
+
+        $ultimoNumero = LoteInsumo::where('idInsumo', $insumo->idInsumo)
+            ->max('numeroLote');
+        $nuevoNumero = $ultimoNumero ? $ultimoNumero + 1 : 1;
+
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
+            'numeroLote' => $nuevoNumero,
             'stock' => $request->input('stock'),
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);

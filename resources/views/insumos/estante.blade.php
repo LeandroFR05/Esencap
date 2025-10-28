@@ -9,9 +9,12 @@
             <li>No hay insumos disponibles.</li>
         @else
             @foreach($insumos as $insumo)
-                <li>{{ $insumo->nombre }}</li> -
-                <a href="{{ route('insumos.edit', $insumo->idInsumo) }}">Editar</a> - 
-                <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}">Reponer</a>
+                <li>{{ $insumo->nombre }}</li>
+                <br>
+                <img src="{{ asset('storage/' . $insumo->foto) }}" class="img-thumbnail" width="100" height="100">
+                <br>
+                <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}"><i class="bi bi-plus-lg"></i></a> -
+                <a href="{{ route('insumos.edit', $insumo->idInsumo) }}"><i class="bi bi-pencil"></i></a> 
             @endforeach
         @endif
     </ul>

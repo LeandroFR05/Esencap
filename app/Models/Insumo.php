@@ -10,7 +10,8 @@ class Insumo extends Model
     protected $primaryKey = 'idInsumo';
 
     protected $fillable = [
-        'nombre', 
+        'nombre',
+        'foto', 
         'fase', 
         'contenidoPorUnidad',
         'idFamilia'

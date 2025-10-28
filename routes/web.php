@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\InsumoController;
+use App\Http\Controllers\LoteInsumoController;
 use Illuminate\Support\Facades\Route;
 
 //LOGIN ROUTES
@@ -29,3 +30,7 @@ Route::post('/insumos/reponer/{insumo}', [InsumoController::class, 'reponerStore
 //FAMILIAS ROUTES
 Route::get('/familias/create', [FamiliaController::class, 'create'])->middleware('auth')->name('familias.create');
 Route::post('/familias/store', [FamiliaController::class, 'store'])->middleware('auth')->name('familias.store');
+
+
+//LOTES ROUTES
+Route::get('/lotes/{insumo}', [LoteInsumoController::class, 'showLotes'])->middleware('auth')->name('lotes.show');

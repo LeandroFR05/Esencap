@@ -23,6 +23,7 @@ return new class extends Migration
 
         Schema::create('loteInsumos', function (Blueprint $table) {
             $table->mediumIncrements('idLote');
+            $table->smallInteger('numeroLote')->unsigned();
             $table->smallInteger('idInsumo')->unsigned();
             $table->smallInteger('stock')->unsigned();
             $table->date('fechaVencimiento');

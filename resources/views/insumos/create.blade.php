@@ -4,11 +4,14 @@
 @section('content')
     <h1>Crear Nuevo Insumo</h1>
 
-    <form method="POST" action="{{ route('insumos.store') }}">
+    <form method="POST" action="{{ route('insumos.store') }}" enctype="multipart/form-data">
         @csrf
         <div>
             <label for="nombre">Nombre:</label>
             <input type="text" name="nombre" required>
+            <br>
+            <label for="foto">Foto:</label>
+            <input type="file" name="foto">
             <br>
             <label for="stock">Stock:</label>
             <input type="number" name="stock" required>

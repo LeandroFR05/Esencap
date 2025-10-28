@@ -11,6 +11,9 @@
         <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" value="{{ $insumo->nombre }}" required>
         <br>
+        <label for="foto">Foto:</label>
+        <img src="{{ asset('storage/' . $insumo->foto) }}" width="100" height="100">
+        <br>
         <label for="fase">Fase:</label>
         <input type="text" name="fase" value="{{ $insumo->fase }}" required>
         <br>
@@ -23,5 +26,9 @@
         
         <button type="submit">Editar</button>
     </form>
+
+    <a href="{{ route('lotes.show', $insumo->idInsumo) }}">Ver Lotes</a>
+    <br>
+    <a href="{{ route('insumos.estante') }}">Volver atrás</a>
 
 @endsection

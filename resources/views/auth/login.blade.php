@@ -1,25 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Iniciar Sesión')
+
+@section('content')
+
     <h1>Iniciar Sesión</h1>
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div>
-            <label for="name">Usuario:</label>
-            <input type="text" name="name" required>
+            <label for="name"><i class="bi bi-person"></i></label>
+            <input type="text" name="name" placeholder="Usuario" required>
         </div>
         <div>
-            <label for="password">Contraseña:</label>
-            <input type="password" name="password" required>
+            <label for="password"><i class="bi bi-lock"></i></label>
+            <input type="password" name="password" placeholder="Contraseña" required>
         </div>
         <div>
-            <button type="submit">Iniciar Sesión</button>
+            <button type="submit" class="btn btn-success">ACCEDER</button>
         </div>
     </form>
-</body>
-</html>
+
+@endsection

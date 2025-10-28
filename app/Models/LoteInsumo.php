@@ -10,6 +10,7 @@ class LoteInsumo extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'numeroLote',
         'idInsumo',
         'stock', 
         'fechaVencimiento'
