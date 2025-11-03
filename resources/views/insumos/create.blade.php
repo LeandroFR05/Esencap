@@ -19,13 +19,18 @@
             <label for="contenidoPorUnidad">Contenido por Unidad:</label>
             <input type="number" name="contenidoPorUnidad" required>
             <br>
+
             <label for="idFamilia">Familia:</label>
             <select name="idFamilia" required>
                 @foreach($familias as $familia)
                     <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
                 @endforeach
             </select>
-            <a href="{{ route('familias.create') }}">+</a>
+            <!--Usamos una botón que nos lleva a una ventana modal para poder crear familias-->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFamilia">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+
             <br>
             <label for="fase">Fase:</label>
             <input type="text" name="fase" required>
@@ -34,7 +39,12 @@
             <input type="date" name="fechaVencimiento" required>
         </div>
         <div>
-            <button type="submit">Agregar</button>
+            <button type="submit" class="btn btn-success">Agregar</button>
         </div>
     </form>
+
+    @include('_partials.modalFamilia')
+
+    <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+
 @endsection

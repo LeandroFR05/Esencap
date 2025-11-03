@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InsumoRequest;
 use App\Models\Familia;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class InsumoController extends Controller
 {
@@ -17,15 +18,14 @@ class InsumoController extends Controller
         return view('insumos.estante', compact('insumos'));
     }
 
+
     public function create(): View {
         $familias = Familia::all();
         return view('insumos.create', compact('familias'));
     }
 
-    public function store(Request $request): RedirectResponse {
-        $validated = $request->validate([
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:max_width=2000,max_height=2000',
-        ]);
+
+    public function store(InsumoRequest $request): RedirectResponse {
 
         if ($request->hasFile('foto'))
             // Si se subió una imagen, la guardamos
@@ -52,19 +52,34 @@ class InsumoController extends Controller
         return redirect()->route('insumos.estante')->with('success', 'Insumo creado exitosamente.');
     }
 
+
     public function edit(Insumo $insumo): View {
-        $familia = Familia::find($insumo->idFamilia);
-        return view('insumos.edit', compact('insumo', 'familia'));
+        $familias = Familia::all();
+        $stockLotes = LoteInsumo::where('idInsumo', $insumo->idInsumo)->sum('stock');
+        return view('insumos.edit', compact('insumo', 'familias', 'stockLotes'));
     }
 
-    public function update(Request $request, Insumo $insumo): RedirectResponse {
-        $insumo->update($request->all());
+
+    public function update(InsumoRequest $request, Insumo $insumo): RedirectResponse {
+
+        $validated = $request->validated();
+        if ($request->hasFile('foto')) {
+            if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {
+                Storage::disk('public')->delete($insumo->foto); // Eliminar la foto antigua
+            }
+            $fotoPath = $request->file('foto')->store('uploads', 'public');
+            $validated['foto'] = $fotoPath; // Actualizar con la nueva foto
+        }
+
+        $insumo->update($validated);
         return redirect()->route('insumos.estante')->with('success', 'Insumo actualizado exitosamente.');
     }
+    
 
     public function reponer(Insumo $insumo): View {
         return view('insumos.reponer', compact('insumo'));
     }
+
 
     public function reponerStore(Request $request, Insumo $insumo): RedirectResponse {
 
@@ -80,5 +95,24 @@ class InsumoController extends Controller
         ]);
 
         return redirect()->route('insumos.estante')->with('success', 'Insumo repuesto exitosamente.');
+    }
+
+
+    public function deshabilitar(Insumo $insumo): RedirectResponse {
+        $insumo->update(['disponible' => false]);
+        return redirect()->route('insumos.estante')->with('danger', 'Insumo deshabilitado exitosamente.');
+    }
+
+
+    public function eliminar(Insumo $insumo): RedirectResponse {
+        // Eliminar la foto asociada si existe
+        if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {
+            Storage::disk('public')->delete($insumo->foto);
+        }
+
+        // Eliminar el insumo
+        $insumo->delete();
+
+        return redirect()->route('insumos.estante')->with('danger', 'Insumo eliminado exitosamente.');
     }
 }

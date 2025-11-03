@@ -5,7 +5,7 @@
 
     <h1>Editar Insumo</h1>
 
-    <form action="{{ route('insumos.update', $insumo->idInsumo) }}" method="POST">
+    <form action="{{ route('insumos.update', $insumo->idInsumo) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <label for="nombre">Nombre:</label>
@@ -13,22 +13,51 @@
         <br>
         <label for="foto">Foto:</label>
         <img src="{{ asset('storage/' . $insumo->foto) }}" width="100" height="100">
+        <input type="file" name="foto">
+        <br>
+        <label for="stockTotal">Stock Total:</label>
+        <input type="number" name="stockTotal" value="{{ $stockLotes }}" required>
         <br>
         <label for="fase">Fase:</label>
         <input type="text" name="fase" value="{{ $insumo->fase }}" required>
         <br>
-        <label for="nombre">Familia:</label>
-        <input type="text" name="nombre" value="{{ $familia->nombre }}" required>
+        
+        <label for="idFamilia">Familia:</label>
+        <select name="idFamilia" required>
+            @foreach($familias as $familia)
+                <!--Esta lógica selecciona la familia que actualmente esta utilizando el insumo-->
+                <option value="{{ $familia->idFamilia }}"
+                    {{ $familia->idFamilia == $insumo->idFamilia ? 'selected' : '' }}>
+                    {{ $familia->nombre }}
+                </option>
+            @endforeach
+        </select>
+        <!--Usamos una botón que nos lleva a una ventana modal para poder crear familias-->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFamilia">
+            <i class="bi bi-plus-lg"></i>
+        </button>
+
         <br>
         <label for="contenidoPorUnidad">Contenido por Unidad:</label>
         <input type="number" name="contenidoPorUnidad" value="{{ $insumo->contenidoPorUnidad }}" required>
         <br>
         
-        <button type="submit">Editar</button>
+        <button type="submit" class="btn btn-success">Editar</button>
     </form>
 
-    <a href="{{ route('lotes.show', $insumo->idInsumo) }}">Ver Lotes</a>
-    <br>
-    <a href="{{ route('insumos.estante') }}">Volver atrás</a>
+    <!--Botones para deshabilitar y eliminar insumo-->
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalDeshabilitarInsumo">
+        <i class="bi bi-slash-circle"></i>
+    </button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalEliminarInsumo">
+        <i class="bi bi-trash"></i>
+    </button>
 
+    <!--Botón volver atrás-->
+    <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+
+    <!--Llamamos a las ventanas modales-->
+    @include('_partials.modalFamilia')
+    @include('_partials.modalDeshabilitarInsumo')
+    @include('_partials.modalEliminarInsumo')
 @endsection

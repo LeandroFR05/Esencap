@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\InsumoController;
 use App\Http\Controllers\LoteInsumoController;
+use App\Models\LoteInsumo;
 use Illuminate\Support\Facades\Route;
 
 //LOGIN ROUTES
@@ -26,11 +27,14 @@ Route::get('/insumos/edit/{insumo}', [InsumoController::class, 'edit'])->middlew
 Route::put('/insumos/update/{insumo}', [InsumoController::class, 'update'])->middleware('auth')->name('insumos.update');
 Route::get('/insumos/reponer/{insumo}', [InsumoController::class, 'reponer'])->middleware('auth')->name('insumos.reponer');
 Route::post('/insumos/reponer/{insumo}', [InsumoController::class, 'reponerStore'])->middleware('auth')->name('insumos.reponer.store');
+Route::put('/insumos/deshabilitar/{insumo}', [InsumoController::class, 'deshabilitar'])->middleware('auth')->name('insumos.deshabilitar');
+Route::delete('/insumos/eliminar/{insumo}', [InsumoController::class, 'eliminar'])->middleware('auth')->name('insumos.eliminar');
+
 
 //FAMILIAS ROUTES
-Route::get('/familias/create', [FamiliaController::class, 'create'])->middleware('auth')->name('familias.create');
 Route::post('/familias/store', [FamiliaController::class, 'store'])->middleware('auth')->name('familias.store');
 
 
 //LOTES ROUTES
+Route::get('/lotes/vencidos', [LoteInsumoController::class, 'vencidos'])->middleware('auth')->name('lotes.vencidos');
 Route::get('/lotes/{insumo}', [LoteInsumoController::class, 'showLotes'])->middleware('auth')->name('lotes.show');

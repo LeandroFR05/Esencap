@@ -14,7 +14,8 @@
                 <img src="{{ asset('storage/' . $insumo->foto) }}" class="img-thumbnail" width="100" height="100">
                 <br>
                 <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}"><i class="bi bi-plus-lg"></i></a> -
-                <a href="{{ route('insumos.edit', $insumo->idInsumo) }}"><i class="bi bi-pencil"></i></a> 
+                <a href="{{ route('insumos.edit', $insumo->idInsumo) }}"><i class="bi bi-pencil"></i></a> -
+                <a href="{{ route('lotes.show', $insumo->idInsumo) }}"><i class="bi bi-box-seam"></i></a>
             @endforeach
         @endif
     </ul>

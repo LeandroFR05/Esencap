@@ -11,6 +11,9 @@
         <input type="date" name="fechaVencimiento" required>
         <br>
 
-        <button type="submit">Reponer</button>
+        <button type="submit" class="btn btn-success">Reponer</button>
     </form>
+
+    <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+
 @endsection

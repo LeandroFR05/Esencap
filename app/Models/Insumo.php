@@ -14,6 +14,7 @@ class Insumo extends Model
         'foto', 
         'fase', 
         'contenidoPorUnidad',
-        'idFamilia'
+        'idFamilia',
+        'disponible'
     ];
 }
