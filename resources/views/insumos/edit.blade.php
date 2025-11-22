@@ -47,17 +47,13 @@
 
     <!--Botones para deshabilitar y eliminar insumo-->
     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalDeshabilitarInsumo">
-        <i class="bi bi-slash-circle"></i>
-    </button>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalEliminarInsumo">
-        <i class="bi bi-trash"></i>
+        <i class="bi bi-slash-circle"></i> Deshabilitar
     </button>
 
     <!--Botón volver atrás-->
-    <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+    <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver</a>
 
     <!--Llamamos a las ventanas modales-->
-    @include('_partials.modalFamilia')
-    @include('_partials.modalDeshabilitarInsumo')
-    @include('_partials.modalEliminarInsumo')
+    @include('_modals.modalFamilia')
+    @include('_modals.modalDeshabilitarInsumo')
 @endsection

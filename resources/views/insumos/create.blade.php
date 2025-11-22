@@ -43,7 +43,7 @@
         </div>
     </form>
 
-    @include('_partials.modalFamilia')
+    @include('_modals.modalFamilia')
 
     <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
 

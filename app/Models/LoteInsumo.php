@@ -16,6 +16,12 @@ class LoteInsumo extends Model
         return Carbon::parse($value)->format('d-m-Y');
     }
 
+    //Cada lote está relacionado con su insumo correspondiente
+    public function insumo()
+    {
+        return $this->belongsTo(Insumo::class, 'idInsumo');
+    }
+
     protected $fillable = [
         'numeroLote',
         'idInsumo',

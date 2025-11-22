@@ -104,7 +104,7 @@ class InsumoController extends Controller
     }
 
 
-    public function eliminar(Insumo $insumo): RedirectResponse {
+    /* public function eliminar(Insumo $insumo): RedirectResponse {
         // Eliminar la foto asociada si existe
         if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {
             Storage::disk('public')->delete($insumo->foto);
@@ -115,4 +115,5 @@ class InsumoController extends Controller
 
         return redirect()->route('insumos.estante')->with('danger', 'Insumo eliminado exitosamente.');
     }
+    */
 }
