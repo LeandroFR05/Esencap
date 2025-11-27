@@ -1,3 +1,10 @@
+<!-- Estilos -->
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/estilosLotes.css') }}">
+@endsection
+
+
+
 <h3>Filtros:</h3>
 <a href="{{ route('lotes.infoStock') }}" class="btn btn-info">Bajo Stock</a>
 <a href="{{ route('lotes.infoVencimientos') }}" class="btn btn-info">Próximos Vencimientos</a>
@@ -9,9 +16,12 @@
     @endforeach
 </select>
 
+
+@foreach($lotesAgrupados as $idInsumo => $lotes)
+<br>
 <div class="accordion" id="accordion">
     <!--Traemos los lotes que estan próximos a vencerse, los cuáles están agrupados por idInsumo-->
-    @foreach($lotesAgrupados as $idInsumo => $lotes)
+    
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" 
@@ -33,7 +43,7 @@
                         <tbody>
                             <!--Mostramos los detalles de cada lote perteneciente a ese insumo-->
                             @foreach($lotes as $detalleLote)
-                                <tr class="table-secondary">
+                                <tr class="table-danger">
                                     <td>{{ $detalleLote->numeroLote }}</td>
                                     <td>{{ $detalleLote->stock }}</td>
                                     <td>{{ $detalleLote->fechaVencimiento }}</td>
@@ -44,5 +54,11 @@
                 </div>
             </div>
         </div>
-    @endforeach
 </div>
+@endforeach
+
+
+<!--Filtros-->
+@section('scripts')
+    <script src="{{ asset('js/lotes.js') }}"></script>
+@endsection

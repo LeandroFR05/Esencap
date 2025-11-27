@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    //
+    public $timestamps = false;
+    protected $primaryKey = 'idProducto';
+
+    protected $fillable = [
+        'nombre',
+        'foto', 
+        'contenidoPorUnidad',
+        'idBase',
+        'idRecalculada'
+    ];
 }

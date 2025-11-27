@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\InsumoController;
 use App\Http\Controllers\LoteInsumoController;
+use App\Http\Controllers\ProductoController;
 use App\Models\LoteInsumo;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,7 @@ Route::put('/insumos/update/{insumo}', [InsumoController::class, 'update'])->mid
 Route::get('/insumos/reponer/{insumo}', [InsumoController::class, 'reponer'])->middleware('auth')->name('insumos.reponer');
 Route::post('/insumos/reponer/{insumo}', [InsumoController::class, 'reponerStore'])->middleware('auth')->name('insumos.reponer.store');
 Route::put('/insumos/deshabilitar/{insumo}', [InsumoController::class, 'deshabilitar'])->middleware('auth')->name('insumos.deshabilitar');
+Route::get('/insumos/{idFamilia}', [InsumoController::class, 'porFamilia'])->middleware('auth')->name('insumos.porFamilia');
 
 
 //FAMILIAS ROUTES
@@ -38,3 +40,9 @@ Route::post('/familias/store', [FamiliaController::class, 'store'])->middleware(
 Route::get('/lotes/infoStock', [LoteInsumoController::class, 'infoStock'])->middleware('auth')->name('lotes.infoStock');
 Route::get('/lotes/vencidos', [LoteInsumoController::class, 'vencidos'])->middleware('auth')->name('lotes.infoVencimientos');
 Route::get('/lotes/{insumo}', [LoteInsumoController::class, 'showLotes'])->middleware('auth')->name('lotes.show');
+
+
+//PRODUCTOS ROUTES
+Route::get('/productos', [ProductoController::class, 'productos'])->middleware('auth')->name('productos.estante');
+Route::get('/productos/create', [ProductoController::class, 'create'])->middleware('auth')->name('productos.create');
+Route::post('/productos/store', [ProductoController::class, 'store'])->middleware('auth')->name('productos.store');

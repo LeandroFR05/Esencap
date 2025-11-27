@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\JsonResponse;
 
 class InsumoController extends Controller
 {
@@ -103,7 +104,15 @@ class InsumoController extends Controller
         return redirect()->route('insumos.estante')->with('danger', 'Insumo deshabilitado exitosamente.');
     }
 
+    // Esta función es para obtener los insumos vinculados a una determinada familia seleccionada en la fabricación de un producto.
+    public function porFamilia($idFamilia): JsonResponse {
+        $insumos = Insumo::where('idFamilia', $idFamilia)->get();
+        return response()->json($insumos);
+    }
 
+
+
+    
     /* public function eliminar(Insumo $insumo): RedirectResponse {
         // Eliminar la foto asociada si existe
         if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {

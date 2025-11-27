@@ -45,6 +45,6 @@
 
     @include('_modals.modalFamilia')
 
-    <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+    <a href="{{ url()->previous() }}" class="btn btn-danger">Volver atrás</a>
 
 @endsection

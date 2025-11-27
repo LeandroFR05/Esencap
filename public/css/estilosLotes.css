@@ -1,0 +1,12 @@
+.accordion .accordion-body table {
+        width: 100% !important;
+        table-layout: auto;
+    }
+
+    .accordion .accordion-body {
+        padding: 0 !important;
+    }
+
+    .accordion .accordion-body .table {
+        margin: 0 !important;
+    }
