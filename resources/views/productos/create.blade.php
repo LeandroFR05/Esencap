@@ -24,6 +24,8 @@
 
             <br><br>
 
+            <!-- FÓRMULAS BASE Y RECALCULADA -->
+            
             <div class="row">
                 <div class="col">
                     <label for="formulaBase" class="form-label">Formula Base</label>
@@ -35,31 +37,43 @@
             <div class="row">
                 <div class="col">
                     <label for="porcentaje" class="form-label">Porcentaje</label>
-                    <input type="number" class="form-control" name="porcentaje">
                 </div>
                 <div class="col">
                     <label for="idFamilia" class="form-label">Familia</label>
-                    <select name="idFamilia" id="idFamilia" class="form-control" required>
-                        @foreach($familias as $familia)
-                            <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
-                        @endforeach
-                    </select>
                 </div>
                 <div class="col">
                     <label for="contenido" class="form-label">Contenido</label>
-                    <input type="text" class="form-control" name="contenido">
                 </div>
                 <div class="col">
                     <label for="idInsumo" class="form-label">Insumo</label>
-                    <select name="idInsumo" id="idInsumo" class="form-control" required>
-                        <option value="">Seleccione una familia primero</option>
-                    </select>
                 </div>
             </div>
-            
-            <br><br>
-
+            <div id="contenedor-formulas">
+                <div class="row formula-item">
+                    <div class="col">
+                        <input type="number" name="porcentaje[]" class="form-control" required>
+                    </div>
+                    <div class="col">
+                        <select name="idFamilia[]" class="form-control select-familia" required>
+                            @foreach($familias as $familia)
+                                <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="number" name="contenido[]" class="form-control" required>
+                    </div>
+                    <div class="col">
+                        <select name="idInsumo[]" class="form-control select-insumo" required>
+                            <option value="">Seleccione una familia primero</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="btn-agregar" class="btn btn-primary">Agregar</button>
         </div>
+        <br><br>
+
         <button type="submit" class="btn btn-success">Guardar</button>
     </form>
     <br>
@@ -68,7 +82,15 @@
 @endsection
 
 
-<!-- Cada vez que selecciono una familia, se llama a este script para buscar los insumos vinculados a esa familia -->
 @section('scripts')
-    <script src="{{ asset('js/productos.js') }}"></script>
+    <!-- Script para clonar la fórmula -->
+    <script src="{{ asset('js/productos/clonarFormula.js') }}"></script>
+
+    <!-- Cada vez que selecciono una familia, se llama a este script para buscar los insumos vinculados a esa familia -->
+    <script src="{{ asset('js/productos/productos.js') }}"></script>
 @endsection
+
+
+
+
+
