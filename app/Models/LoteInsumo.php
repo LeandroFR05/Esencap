@@ -8,6 +8,7 @@ use Carbon\Carbon;
 class LoteInsumo extends Model
 {
     protected $table = 'loteinsumos';
+    protected $primaryKey = 'idLote';
     public $timestamps = false;
 
     //Para mostrar la fecha en formato argentino

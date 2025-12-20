@@ -1,6 +1,6 @@
 <!-- Estilos -->
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/estilosLotes.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/Lotes/estilosLotes.css') }}">
 @endsection
 
 

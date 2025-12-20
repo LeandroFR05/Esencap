@@ -8,11 +8,13 @@ document.addEventListener('change', function(e) {
         let bloque = selectFamilia.closest('.formula-item');
         let selectInsumo = bloque.querySelector('.select-insumo');
 
+        // Realizo la consulta para traer los insumos de esa familia
         fetch('/insumos/' + idFamilia)
             .then(response => response.json())
             .then(data => {
                 selectInsumo.innerHTML = "";
 
+                // Agrego options, que contienen los insumos correspondientes a esa familia que traje de la consulta
                 data.forEach(insumo => {
                     let option = document.createElement('option');
                     option.value = insumo.idInsumo;
