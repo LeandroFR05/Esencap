@@ -22,7 +22,7 @@ input, select, textarea {
 .botones-formula {
     display: flex;
     width: 100%;
-    gap: 10px; /* separación controlada */
+    gap: 10px;
 }
 
 .botones-formula button {

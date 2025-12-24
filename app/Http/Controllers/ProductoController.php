@@ -155,6 +155,42 @@ class ProductoController extends Controller
             ]);
         }
     }
+
+    /* =============================
+        FIN MÉTODOS PRIVADOS DE "STORE"
+    ============================= */
+
+    public function edit(Producto $producto): View {
+        $stockTotal = Historial::where('idProducto', $producto->idProducto)->sum('stock');
+        $formula = $this->recuperarFormulas($producto);
+        return view('productos.edit', compact('producto', 'stockTotal', 'formula'));
+    }
+
+
+    private function recuperarFormulas(Producto $producto): array {
+        $formulaBase = FormulaBase::where('idBase', $producto->idBase)->get();
+        $formulaRecalculada = FormulaRecalculada::where('idRecalculada', $producto->idRecalculada)->get();
+        
+        $datos = [];
+
+        foreach ($formulaBase as $index => $base) {
+            $recal = $formulaRecalculada[$index];
+
+            //Encontramos el nombre de la familia y del insumo
+            $nombreFamilia = Familia::find($base->idFamilia)->nombre;
+            $nombreInsumo = Insumo::find($recal->idInsumo)->nombre;
+            
+            //Rellenamos el array con los datos
+            $datos[] = [
+                'familia'    => $nombreFamilia,
+                'porcentaje' => (float) $base->porcentaje,
+                'insumo'     => $nombreInsumo,
+                'contenido'  => (float) $recal->contenido,
+            ];
+        }
+
+        return $datos;
+    }
     
 }
 

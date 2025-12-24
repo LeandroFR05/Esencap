@@ -46,3 +46,4 @@ Route::get('/lotes/{insumo}', [LoteInsumoController::class, 'showLotes'])->middl
 Route::get('/productos', [ProductoController::class, 'productos'])->middleware('auth')->name('productos.estante');
 Route::get('/productos/create', [ProductoController::class, 'create'])->middleware('auth')->name('productos.create');
 Route::post('/productos/store', [ProductoController::class, 'store'])->middleware('auth')->name('productos.store');
+Route::get('/productos/edit/{producto}', [ProductoController::class, 'edit'])->middleware('auth')->name('productos.edit');
