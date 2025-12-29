@@ -14,5 +14,7 @@ class Historial extends Model
         'idProducto',
         'stock',
         'fechaElaboracion',
+        'idBase',
+        'idRecalculada'
     ];
 }

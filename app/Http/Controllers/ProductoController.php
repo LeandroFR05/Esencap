@@ -39,8 +39,8 @@ class ProductoController extends Controller
             //Si está todo correcto, procedemos a crear el producto y sus relaciones
             $fotoPath = $this->guardarFoto($request);
             $producto = $this->crearProducto($request, $fotoPath);
-            $this->crearHistorial($producto, $request);
-            $this->crearFormulas($producto, $request);
+            $historial = $this->crearHistorial($producto, $request);
+            $this->crearFormulas($historial, $request);
 
             $resultado = redirect()->route('productos.estante')->with('success', 'Producto creado exitosamente.');
         } catch (\Exception $e) {
@@ -113,43 +113,43 @@ class ProductoController extends Controller
 
     private function crearProducto(Request $request, ?string $fotoPath): Producto
     {
-        $base = Producto::max('idBase') + 1;
-        $recalculada = Producto::max('idRecalculada') + 1;
-
         return Producto::create([
             'nombre' => $request->nombre,
             'foto' => $fotoPath,
             'contenidoPorUnidad' => $request->contenidoPorUnidad,
+        ]);
+    }
+
+
+    private function crearHistorial(Producto $producto, Request $request): Historial
+    {
+        $base = Historial::max('idBase') + 1;
+        $recalculada = Historial::max('idRecalculada') + 1;
+
+        return Historial::create([
+            'idProducto' => $producto->idProducto,
+            'stock' => $request->stock,
+            'fechaElaboracion' => $request->fechaElaboracion,
             'idBase' => $base,
             'idRecalculada' => $recalculada,
         ]);
     }
-
-
-    private function crearHistorial(Producto $producto, Request $request): void
-    {
-        Historial::create([
-            'idProducto' => $producto->idProducto,
-            'stock' => $request->stock,
-            'fechaElaboracion' => $request->fechaElaboracion,
-        ]);
-    }
     
 
-    private function crearFormulas(Producto $producto, Request $request): void
+    private function crearFormulas(Historial $historial, Request $request): void
     {
         $cantidad = count($request->porcentaje);
 
         //Recorremos los arrays para crear las fórmulas
         for ($i = 0; $i < $cantidad; $i++) {
             FormulaBase::create([
-                'idBase' => $producto->idBase,
+                'idBase' => $historial->idBase,
                 'idFamilia' => $request->idFamilia[$i],
                 'porcentaje' => $request->porcentaje[$i],
             ]);
 
             FormulaRecalculada::create([
-                'idRecalculada' => $producto->idRecalculada,
+                'idRecalculada' => $historial->idRecalculada,
                 'idInsumo' => $request->idInsumo[$i],
                 'contenido' => $request->contenido[$i],
             ]);
@@ -160,16 +160,20 @@ class ProductoController extends Controller
         FIN MÉTODOS PRIVADOS DE "STORE"
     ============================= */
 
+
+
     public function edit(Producto $producto): View {
         $stockTotal = Historial::where('idProducto', $producto->idProducto)->sum('stock');
         $formula = $this->recuperarFormulas($producto);
         return view('productos.edit', compact('producto', 'stockTotal', 'formula'));
     }
 
-
     private function recuperarFormulas(Producto $producto): array {
-        $formulaBase = FormulaBase::where('idBase', $producto->idBase)->get();
-        $formulaRecalculada = FormulaRecalculada::where('idRecalculada', $producto->idRecalculada)->get();
+        //Primero localizamos el producto en el historial
+        $historial = Historial::where('idProducto', $producto->idProducto)->first();
+        //Ahora podemos obtener las formulas
+        $formulaBase = FormulaBase::where('idBase', $historial->idBase)->get();
+        $formulaRecalculada = FormulaRecalculada::where('idRecalculada', $historial->idRecalculada)->get();
         
         $datos = [];
 
@@ -190,6 +194,11 @@ class ProductoController extends Controller
         }
 
         return $datos;
+    }
+
+
+    public function update(ProductoRequest $request, Producto $producto) {
+        
     }
     
 }

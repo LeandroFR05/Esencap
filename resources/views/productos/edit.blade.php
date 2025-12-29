@@ -4,11 +4,11 @@
     <link rel="stylesheet" href="{{ asset('css/Productos/estCreate.css') }}">
 @endsection
 
-@section('title', 'Editar insumo')
+@section('title', 'Editar producto')
 @section('content')
     <h1>Editar Producto</h1>
 
-    <form action="#" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('productos.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <label for="nombre">Nombre:</label>
@@ -19,14 +19,14 @@
         <input type="file" name="foto">
         <br>
         <label for="stock">Stock total:</label>
-        <input type="number" name="stock" value="{{ $stockTotal }}" required>
+        <input type="number" name="stock" value="{{ $stockTotal }}" style="background-color: #f3f3f3ff;" readonly>
         <br>
         <label for="contenidoPorUnidad">Contenido por Unidad:</label>
-        <input type="number" name="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" required>
+        <input type="number" name="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" style="background-color: #f3f3f3ff;" readonly>
         <br>
         
-
-        <div class="row">
+    
+        <div class="row">   
             <div class="col">
                 <label for="formulaBase" class="form-label">Formula Base</label>
             </div>
