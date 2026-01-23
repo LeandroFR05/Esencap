@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Familia;
+use App\Models\Formula;
+use App\Models\LoteInsumo;
 
 class Insumo extends Model
 {
@@ -17,4 +20,21 @@ class Insumo extends Model
         'idFamilia',
         'disponible'
     ];
+
+
+    //Relaciones
+    public function lotes()
+    {
+        return $this->hasMany(LoteInsumo::class, 'idInsumo', 'idInsumo');
+    }
+
+    public function familia()
+    {
+        return $this->belongsTo(Familia::class, 'idFamilia', 'idFamilia');
+    }
+
+    public function formulas()
+    {
+        return $this->hasMany(Formula::class, 'idInsumo', 'idInsumo');
+    }
 }

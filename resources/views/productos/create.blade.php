@@ -11,25 +11,26 @@
     <form id="formProductos" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
         @csrf
         <div>
+            <!-- INFORMACIÓN INICIAL -->
             <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" required>
+            <input type="text" name="nombre" value="{{ old('nombre') }}" required>
             <br>
             <label for="foto">Foto:</label>
             <input type="file" name="foto">
             <br>
             <label for="stock">Stock:</label>
-            <input type="number" name="stock" required>
+            <input type="number" name="stock" value="{{ old('stock') }}" required>
             <br>
             <label for="contenidoPorUnidad">Contenido por Unidad:</label>
-            <input type="number" name="contenidoPorUnidad" class="contenidoPorUnidad" required>
+            <input type="number" name="contenidoPorUnidad" class="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" required>
             <br>
             <label for="fechaElaboracion">Fecha de Elaboración:</label>
-            <input type="date" name="fechaElaboracion" required>
+            <input type="date" name="fechaElaboracion" value="{{ old('fechaElaboracion') }}" required>
 
             <br><br>
 
             <!-- FÓRMULAS BASE Y RECALCULADA -->
-            
+            <!-- Labels -->
             <div class="row">
                 <div class="col">
                     <label for="formulaBase" class="form-label">Formula Base</label>
@@ -53,6 +54,7 @@
                 </div>
             </div>
 
+            <!-- Inputs y Selects -->
             <div id="contenedor-formulas">
                 <div class="row formula-item">
                     <div class="col">
@@ -76,21 +78,25 @@
                 </div>
             </div>
 
+            <!-- Buttons -->
             <div class="botones-formula">
                 <button type="button" id="btn-agregar" class="btn btn-primary">Agregar</button>
                 <button type="button" id="btn-borrar" class="btn btn-danger">Borrar</button>
             </div>
         </div>
         <br>
-    
+
+        <!-- Enviar formulario -->
         <button type="submit" class="btn btn-success">Guardar</button>
     </form>
+
     <br>
     
     <a href="{{ url()->previous() }}" class="btn btn-danger">Volver atrás</a>
 @endsection
 
 
+<!-- Este error se muestra cuando no hay suficiente stock -->
 @if(session('error'))
     <div class="alert alert-danger">
         {{ session('error') }}

@@ -8,9 +8,11 @@
 @section('content')
     <h1>Editar Producto</h1>
 
+    <!-- FORMULARIO -->
     <form action="{{ route('productos.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+        <!-- Datos iniciales -->
         <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" value="{{ $producto->nombre }}" required>
         <br>
@@ -24,51 +26,26 @@
         <label for="contenidoPorUnidad">Contenido por Unidad:</label>
         <input type="number" name="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" style="background-color: #f3f3f3ff;" readonly>
         <br>
-        
-    
-        <div class="row">   
-            <div class="col">
-                <label for="formulaBase" class="form-label">Formula Base</label>
-            </div>
-            <div class="col">
-                <label for="formulaRecalculada" class="form-label">Formula Recalculada</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label for="porcentaje" class="form-label">Porcentaje</label>
-            </div>
-            <div class="col">
-                <label for="idFamilia" class="form-label">Familia</label>
-            </div>
-            <div class="col">
-                <label for="contenido" class="form-label">Contenido</label>
-            </div>
-            <div class="col">
-                <label for="idInsumo" class="form-label">Insumo</label>
-            </div>
-        </div>
 
-        @foreach($formula as $fila)
-            <div class="row formula-item">
-                <div class="col">
-                    <input type="number" name="porcentaje[]" value="{{ $fila['porcentaje'] }}" class="form-control porcentaje" required>
-                </div>
-                <div class="col">
-                    <input type="text" name="familia[]" value="{{ $fila['familia'] }}" class="form-control" required>
-                </div>
-                <div class="col">
-                    <input type="number" name="contenido[]" value="{{ $fila['contenido'] }}" class="form-control" required>
-                </div>
-                <div class="col">
-                    <input type="text" name="insumo[]" value="{{ $fila['insumo'] }}" class="form-control" required>
-                </div>
-            </div>
-        @endforeach
-
+        <!-- Enviar formulario -->
         <button type="submit" class="btn btn-success">Editar</button>
     </form>
 
-    <!--Botón volver atrás-->
+    <button class="btn btn-primary">Elaborar</button>
+
+    <br>
+
+
+    <!-- HISTORIAL DE ELABORACIONES -->
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" 
+    aria-controls="offcanvasExample">
+        Historial
+    </button>
+
+    @include('productos.partials.historial-offcanvas', ['producto' => $producto])
+
+    
+    <!--VOLVER ATRÁS-->
     <a href="{{ route('productos.estante') }}" class="btn btn-danger">Volver</a>
+
 @endsection

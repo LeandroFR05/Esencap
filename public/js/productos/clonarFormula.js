@@ -1,3 +1,4 @@
+// Seleccionamos el botón y le añadimos un evento click
 document.getElementById('btn-agregar').addEventListener('click', function() {
 
     // Seleccionamos el primer bloque

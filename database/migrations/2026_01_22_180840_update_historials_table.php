@@ -11,7 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
+        Schema::table('historial', function (Blueprint $table) {
+            $table->foreign('idProducto')
+                ->references('idProducto')
+                ->on('productos')
+                ->cascadeOnDelete();
+        });
     }
 
     /**
@@ -19,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-         Schema::table('historial', function (Blueprint $table) {
-            $table->dropColumn(['idBase', 'idRecalculada']);
-        });
+        //
     }
 };

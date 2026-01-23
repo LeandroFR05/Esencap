@@ -8,13 +8,11 @@ use App\Models\Historial;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Familia;
-use App\Models\FormulaBase;
-use App\Models\FormulaRecalculada;
+use App\Models\Formula;
 use App\Models\Insumo;
 use Illuminate\Http\Request;
 use App\Models\LoteInsumo;
 
-use function Laravel\Prompts\alert;
 
 class ProductoController extends Controller
 {
@@ -25,6 +23,7 @@ class ProductoController extends Controller
 
 
     public function create(): View {
+        // Consultamos las familias, porque vamos a necesitar para la fórmula base del producto
         $familias = Familia::all();
         return view('productos.create', compact('familias'));
     }
@@ -32,11 +31,11 @@ class ProductoController extends Controller
 
     public function store(ProductoRequest $request): RedirectResponse {
         try {
-            //Con estas funciones comprobamos de que haya suficiente stock de los insumos, y los descontamos en los lotes
+            // Con estas funciones comprobamos de que haya suficiente stock de los insumos, y los descontamos en los lotes
             $items = $this->mapearInsumos($request);
             $this->descontarStockLotes($items);
             
-            //Si está todo correcto, procedemos a crear el producto y sus relaciones
+            // Si está todo correcto, procedemos a crear el producto y sus relaciones
             $fotoPath = $this->guardarFoto($request);
             $producto = $this->crearProducto($request, $fotoPath);
             $historial = $this->crearHistorial($producto, $request);
@@ -78,6 +77,7 @@ class ProductoController extends Controller
             $idInsumo = $item['idInsumo'];
             $contenidoNecesario = $item['contenido'];
 
+            //Buscamos lotes que coincidan con el insumo y que tengan stock disponible
             $lotes = LoteInsumo::where('idInsumo', $idInsumo)
                 ->where('stock', '>', 0)
                 ->orderBy('fechaVencimiento', 'asc')
@@ -123,15 +123,10 @@ class ProductoController extends Controller
 
     private function crearHistorial(Producto $producto, Request $request): Historial
     {
-        $base = Historial::max('idBase') + 1;
-        $recalculada = Historial::max('idRecalculada') + 1;
-
         return Historial::create([
             'idProducto' => $producto->idProducto,
             'stock' => $request->stock,
-            'fechaElaboracion' => $request->fechaElaboracion,
-            'idBase' => $base,
-            'idRecalculada' => $recalculada,
+            'fechaElaboracion' => $request->fechaElaboracion
         ]);
     }
     
@@ -142,14 +137,10 @@ class ProductoController extends Controller
 
         //Recorremos los arrays para crear las fórmulas
         for ($i = 0; $i < $cantidad; $i++) {
-            FormulaBase::create([
-                'idBase' => $historial->idBase,
+            Formula::create([
+                'idHistorial' => $historial->idHistorial,
                 'idFamilia' => $request->idFamilia[$i],
                 'porcentaje' => $request->porcentaje[$i],
-            ]);
-
-            FormulaRecalculada::create([
-                'idRecalculada' => $historial->idRecalculada,
                 'idInsumo' => $request->idInsumo[$i],
                 'contenido' => $request->contenido[$i],
             ]);
@@ -164,36 +155,12 @@ class ProductoController extends Controller
 
     public function edit(Producto $producto): View {
         $stockTotal = Historial::where('idProducto', $producto->idProducto)->sum('stock');
-        $formula = $this->recuperarFormulas($producto);
-        return view('productos.edit', compact('producto', 'stockTotal', 'formula'));
-    }
+        $producto = Producto::with([
+            'historiales.formulas.familia',
+            'historiales.formulas.insumo'
+        ])->find($producto->idProducto);
 
-    private function recuperarFormulas(Producto $producto): array {
-        //Primero localizamos el producto en el historial
-        $historial = Historial::where('idProducto', $producto->idProducto)->first();
-        //Ahora podemos obtener las formulas
-        $formulaBase = FormulaBase::where('idBase', $historial->idBase)->get();
-        $formulaRecalculada = FormulaRecalculada::where('idRecalculada', $historial->idRecalculada)->get();
-        
-        $datos = [];
-
-        foreach ($formulaBase as $index => $base) {
-            $recal = $formulaRecalculada[$index];
-
-            //Encontramos el nombre de la familia y del insumo
-            $nombreFamilia = Familia::find($base->idFamilia)->nombre;
-            $nombreInsumo = Insumo::find($recal->idInsumo)->nombre;
-            
-            //Rellenamos el array con los datos
-            $datos[] = [
-                'familia'    => $nombreFamilia,
-                'porcentaje' => (float) $base->porcentaje,
-                'insumo'     => $nombreInsumo,
-                'contenido'  => (float) $recal->contenido,
-            ];
-        }
-
-        return $datos;
+        return view('productos.edit', compact('producto', 'stockTotal'));
     }
 
 

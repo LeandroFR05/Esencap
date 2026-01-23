@@ -48,3 +48,5 @@ Route::get('/productos/create', [ProductoController::class, 'create'])->middlewa
 Route::post('/productos/store', [ProductoController::class, 'store'])->middleware('auth')->name('productos.store');
 Route::get('/productos/edit/{producto}', [ProductoController::class, 'edit'])->middleware('auth')->name('productos.edit');
 Route::put('/productos/update/{producto}', [ProductoController::class, 'update'])->middleware('auth')->name('productos.update');
+Route::get('/productos/historial/{producto}', [ProductoController::class, 'historial'])->middleware('auth')->name('productos.historial');
+Route::get('/productos/showFormula/{producto}', [ProductoController::class, 'showFormula'])->middleware('auth')->name('productos.showFormula');
