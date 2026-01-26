@@ -29,30 +29,8 @@
 
             <br><br>
 
-            <!-- FÓRMULAS BASE Y RECALCULADA -->
-            <!-- Labels -->
-            <div class="row">
-                <div class="col">
-                    <label for="formulaBase" class="form-label">Formula Base</label>
-                </div>
-                <div class="col">
-                    <label for="formulaRecalculada" class="form-label">Formula Recalculada</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="porcentaje" class="form-label">Porcentaje</label>
-                </div>
-                <div class="col">
-                    <label for="idFamilia" class="form-label">Familia</label>
-                </div>
-                <div class="col">
-                    <label for="contenido" class="form-label">Contenido</label>
-                </div>
-                <div class="col">
-                    <label for="idInsumo" class="form-label">Insumo</label>
-                </div>
-            </div>
+            <!-- FÓRMULA -->
+            @include('productos.partials.estrFormula')
 
             <!-- Inputs y Selects -->
             <div id="contenedor-formulas">
@@ -61,7 +39,7 @@
                         <input type="number" name="porcentaje[]" class="form-control porcentaje" required>
                     </div>
                     <div class="col">
-                        <select name="idFamilia[]" class="form-control select-familia" required>
+                        <select name="familia[]" class="form-control select-familia" required>
                             @foreach($familias as $familia)
                                 <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
                             @endforeach
@@ -71,7 +49,7 @@
                         <input type="number" name="contenido[]" class="form-control contenido" readonly required>
                     </div>
                     <div class="col">
-                        <select name="idInsumo[]" class="form-control select-insumo" required>
+                        <select name="insumo[]" class="form-control select-insumo" required>
                             <option value="">Seleccione una familia primero</option>
                         </select>
                     </div>

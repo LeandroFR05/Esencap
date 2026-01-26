@@ -31,7 +31,7 @@
         <button type="submit" class="btn btn-success">Editar</button>
     </form>
 
-    <button class="btn btn-primary">Elaborar</button>
+    <a href="{{ route('productos.reponer', $producto->idProducto) }}" class="btn btn-primary">Elaborar</a>
 
     <br>
 

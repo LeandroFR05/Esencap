@@ -13,7 +13,7 @@
             <label for="foto">Foto:</label>
             <input type="file" name="foto">
             <br>
-            <label for="stock">Stock:</label>
+            <label for="stock">Cantidad de envases:</label>
             <input type="number" name="stock" required>
             <br>
             <label for="contenidoPorUnidad">Contenido por Unidad:</label>

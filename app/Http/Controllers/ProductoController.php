@@ -12,6 +12,7 @@ use App\Models\Formula;
 use App\Models\Insumo;
 use Illuminate\Http\Request;
 use App\Models\LoteInsumo;
+use Illuminate\Support\Facades\DB;
 
 
 class ProductoController extends Controller
@@ -33,8 +34,9 @@ class ProductoController extends Controller
         try {
             // Con estas funciones comprobamos de que haya suficiente stock de los insumos, y los descontamos en los lotes
             $items = $this->mapearInsumos($request);
+
             $this->descontarStockLotes($items);
-            
+
             // Si está todo correcto, procedemos a crear el producto y sus relaciones
             $fotoPath = $this->guardarFoto($request);
             $producto = $this->crearProducto($request, $fotoPath);
@@ -59,9 +61,9 @@ class ProductoController extends Controller
     {
         $items = [];
 
-        foreach ($request->idInsumo as $index => $idInsumo) {
+        foreach ($request->insumo as $index => $insumo) {
             $items[] = [
-                'idInsumo'  => $idInsumo,
+                'idInsumo'  => $insumo,
                 'contenido' => (float) $request->contenido[$index],
             ];
         }
@@ -77,20 +79,28 @@ class ProductoController extends Controller
             $idInsumo = $item['idInsumo'];
             $contenidoNecesario = $item['contenido'];
 
-            //Buscamos lotes que coincidan con el insumo y que tengan stock disponible
+            //Buscamos lotes que coincidan con el insumo y que tengan stock disponible con fecha de vencimiento más cercana
             $lotes = LoteInsumo::where('idInsumo', $idInsumo)
                 ->where('stock', '>', 0)
                 ->orderBy('fechaVencimiento', 'asc')
                 ->get();
-
+            
+            //Recorremos los lotes para descontar el stock necesario
             foreach ($lotes as $lote) {
+                //Si el contenidoNecesario es <= 0, significa que ya se usó para restar el stock, entonces termina el bucle
                 if ($contenidoNecesario <= 0) {
                     break;
                 }
+
                 if ($lote->stock >= $contenidoNecesario) {
                     $lote->stock -= $contenidoNecesario;
                     $lote->save();
                     $contenidoNecesario = 0;
+                }
+                else {
+                    $contenidoNecesario -= $lote->stock;
+                    $lote->stock = 0;
+                    $lote->save();
                 } 
             }
             if ($contenidoNecesario > 0) {
@@ -139,9 +149,9 @@ class ProductoController extends Controller
         for ($i = 0; $i < $cantidad; $i++) {
             Formula::create([
                 'idHistorial' => $historial->idHistorial,
-                'idFamilia' => $request->idFamilia[$i],
+                'idFamilia' => $request->familia[$i],
                 'porcentaje' => $request->porcentaje[$i],
-                'idInsumo' => $request->idInsumo[$i],
+                'idInsumo' => $request->insumo[$i],
                 'contenido' => $request->contenido[$i],
             ]);
         }
@@ -167,8 +177,35 @@ class ProductoController extends Controller
     public function update(ProductoRequest $request, Producto $producto) {
         
     }
-    
-}
 
+
+    public function reponer(Producto $producto): View {
+        $familias = Familia::all();
+        $historial = Historial::with([
+            'formulas.familia',
+            'formulas.insumo'
+        ])->where('idProducto', $producto->idProducto)->orderBy('fechaElaboracion', 'desc')->first();
+
+        return view('productos.reponer', compact('producto', 'historial','familias'));
+    }
+
+    public function reponerStore(Request $request, Producto $producto): RedirectResponse {
+        try {
+            // Con estas funciones comprobamos de que haya suficiente stock de los insumos, y los descontamos en los lotes
+            $items = $this->mapearInsumos($request);
+            $this->descontarStockLotes($items);
+            
+            // Si está todo correcto, procedemos a crear el historial y sus relaciones
+            $historial = $this->crearHistorial($producto, $request);
+            $this->crearFormulas($historial, $request);
+
+            $resultado = redirect()->route('productos.estante')->with('success', 'Producto repuesto exitosamente.');
+        } catch (\Exception $e) {
+            $resultado = redirect()->route('productos.reponer', $producto->idProducto)->with(['error' => $e->getMessage()])->withInput();
+        }
+
+        return $resultado;
+    }
+}
 
 

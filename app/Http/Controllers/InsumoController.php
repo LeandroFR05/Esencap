@@ -46,7 +46,7 @@ class InsumoController extends Controller
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
             'numeroLote' => 1,
-            'stock' => $request->input('stock'),
+            'stock' => $request->input('stock') * $insumo->contenidoPorUnidad,
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
 

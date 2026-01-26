@@ -50,3 +50,5 @@ Route::get('/productos/edit/{producto}', [ProductoController::class, 'edit'])->m
 Route::put('/productos/update/{producto}', [ProductoController::class, 'update'])->middleware('auth')->name('productos.update');
 Route::get('/productos/historial/{producto}', [ProductoController::class, 'historial'])->middleware('auth')->name('productos.historial');
 Route::get('/productos/showFormula/{producto}', [ProductoController::class, 'showFormula'])->middleware('auth')->name('productos.showFormula');
+Route::get('/productos/reponer/{producto}', [ProductoController::class, 'reponer'])->middleware('auth')->name('productos.reponer');
+Route::post('/productos/reponer/{producto}', [ProductoController::class, 'reponerStore'])->middleware('auth')->name('productos.reponer.store');
