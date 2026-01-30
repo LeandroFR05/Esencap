@@ -23,7 +23,7 @@ class ProductoRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:50',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:max_width=2000,max_height=2000',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=2000,max_height=2000',
             'contenidoPorUnidad' => 'required|numeric',
         ];
     }

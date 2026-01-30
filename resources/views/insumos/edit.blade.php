@@ -17,6 +17,8 @@
         <br>
         <label for="stockTotal">Stock Total:</label>
         <input type="number" name="stockTotal" value="{{ $stockLotes }}" required>
+        <label for="cantEnvases"> = Cantidad de envases:</label>
+        <input type="number" name="cantEnvases" value="{{ number_format($stockLotes / $insumo->contenidoPorUnidad, 2, '.', '') }}" required>
         <br>
         <label for="fase">Fase:</label>
         <input type="text" name="fase" value="{{ $insumo->fase }}" required>

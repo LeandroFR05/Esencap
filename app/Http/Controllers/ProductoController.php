@@ -12,7 +12,7 @@ use App\Models\Formula;
 use App\Models\Insumo;
 use Illuminate\Http\Request;
 use App\Models\LoteInsumo;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProductoController extends Controller
@@ -175,7 +175,18 @@ class ProductoController extends Controller
 
 
     public function update(ProductoRequest $request, Producto $producto) {
-        
+        $validated = $request->validated();
+
+        if ($request->hasFile('foto')) {
+            if ($producto->foto && Storage::disk('public')->exists($producto->foto)) {
+                Storage::disk('public')->delete($producto->foto); // Eliminar la foto antigua
+            }
+            $fotoPath = $request->file('foto')->store('uploads', 'public');
+            $validated['foto'] = $fotoPath; // Actualizar con la nueva foto
+        }
+
+        $producto->update($validated);
+        return redirect()->route('productos.estante')->with('success', 'Producto actualizado exitosamente.');
     }
 
 
@@ -188,6 +199,7 @@ class ProductoController extends Controller
 
         return view('productos.reponer', compact('producto', 'historial','familias'));
     }
+    
 
     public function reponerStore(Request $request, Producto $producto): RedirectResponse {
         try {

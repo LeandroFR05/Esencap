@@ -14,7 +14,7 @@
                         <a class="nav-link" href="{{ route('insumos.estante') }}">INSUMOS</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">HISTORIAL</a>
+                        <a class="nav-link" href="{{ route('historial.general') }}">HISTORIAL</a>
                     </li>
                 </ul>
             </div>

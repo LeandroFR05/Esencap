@@ -6,7 +6,7 @@ use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\InsumoController;
 use App\Http\Controllers\LoteInsumoController;
 use App\Http\Controllers\ProductoController;
-use App\Models\LoteInsumo;
+use App\Http\Controllers\HistorialController;
 use Illuminate\Support\Facades\Route;
 
 //LOGIN ROUTES
@@ -52,3 +52,6 @@ Route::get('/productos/historial/{producto}', [ProductoController::class, 'histo
 Route::get('/productos/showFormula/{producto}', [ProductoController::class, 'showFormula'])->middleware('auth')->name('productos.showFormula');
 Route::get('/productos/reponer/{producto}', [ProductoController::class, 'reponer'])->middleware('auth')->name('productos.reponer');
 Route::post('/productos/reponer/{producto}', [ProductoController::class, 'reponerStore'])->middleware('auth')->name('productos.reponer.store');
+
+//HISTORIAL ROUTES
+Route::get('/historial', [HistorialController::class, 'historial'])->middleware('auth')->name('historial.general');

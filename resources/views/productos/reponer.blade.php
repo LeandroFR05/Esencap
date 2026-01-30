@@ -11,6 +11,9 @@
         <label for="stock">Stock:</label>
         <input type="number" name="stock" required>
         <br>
+        <label for="contenidoPorUnidad">Contenido por Unidad:</label>
+        <input type="number" name="contenidoPorUnidad" class="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" readonly required>
+        <br>
         <label for="fechaElaboracion">Fecha de elaboración:</label>
         <input type="date" name="fechaElaboracion" required>
         <br>
@@ -36,16 +39,21 @@
                         </select>
                     </div>
                     <div class="col">
-                        <input type="number" name="contenido[]" value="{{ $fila->contenido }}" class="form-control" required>
+                        <input type="number" name="contenido[]" value="{{ $fila->contenido }}" class="form-control contenido" required>
                     </div>
                     <div class="col">
-                        <input type="hidden" name="insumo[]" value="{{ $fila->insumo->idInsumo }}">
-                        <input type="text" value="{{ $fila->insumo->nombre }}" class="form-control" required>
+                        <!-- <input type="hidden" name="insumo[]" value="{{ $fila->insumo->idInsumo }}"> -->
+                        <!-- <input type="text" value="{{ $fila->insumo->nombre }}" class="form-control" required> -->
+
+                        <select name="insumo[]" class="form-control select-insumo" required>
+                            <option value="{{ $fila->insumo->idInsumo }}">{{ $fila->insumo->nombre }}</option>
+                        </select>
                     </div>
                 </div>
             @endforeach
         </div>
 
+        
         <!-- Buttons -->
         <div class="botones-formula">
             <button type="button" id="btn-agregar" class="btn btn-primary">Agregar</button>

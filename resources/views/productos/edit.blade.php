@@ -6,7 +6,7 @@
 
 @section('title', 'Editar producto')
 @section('content')
-    <h1>Editar Producto</h1>
+    <h1>Información del Producto</h1>
 
     <!-- FORMULARIO -->
     <form action="{{ route('productos.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">
