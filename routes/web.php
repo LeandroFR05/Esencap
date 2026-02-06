@@ -7,6 +7,7 @@ use App\Http\Controllers\InsumoController;
 use App\Http\Controllers\LoteInsumoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 
 //LOGIN ROUTES
@@ -16,6 +17,7 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 //DASHBOARD
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -55,3 +57,9 @@ Route::post('/productos/reponer/{producto}', [ProductoController::class, 'repone
 
 //HISTORIAL ROUTES
 Route::get('/historial', [HistorialController::class, 'historial'])->middleware('auth')->name('historial.general');
+
+//VENTAS ROUTES
+Route::get('/ventas', [VentaController::class, 'ventas'])->middleware('auth')->name('ventas.index');
+Route::get('/productos/buscar', [VentaController::class, 'buscar']);
+Route::get('/ventas/historial/{idProducto}', [VentaController::class, 'historial'])->middleware('auth');
+Route::post('/ventas/store', [VentaController::class, 'store'])->middleware('auth')->name('ventas.store');

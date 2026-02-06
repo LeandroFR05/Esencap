@@ -1,5 +1,5 @@
-@extends('layouts.app')
-
+@extends('layouts.admin')
+@section('page', 'Nuevo Insumo')
 @section('title', 'Nuevo insumo')
 @section('content')
     <h1>Crear Nuevo Insumo</h1>

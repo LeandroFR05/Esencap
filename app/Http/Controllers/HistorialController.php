@@ -13,7 +13,7 @@ class HistorialController extends Controller
             'producto',
             'formulas.insumo',
             'formulas.familia'
-        ])->paginate(10);
+        ])->paginate();
         return view('historial.general', compact('historial'));
     }
 }

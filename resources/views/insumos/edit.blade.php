@@ -1,5 +1,5 @@
-@extends('layouts.app')
-
+@extends('layouts.admin')
+@section('page', 'Editar Insumo')
 @section('title', 'Editar insumo')
 @section('content')
 

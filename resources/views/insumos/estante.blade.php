@@ -1,21 +1,26 @@
-@extends('layouts.app')
-
-@section('title', 'Insumos')
+@extends('layouts.admin')
+@section('page', 'Insumos')
+@section('title', 'Estante de Insumos')
 @section('content')
-    <h1>Estante de Insumos</h1>
 
     <ul>
         @if($insumos->isEmpty())
             <li>No hay insumos disponibles.</li>
         @else
             @foreach($insumos as $insumo)
-                <li>{{ $insumo->nombre }}</li>
-                <br>
-                <img src="{{ asset('storage/' . $insumo->foto) }}" class="img-thumbnail" width="100" height="100">
-                <br>
-                <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}"><i class="bi bi-plus-lg"></i></a> -
-                <a href="{{ route('insumos.edit', $insumo->idInsumo) }}"><i class="bi bi-pencil"></i></a> -
-                <a href="{{ route('lotes.show', $insumo->idInsumo) }}"><i class="bi bi-box-seam"></i></a>
+                <div class="card" style="width: 13rem; display: inline-block; margin: 10px;">
+                    <div class="card-header" style="text-align: center;">
+                        <h5>{{ $insumo->nombre }}</h5>
+                    </div>
+                    <div class="card-body" style="text-align: center;">
+                        <img src="{{ asset('storage/' . $insumo->foto) }}" class="img-thumbnail" width="100" height="100">
+                    </div>
+                    <div class="card-footer" style="display: flex; justify-content: center; gap: 30px;">
+                        <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}"><i class="bi bi-plus-lg"></i></a>
+                        <a href="{{ route('insumos.edit', $insumo->idInsumo) }}"><i class="bi bi-pencil"></i></a>
+                        <a href="{{ route('lotes.show', $insumo->idInsumo) }}"><i class="bi bi-box-seam"></i></a>
+                    </div>
+                </div>
             @endforeach
         @endif
     </ul>

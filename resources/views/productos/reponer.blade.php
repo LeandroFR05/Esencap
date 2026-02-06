@@ -1,5 +1,5 @@
-@extends('layouts.app')
-
+@extends('layouts.admin')
+@section('page', 'Reponer Producto')
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/Productos/estCreate.css') }}">
 @endsection

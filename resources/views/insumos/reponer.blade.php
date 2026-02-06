@@ -1,5 +1,5 @@
-@extends("layouts.app")
-
+@extends("layouts.admin")
+@section('page', 'Reponer Insumo')
 @section("title", "Reponer insumo")
 @section("content")
     <form action="{{ route('insumos.reponer.store', $insumo->idInsumo) }}" method="POST">

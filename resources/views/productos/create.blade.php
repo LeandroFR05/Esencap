@@ -1,30 +1,31 @@
-@extends('layouts.app')
-
+@extends('layouts.admin')
+@section('page', 'Nuevo Producto')
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/Productos/estCreate.css') }}">
 @endsection
 
-@section('title', 'Nuevo producto')
 @section('content')
-    <h1>Crear Nuevo Producto</h1>
+    <div class="titulo">
+        <h2>Crear Nuevo Producto</h2>
+    </div>
 
     <form id="formProductos" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
         @csrf
         <div>
             <!-- INFORMACIÓN INICIAL -->
-            <label for="nombre">Nombre:</label>
+            <label for="nombre">Nombre (*)</label>
             <input type="text" name="nombre" value="{{ old('nombre') }}" required>
             <br>
-            <label for="foto">Foto:</label>
+            <label for="foto">Foto</label>
             <input type="file" name="foto">
             <br>
-            <label for="stock">Stock:</label>
+            <label for="stock">Stock (*)</label>
             <input type="number" name="stock" value="{{ old('stock') }}" required>
             <br>
-            <label for="contenidoPorUnidad">Contenido por Unidad:</label>
+            <label for="contenidoPorUnidad">Contenido por Unidad (*)</label>
             <input type="number" name="contenidoPorUnidad" class="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" required>
             <br>
-            <label for="fechaElaboracion">Fecha de Elaboración:</label>
+            <label for="fechaElaboracion">Fecha de Elaboración (*)</label>
             <input type="date" name="fechaElaboracion" value="{{ old('fechaElaboracion') }}" required>
 
             <br><br>

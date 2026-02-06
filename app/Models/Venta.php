@@ -8,7 +8,7 @@ use App\Models\Producto;
 class Venta extends Model
 {
     public $timestamps = false;
-    protected $table = 'venta';
+    protected $table = 'ventas';
     
     protected $primaryKey = 'idVenta';
     protected $fillable = [
