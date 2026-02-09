@@ -1,77 +1,77 @@
 @extends('layouts.admin')
 @section('page', 'Nuevo Producto')
-@section('styles')
-    <link rel="stylesheet" href="{{ asset('css/Productos/estCreate.css') }}">
-@endsection
 
 @section('content')
-    <div class="titulo">
-        <h2>Crear Nuevo Producto</h2>
-    </div>
+    @component('_components.cards')
+        @slot('titulo', 'Crear Nuevo Producto')
+        @slot('contenido')
+            <form id="formProductos" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
+                @csrf
+                <div>
+                    <!-- INFORMACIÓN INICIAL -->
+                    <label for="nombre">Nombre (*)</label>
+                    <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control" required>
+                    <br>
+                    <label for="foto">Foto</label>
+                    <input type="file" name="foto" class="form-control" accept="image/*">
+                    <br>
+                    <label for="stock">Stock (*)</label>
+                    <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" required>
+                    <br>
+                    <label for="contenidoPorUnidad">Contenido por Unidad (*)</label>
+                    <input type="number" name="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" class="form-control" required>
+                    <br>
+                    <label for="fechaElaboracion">Fecha de Elaboración (*)</label>
+                    <input type="date" name="fechaElaboracion" value="{{ old('fechaElaboracion') }}" class="form-control" required>
 
-    <form id="formProductos" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
-        @csrf
-        <div>
-            <!-- INFORMACIÓN INICIAL -->
-            <label for="nombre">Nombre (*)</label>
-            <input type="text" name="nombre" value="{{ old('nombre') }}" required>
-            <br>
-            <label for="foto">Foto</label>
-            <input type="file" name="foto">
-            <br>
-            <label for="stock">Stock (*)</label>
-            <input type="number" name="stock" value="{{ old('stock') }}" required>
-            <br>
-            <label for="contenidoPorUnidad">Contenido por Unidad (*)</label>
-            <input type="number" name="contenidoPorUnidad" class="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" required>
-            <br>
-            <label for="fechaElaboracion">Fecha de Elaboración (*)</label>
-            <input type="date" name="fechaElaboracion" value="{{ old('fechaElaboracion') }}" required>
+                    <br><br>
 
-            <br><br>
+                    <!-- FÓRMULA -->
+                    @include('productos.partials.estrFormula')
 
-            <!-- FÓRMULA -->
-            @include('productos.partials.estrFormula')
+                    <!-- Inputs y Selects -->
+                    <div id="contenedor-formulas">
+                        <div class="row formula-item">
+                            <div class="col">
+                                <input type="number" name="porcentaje[]" class="form-control porcentaje" required>
+                            </div>
+                            <div class="col">
+                                <select name="familia[]" class="form-control select-familia" required>
+                                    @foreach($familias as $familia)
+                                        <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col">
+                                <input type="number" name="contenido[]" class="form-control contenido" readonly required>
+                            </div>
+                            <div class="col">
+                                <select name="insumo[]" class="form-control select-insumo" required>
+                                    <option value="">Seleccione una familia primero</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div><br>
 
-            <!-- Inputs y Selects -->
-            <div id="contenedor-formulas">
-                <div class="row formula-item">
-                    <div class="col">
-                        <input type="number" name="porcentaje[]" class="form-control porcentaje" required>
-                    </div>
-                    <div class="col">
-                        <select name="familia[]" class="form-control select-familia" required>
-                            @foreach($familias as $familia)
-                                <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col">
-                        <input type="number" name="contenido[]" class="form-control contenido" readonly required>
-                    </div>
-                    <div class="col">
-                        <select name="insumo[]" class="form-control select-insumo" required>
-                            <option value="">Seleccione una familia primero</option>
-                        </select>
+                    
+                    <!-- Buttons -->
+                    <div style="display: flex; width: 100%; gap: 10px;">
+                        <button type="button" id="btn-agregar" class="btn btn-primary">Agregar</button>
+                        <button type="button" id="btn-borrar" class="btn btn-danger">Borrar</button>
                     </div>
                 </div>
-            </div>
+                <br>
 
-            <!-- Buttons -->
-            <div class="botones-formula">
-                <button type="button" id="btn-agregar" class="btn btn-primary">Agregar</button>
-                <button type="button" id="btn-borrar" class="btn btn-danger">Borrar</button>
-            </div>
-        </div>
-        <br>
+                <!-- Enviar formulario -->
+                <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+        @endslot
 
-        <!-- Enviar formulario -->
-        <button type="submit" class="btn btn-success">Guardar</button>
-    </form>
-
-    <br>
+        @slot('footer')
+            <a href="{{ url()->previous() }}" class="btn btn-danger">Volver atrás</a>
+        @endslot
+    @endcomponent
     
-    <a href="{{ url()->previous() }}" class="btn btn-danger">Volver atrás</a>
 @endsection
 
 

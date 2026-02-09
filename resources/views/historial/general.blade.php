@@ -71,10 +71,7 @@
 
         rows.forEach(row => {
             const cells = row.getElementsByTagName("td");
-            if (cells.length < 2) {
-                row.style.display = "none";
-                return;
-            }
+            
             const productoText = cells[1].textContent.trim().toLowerCase();
             row.style.display = productoText.includes(filter) ? "" : "none";
         });

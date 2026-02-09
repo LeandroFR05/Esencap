@@ -1,19 +1,30 @@
 @extends("layouts.admin")
 @section('page', 'Reponer Insumo')
-@section("title", "Reponer insumo")
 @section("content")
-    <form action="{{ route('insumos.reponer.store', $insumo->idInsumo) }}" method="POST">
-        @csrf
-        <label for="stock">Stock:</label>
-        <input type="number" name="stock" required>
-        <br>
-        <label for="fechaVencimiento">Fecha de vencimiento:</label>
-        <input type="date" name="fechaVencimiento" required>
-        <br>
 
-        <button type="submit" class="btn btn-success">Reponer</button>
-    </form>
+    @component('_components.cards')
+        @slot('titulo', 'Reponer Insumo')
 
-    <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+        @slot('contenido')
+            <form action="{{ route('insumos.reponer.store', $insumo->idInsumo) }}" method="POST">
+                @csrf
+                <div class="mb-3" style="max-width: 600px; margin: auto;">
+                    <label for="stock">Stock:</label>
+                    <input type="number" name="stock" class="form-control" required>
+                    <br>
+                    <label for="fechaVencimiento">Fecha de vencimiento:</label>
+                    <input type="date" name="fechaVencimiento" class="form-control" required>
+                    <br>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-success">Reponer</button>
+                    </div>
+                </div>
+            </form>
+        @endslot
+        
+        @slot('footer')
+            <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+        @endslot
+    @endcomponent
 
 @endsection

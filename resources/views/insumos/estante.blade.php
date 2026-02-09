@@ -25,5 +25,25 @@
         @endif
     </ul>
 
+    <button 
+        class="btn btn-sm btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modalCreateInsumo"
+        onclick="cargarModalInsumo()">
+        Nuevo Insumo
+    </button>
+
     <a href="{{ route('insumos.create') }}">Nuevo Insumo</a>
 @endsection
+
+@include('insumos.modals.modalCrearInsumo')
+
+<script>
+    function cargarModalInsumo() {
+        fetch("{{ route('insumos.create') }}")
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('modal-body-insumo').innerHTML = html;
+            });
+    }
+</script>

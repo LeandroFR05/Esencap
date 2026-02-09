@@ -1,28 +1,34 @@
 @extends('layouts.admin')
 @section('page', 'Lotes')
-@section('title', 'Detalle del Lote')
 @section('content')
 
-    <h1>Lotes de insumos</h1>
-    <table class="table table-striped"> 
-        <thead>
-            <tr class="table-secondary">
-                <th scope="col">Número de lote</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Fecha de vencimiento</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($lote as $item)
-                <tr class="table-secondary">
-                    <td>{{ $item->numeroLote }}</td>
-                    <td>{{ $item->stock }}</td>
-                    <td>{{ $item->fechaVencimiento}}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    @component('_components.cards')
+        @slot('titulo', 'Lotes de insumos')
 
-    <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+        @slot('contenido')
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Número de lote</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Fecha de vencimiento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($lote as $item)
+                        <tr>
+                            <td>{{ $item->numeroLote }}</td>
+                            <td>{{ $item->stock }}</td>
+                            <td>{{ $item->fechaVencimiento}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endslot
+
+        @slot('footer')
+            <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+        @endslot
+    @endcomponent
     
 @endsection
