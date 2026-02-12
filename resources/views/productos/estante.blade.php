@@ -17,7 +17,10 @@
                         <img src="{{ asset('storage/' . $producto->foto) }}" class="img-thumbnail" width="100" height="100">
                     </div>
                     <div class="card-footer">
-                        <a href="{{ route('productos.edit', $producto->idProducto) }}"><i class="bi bi-pencil"></i> Editar</a>
+                        <div class="d-grid gap-2">
+                            <a href="{{ route('productos.edit', $producto->idProducto) }}" class="btn btn-outline-success">
+                            <i class="bi bi-pencil"></i> Editar</a>
+                        </div>
                     </div>
                 </div>
             @endforeach

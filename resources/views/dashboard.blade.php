@@ -88,6 +88,8 @@
     const ventasData = JSON.parse('{{ json_encode(array_values($ventas_data)) }}');
     const productosVendidos = JSON.parse('{!! json_encode(array_values($cantProductosVendidos)) !!}');
     const porcentajeStockBajo = JSON.parse('{{ json_encode($porcentajeStockBajo) }}');
+
+    console.log(porcentajeStockBajo);
     
     var options = {
         chart: {

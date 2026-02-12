@@ -9,37 +9,54 @@
             <form action="{{ route('productos.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <!-- Datos iniciales -->
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" value="{{ $producto->nombre }}" class="form-control" required>
-                <br>
-                <label for="foto">Foto:</label>
-                <img src="{{ asset('storage/' . $producto->foto) }}" width="100" height="100">
-                <input type="file" name="foto" class="form-control" accept="image/*">
-                <br>
-                <label for="stock">Stock total:</label>
-                <input type="number" name="stock" value="{{ $stockTotal }}" class="form-control" style="background-color: #f3f3f3ff;" readonly>
-                <br>
-                <label for="contenidoPorUnidad">Contenido por Unidad:</label>
-                <input type="number" name="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" class="form-control" style="background-color: #f3f3f3ff;" readonly>
-                <br>
-
+                <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <!-- Datos iniciales -->
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" name="nombre" value="{{ $producto->nombre }}" class="form-control" required>
+                        <div class="mt-3">
+                            <label for="stock">Stock total:</label>
+                            <input type="number" name="stock" value="{{ $stockTotal }}" class="form-control" 
+                            style="background-color: #f3f3f3ff;" readonly>
+                        </div>
+                        <div class="mt-3">
+                            <label for="contenidoPorUnidad">Contenido por Unidad:</label>
+                            <input type="number" name="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" 
+                            class="form-control" style="background-color: #f3f3f3ff;" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="foto">Foto:</label>
+                        @include('_partials.dropzone', ['foto' => $producto->foto])
+                    </div>
+                </div>
                 <!-- Enviar formulario -->
-                <button type="submit" class="btn btn-success">Editar</button>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success w-100">Editar</button>
+                        </div>
+                    </div>
+                </div>
             </form>
         @endslot
 
         @slot('footer')
-            <a href="{{ route('productos.reponer', $producto->idProducto) }}" class="btn btn-primary">Elaborar</a>
-            <a href="{{ route('productos.estante') }}" class="btn btn-danger">Volver atrás</a>
-            <!-- HISTORIAL DE ELABORACIONES -->
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" 
-            aria-controls="offcanvasExample">
-                Historial
-            </button>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <a href="{{ route('productos.reponer', $producto->idProducto) }}" class="btn btn-primary w-100">Elaborar</a>
+                </div>
+                    <!-- HISTORIAL DE ELABORACIONES -->
+                <div class="col-md-6">
+                    <a href="{{ route('productos.historial', $producto->idProducto) }}" class="btn btn-info w-100">Historial</a>
+                </div>
+            </div>
         @endslot
     @endcomponent
 
-    @include('productos.partials.historial-offcanvas', ['producto' => $producto])
+@endsection
 
+
+@section('scripts')
+    <script src="{{ asset('js/removerImagenDropzone.js') }}"></script>
 @endsection

@@ -1,26 +1,36 @@
 @extends('layouts.admin')
 @section('page', 'Ventas')
-@section('content')
 
-    <h2 style="text-align: center;">
-        VENDER
-    </h2>
-    
-    <form action="{{ route('ventas.store') }}" method="POST" style="max-width: 400px; margin: auto;">
-        @csrf
-        <label for="producto">Producto:</label>
-        <input type="text" name="producto" id="producto" class="form-control" required>
-        <input type="hidden" name="idProducto" id="idProducto">
-        <ul id="lista-productos" class="list-group"></ul>
-        <br>
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" name="cantidad" id="cantidad" class="form-control" required>
-        <br>
-        <label for="fecha">Fecha:</label>
-        <input type="date" name="fecha" id="fecha" class="form-control" required>
-        <br>
-        <button type="submit" class="btn btn-success form-control">Registrar Venta</button>
-    </form>
+@section('content')
+    @component('_components.cards')
+        @slot('titulo', 'Vender Producto')
+        @slot('contenido')
+            <form action="{{ route('ventas.store') }}" method="POST" style="max-width: 400px; margin: auto;">
+                @csrf
+                <label for="producto">Producto:</label>
+                <input type="text" name="producto" id="producto" class="form-control producto" required>
+                <input type="hidden" name="idProducto" id="idProducto">
+                <ul id="lista-productos" class="list-group"></ul>
+                <div class="mt-3"> 
+                    <label for="cantidad">Cantidad:</label>
+                    <input type="number" name="cantidad" id="cantidad" class="form-control" required>
+                </div>
+                <div class="mt-3"> 
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" name="fecha" id="fecha" class="form-control" required>
+                </div>
+        @endslot
+
+        @slot('footer')
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success w-100">Registrar Venta</button>
+                </div>
+            </div>
+        @endslot
+            </form>
+
+    @endcomponent
 
 @endsection
 

@@ -15,35 +15,26 @@
                     <div class="card-body" style="text-align: center;">
                         <img src="{{ asset('storage/' . $insumo->foto) }}" class="img-thumbnail" width="100" height="100">
                     </div>
-                    <div class="card-footer" style="display: flex; justify-content: center; gap: 30px;">
-                        <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}"><i class="bi bi-plus-lg"></i></a>
-                        <a href="{{ route('insumos.edit', $insumo->idInsumo) }}"><i class="bi bi-pencil"></i></a>
-                        <a href="{{ route('lotes.show', $insumo->idInsumo) }}"><i class="bi bi-box-seam"></i></a>
+                    <div class="card-footer">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}" class="btn btn-outline-success"><i class="bi bi-plus-lg"></i></a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{{ route('insumos.edit', $insumo->idInsumo) }}" class="btn btn-outline-warning"><i class="bi bi-pencil"></i></a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="{{ route('lotes.show', $insumo->idInsumo) }}" class="btn btn-outline-info"><i class="bi bi-box-seam"></i></a>
+                            </div>    
+                        </div>
                     </div>
                 </div>
             @endforeach
         @endif
     </ul>
 
-    <button 
-        class="btn btn-sm btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#modalCreateInsumo"
-        onclick="cargarModalInsumo()">
-        Nuevo Insumo
-    </button>
-
     <a href="{{ route('insumos.create') }}">Nuevo Insumo</a>
 @endsection
 
 @include('insumos.modals.modalCrearInsumo')
 
-<script>
-    function cargarModalInsumo() {
-        fetch("{{ route('insumos.create') }}")
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('modal-body-insumo').innerHTML = html;
-            });
-    }
-</script>

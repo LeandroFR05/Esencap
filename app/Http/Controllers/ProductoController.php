@@ -165,11 +165,7 @@ class ProductoController extends Controller
 
     public function edit(Producto $producto): View {
         $stockTotal = Historial::where('idProducto', $producto->idProducto)->sum('stock');
-        $producto = Producto::with([
-            'historiales.formulas.familia',
-            'historiales.formulas.insumo'
-        ])->find($producto->idProducto);
-
+    
         return view('productos.edit', compact('producto', 'stockTotal'));
     }
 
@@ -217,6 +213,16 @@ class ProductoController extends Controller
         }
 
         return $resultado;
+    }
+
+    public function historial(Producto $producto): View {
+
+        $producto = Producto::with([
+            'historiales.formulas.familia',
+            'historiales.formulas.insumo'
+        ])->find($producto->idProducto);
+
+        return view('productos.historial', compact('producto'));
     }
 }
 

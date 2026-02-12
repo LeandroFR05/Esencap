@@ -7,28 +7,34 @@
         @slot('contenido')
             <form id="formProductos" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
                 @csrf
-                <div>
-                    <!-- INFORMACIÓN INICIAL -->
-                    <label for="nombre">Nombre (*)</label>
-                    <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control" required>
-                    <br>
-                    <label for="foto">Foto</label>
-                    <input type="file" name="foto" class="form-control" accept="image/*">
-                    <br>
-                    <label for="stock">Stock (*)</label>
-                    <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" required>
-                    <br>
-                    <label for="contenidoPorUnidad">Contenido por Unidad (*)</label>
-                    <input type="number" name="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" class="form-control" required>
-                    <br>
-                    <label for="fechaElaboracion">Fecha de Elaboración (*)</label>
-                    <input type="date" name="fechaElaboracion" value="{{ old('fechaElaboracion') }}" class="form-control" required>
-
-                    <br><br>
-
-                    <!-- FÓRMULA -->
-                    @include('productos.partials.estrFormula')
-
+                <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <!-- INFORMACIÓN INICIAL -->
+                        <label for="nombre">Nombre (*)</label>
+                        <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control" required>
+                        <div class="mt-3"> <!-- mt= margin-top -->
+                            <label for="stock">Stock (*)</label>
+                            <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" required>
+                        </div>
+                        <div class="mt-3"> 
+                            <label for="contenidoPorUnidad">Contenido por Unidad (*)</label>
+                            <input type="number" name="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" class="form-control contenidoPorUnidad" required>
+                        </div>
+                        <div class="mt-3">
+                            <label for="fechaElaboracion">Fecha de Elaboración (*)</label>
+                            <input type="date" name="fechaElaboracion" value="{{ old('fechaElaboracion') }}" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="foto">Foto</label>
+                        @include('_partials.dropzone')
+                    </div>
+                </div>
+                <br><br>
+                
+                <!-- FÓRMULA -->
+                @include('productos.partials.estrFormula')
+                <div class="row">
                     <!-- Inputs y Selects -->
                     <div id="contenedor-formulas">
                         <div class="row formula-item">
@@ -52,24 +58,33 @@
                             </div>
                         </div>
                     </div><br>
+                </div><br>
 
-                    
-                    <!-- Buttons -->
-                    <div style="display: flex; width: 100%; gap: 10px;">
-                        <button type="button" id="btn-agregar" class="btn btn-primary">Agregar</button>
-                        <button type="button" id="btn-borrar" class="btn btn-danger">Borrar</button>
+                <div class="row g-3"> 
+                    <div class="col-md-6">
+                        <button type="button" id="btn-agregar" class="btn btn-primary w-100">
+                            Agregar
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" id="btn-borrar" class="btn btn-danger w-100">
+                            Borrar
+                        </button>
                     </div>
                 </div>
-                <br>
 
-                <!-- Enviar formulario -->
-                <button type="submit" class="btn btn-success">Guardar</button>
-            </form>
         @endslot
 
         @slot('footer')
-            <a href="{{ url()->previous() }}" class="btn btn-danger">Volver atrás</a>
+            <!-- Enviar formulario -->
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success w-100">Guardar</button>
+                </div>
+            </div>
         @endslot
+            </form>
+
     @endcomponent
     
 @endsection
@@ -84,6 +99,8 @@
 
 
 @section('scripts')
+    <script src="{{ asset('js/dropzone.js') }}"></script>
+
     <!-- Script para clonar la fórmula -->
     <script src="{{ asset('js/productos/clonarFormula.js') }}"></script>
 

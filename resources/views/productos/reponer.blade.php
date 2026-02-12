@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/Productos/estCreate.css') }}">
 @endsection
 
-@section('title', 'Editar producto')
+@section('title', 'Elaborar producto')
 @section('content')
     <form action="{{ route('productos.reponer.store', $producto->idProducto) }}" method="POST">
         @csrf

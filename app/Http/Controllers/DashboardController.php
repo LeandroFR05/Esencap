@@ -67,7 +67,7 @@ class DashboardController extends Controller
         $totalProductos = Historial::count();
 
         $stockBajo = Historial::where('stock', '<=', $limiteStockBajo)->count();
-        $porcentajeStockBajo = $totalProductos > 0 ? ($stockBajo / $totalProductos) * 100 : 0;
+        $porcentajeStockBajo = $totalProductos > 0 ? round(($stockBajo / $totalProductos) * 100, 2) : 0;
         return $porcentajeStockBajo;
     }
 }
