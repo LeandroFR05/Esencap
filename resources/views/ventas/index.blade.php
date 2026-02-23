@@ -2,22 +2,26 @@
 @section('page', 'Ventas')
 
 @section('content')
-    @component('_components.cards')
+    @component('components.cards')
         @slot('titulo', 'Vender Producto')
         @slot('contenido')
-            <form action="{{ route('ventas.store') }}" method="POST" style="max-width: 400px; margin: auto;">
+            <form action="{{ route('ventas.store') }}" method="POST">
                 @csrf
-                <label for="producto">Producto:</label>
-                <input type="text" name="producto" id="producto" class="form-control producto" required>
-                <input type="hidden" name="idProducto" id="idProducto">
-                <ul id="lista-productos" class="list-group"></ul>
-                <div class="mt-3"> 
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" name="cantidad" id="cantidad" class="form-control" required>
-                </div>
-                <div class="mt-3"> 
-                    <label for="fecha">Fecha:</label>
-                    <input type="date" name="fecha" id="fecha" class="form-control" required>
+                <div class="row g-4">
+                    <div class="col-12">
+                        <label for="producto">Producto:</label>
+                        <input type="text" name="producto" id="producto" class="form-control producto" required>
+                        <input type="hidden" name="idProducto" id="idProducto">
+                        <ul id="lista-productos" class="list-group"></ul>
+                        <div class="mt-3"> 
+                            <label for="cantidad">Cantidad:</label>
+                            <input type="number" name="cantidad" id="cantidad" class="form-control" required>
+                        </div>
+                        <div class="mt-3"> 
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" name="fecha" id="fecha" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
         @endslot
 

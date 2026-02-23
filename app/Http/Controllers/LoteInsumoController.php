@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Insumo;
 use App\Models\LoteInsumo;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -10,7 +11,8 @@ class LoteInsumoController extends Controller
 {
     public function showLotes($insumoId): View {
         $lote = LoteInsumo::where('idInsumo', $insumoId)->get();
-        return view('lotes.show', compact('lote'));
+        $nombreInsumo = Insumo::where('idInsumo', $insumoId)->get('nombre');
+        return view('lotes.show', compact('lote', 'nombreInsumo'));
     }
 
 
@@ -39,5 +41,10 @@ class LoteInsumoController extends Controller
         }
 
         return view('lotes.stock', compact('lotesAgrupados', 'bandera'));
+    }
+
+
+    public function eliminar(LoteInsumo $lote) {
+        $lote->delete();
     }
 }

@@ -14,8 +14,8 @@
                 <table class="table table-bordered table-hover" id="tableHistorial">
                     <thead class="table-dark">
                         <tr>
-                            <th>Fecha</th>
-                            <th>Stock</th>
+                            <th>Fecha de Elaboración</th>
+                            <th>Stock disponible</th>
                             <th>Acción</th>
                         </tr>
                     </thead>

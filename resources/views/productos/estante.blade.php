@@ -3,29 +3,38 @@
 @section('title', 'Estante de Productos')
 @section('content')
 
-    <ul>
-        @if($productos->isEmpty())
-            <li>No hay productos disponibles.</li>
-        @else
-        <!-- Si hay algún producto en la base de datos, lo muestro recorriendo cada uno -->
-            @foreach($productos as $producto)
-                <div class="card" style="width: 13rem; display: inline-block; margin: 10px;">
-                    <div class="card-header" style="text-align: center;">
-                        <h5>{{ $producto->nombre }}</h5>
-                    </div>
-                    <div class="card-body" style="text-align: center;">
-                        <img src="{{ asset('storage/' . $producto->foto) }}" class="img-thumbnail" width="100" height="100">
-                    </div>
-                    <div class="card-footer">
-                        <div class="d-grid gap-2">
-                            <a href="{{ route('productos.edit', $producto->idProducto) }}" class="btn btn-outline-success">
-                            <i class="bi bi-pencil"></i> Editar</a>
+<div class="container px-4 px-lg-4 mt-2">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
+        @forelse($productos as $producto)
+            <div class="col mb-2">
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <x-foto :foto="$producto->foto" />
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{ $producto->nombre }}</h5>
+                            <!-- Product price-->
+                            Stock: {{ $producto->historiales->sum('stock') }}
                         </div>
                     </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-success mt-auto" 
+                        href="{{ route('productos.edit', $producto->idProducto) }}">Editar</a></div>
+                    </div>
                 </div>
-            @endforeach
-        @endif
-    </ul>
+            </div>
+        @empty
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    No hay productos disponibles en este momento.
+                </div>
+            </div>
+        @endforelse
+    </div>
+</div>
 
-    <a href="{{ route('productos.create') }}">Nuevo Producto</a>
+<a href="{{ route('productos.create') }}">Nuevo Producto</a>
 @endsection

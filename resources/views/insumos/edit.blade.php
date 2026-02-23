@@ -2,7 +2,7 @@
 @section('page', 'Editar Insumo')
 @section('content')
 
-    @component('_components.cards')
+    @component('components.cards')
         @slot('titulo', 'Editar Insumo')
 
         @slot('contenido')
@@ -71,6 +71,7 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="foto">Foto:</label>
+                        <input type="hidden" name="remove_foto" id="remove-foto" value="0">
                         @include('_partials.dropzone', ['foto' => $insumo->foto])
                     </div>
                 </div>
@@ -87,10 +88,8 @@
                     </button>
                 </div>
             </div>
-            
-        @endslot
             </form>
-
+        @endslot
     @endcomponent
 
     <!--Llamamos a las ventanas modales-->

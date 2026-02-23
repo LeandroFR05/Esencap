@@ -23,7 +23,7 @@ class InsumoRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:50',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:max_width=2000,max_height=2000',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif|max:2048|dimensions:max_width=2000,max_height=2000',
             'fase' => 'required|string|max:10',
             'idFamilia' => 'required|exists:familias,idFamilia',
             'contenidoPorUnidad' => 'required|numeric',

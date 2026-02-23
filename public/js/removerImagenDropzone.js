@@ -19,4 +19,6 @@ document.getElementById('remove-btn').addEventListener('click', function(e) {
     document.getElementById('preview-image').src = "";
     document.getElementById('dropzone-preview').classList.add('d-none');
     document.getElementById('dropzone-content').classList.remove('d-none');
+
+    document.getElementById('remove-foto').value = '1';
 });

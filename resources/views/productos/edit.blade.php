@@ -2,7 +2,7 @@
 @section('page', 'Editar Producto')
 
 @section('content')
-    @component('_components.cards')
+    @component('components.cards')
         @slot('titulo', 'Editar Producto')
         @slot('contenido')
             <!-- FORMULARIO -->
@@ -27,6 +27,7 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="foto">Foto:</label>
+                        <input type="hidden" name="remove_foto" id="remove-foto" value="0">
                         @include('_partials.dropzone', ['foto' => $producto->foto])
                     </div>
                 </div>
@@ -34,7 +35,7 @@
                 <div class="row g-3">
                     <div class="col-md-12">
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-success w-100">Editar</button>
+                            <button type="submit" class="btn btn-success w-100">Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -44,7 +45,7 @@
         @slot('footer')
             <div class="row g-3">
                 <div class="col-md-6">
-                    <a href="{{ route('productos.reponer', $producto->idProducto) }}" class="btn btn-primary w-100">Elaborar</a>
+                    <a href="{{ route('productos.reponer', $producto->idProducto) }}" class="btn btn-primary w-100">Reponer</a>
                 </div>
                     <!-- HISTORIAL DE ELABORACIONES -->
                 <div class="col-md-6">

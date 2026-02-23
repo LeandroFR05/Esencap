@@ -2,9 +2,9 @@
 @section('page', 'Nuevo Insumo')
 @section('content')
 
-    @component('_components.cards')
+    @component('components.cards')
         @slot('titulo', 'Crear Nuevo Insumo')
-        @slot('contenido')
+         @slot('contenido')
             <form method="POST" action="{{ route('insumos.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row g-4">
@@ -49,16 +49,16 @@
                 </div>
                 <br>
         @endslot
-
+        
         @slot('footer')
             <div class="row g-3">
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-success w-100">Agregar</button>
                 </div>
             </div>
-        @endslot
             </form>
-
+        @endslot
+        
     @endcomponent
 
     @include('_modals.modalFamilia')

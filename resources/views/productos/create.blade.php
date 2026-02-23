@@ -2,7 +2,7 @@
 @section('page', 'Nuevo Producto')
 
 @section('content')
-    @component('_components.cards')
+    @component('components.cards')
         @slot('titulo', 'Crear Nuevo Producto')
         @slot('contenido')
             <form id="formProductos" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
@@ -33,46 +33,49 @@
                 <br><br>
                 
                 <!-- FÓRMULA -->
-                @include('productos.partials.estrFormula')
-                <div class="row">
-                    <!-- Inputs y Selects -->
-                    <div id="contenedor-formulas">
-                        <div class="row formula-item">
-                            <div class="col">
-                                <input type="number" name="porcentaje[]" class="form-control porcentaje" required>
+                <div class="card border-dark shadow">
+                    <div class="card-body">
+                        @include('productos.partials.estrFormula')
+                        <div class="row">
+                            <!-- Inputs y Selects -->
+                            <div id="contenedor-formulas">
+                                <div class="row formula-item">
+                                    <div class="col">
+                                        <input type="number" name="porcentaje[]" class="form-control porcentaje" required>
+                                    </div>
+                                    <div class="col">
+                                        <select name="familia[]" class="form-control select-familia" required>
+                                            @foreach($familias as $familia)
+                                                <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" name="contenido[]" class="form-control contenido" readonly required>
+                                    </div>
+                                    <div class="col">
+                                        <select name="insumo[]" class="form-control select-insumo" required>
+                                            <option value="">Seleccione una familia primero</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div><br>
+                        </div><br>
+
+                        <div class="row g-3"> 
+                            <div class="col-md-6">
+                                <button type="button" id="btn-agregar" class="btn btn-primary w-100">
+                                    Agregar
+                                </button>
                             </div>
-                            <div class="col">
-                                <select name="familia[]" class="form-control select-familia" required>
-                                    @foreach($familias as $familia)
-                                        <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col">
-                                <input type="number" name="contenido[]" class="form-control contenido" readonly required>
-                            </div>
-                            <div class="col">
-                                <select name="insumo[]" class="form-control select-insumo" required>
-                                    <option value="">Seleccione una familia primero</option>
-                                </select>
+                            <div class="col-md-6">
+                                <button type="button" id="btn-borrar" class="btn btn-danger w-100">
+                                    Borrar
+                                </button>
                             </div>
                         </div>
-                    </div><br>
-                </div><br>
-
-                <div class="row g-3"> 
-                    <div class="col-md-6">
-                        <button type="button" id="btn-agregar" class="btn btn-primary w-100">
-                            Agregar
-                        </button>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="button" id="btn-borrar" class="btn btn-danger w-100">
-                            Borrar
-                        </button>
                     </div>
                 </div>
-
         @endslot
 
         @slot('footer')
@@ -82,9 +85,8 @@
                     <button type="submit" class="btn btn-success w-100">Guardar</button>
                 </div>
             </div>
-        @endslot
             </form>
-
+        @endslot
     @endcomponent
     
 @endsection

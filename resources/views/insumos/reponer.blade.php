@@ -2,28 +2,31 @@
 @section('page', 'Reponer Insumo')
 @section("content")
 
-    @component('_components.cards')
+    @component('components.cards')
         @slot('titulo', 'Reponer Insumo')
 
         @slot('contenido')
             <form action="{{ route('insumos.reponer.store', $insumo->idInsumo) }}" method="POST">
                 @csrf
-                <div class="mb-3" style="max-width: 600px; margin: auto;">
-                    <label for="stock">Stock:</label>
-                    <input type="number" name="stock" class="form-control" required>
-                    <br>
-                    <label for="fechaVencimiento">Fecha de vencimiento:</label>
-                    <input type="date" name="fechaVencimiento" class="form-control" required>
-                    <br>
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success">Reponer</button>
+                <div class="row g-4">
+                    <div class="col-12">
+                        <label for="stock">Stock:</label>
+                        <input type="number" name="stock" class="form-control" required>
+                        <div class="mt-3">
+                            <label for="fechaVencimiento">Fecha de vencimiento:</label>
+                            <input type="date" name="fechaVencimiento" class="form-control" required>
+                        </div>
                     </div>
                 </div>
-            </form>
         @endslot
         
         @slot('footer')
-            <a href="{{ route('insumos.estante') }}" class="btn btn-danger">Volver atrás</a>
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success w-100">Reponer</button>
+                </div>
+            </div>
+            </form>
         @endslot
     @endcomponent
 

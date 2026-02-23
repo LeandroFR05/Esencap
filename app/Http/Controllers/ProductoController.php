@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 class ProductoController extends Controller
 {
     public function productos(): View {
-        $productos = Producto::all();
+        $productos = Producto::withSum('historiales', 'stock')->get();
         return view('productos.estante', compact('productos'));
     }
 
@@ -172,6 +172,14 @@ class ProductoController extends Controller
 
     public function update(ProductoRequest $request, Producto $producto) {
         $validated = $request->validated();
+        
+        // Para verificar si se eliminó la foto en el formulario, y no se volvió a cargar otra
+        if ($request->remove_foto == '1') {
+            if ($producto->foto) {
+                Storage::disk('public')->delete($producto->foto);
+            }
+            $producto->foto = null;
+        }
 
         if ($request->hasFile('foto')) {
             if ($producto->foto && Storage::disk('public')->exists($producto->foto)) {

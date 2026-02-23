@@ -62,8 +62,16 @@ class InsumoController extends Controller
 
 
     public function update(InsumoRequest $request, Insumo $insumo): RedirectResponse {
-
         $validated = $request->validated();
+
+        // Para verificar si se eliminó la foto en el formulario, y no se volvió a cargar otra
+        if ($request->remove_foto == '1') {
+            if ($insumo->foto) {
+                Storage::disk('public')->delete($insumo->foto);
+            }
+            $insumo->foto = null;
+        }
+
         if ($request->hasFile('foto')) {
             if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {
                 Storage::disk('public')->delete($insumo->foto); // Eliminar la foto antigua
