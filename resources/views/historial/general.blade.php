@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 @section('page', 'Historial')
-@section('title', 'Historial General')
+@section('title')
+    {{ Breadcrumbs::render('historialGeneral') }}
+@endsection
 @section('content')
 
 <div class="container">

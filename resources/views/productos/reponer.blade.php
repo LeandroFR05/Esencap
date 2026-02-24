@@ -1,8 +1,11 @@
 @extends('layouts.admin')
 @section('page', 'Reponer Producto')
+@section('title')
+    {{ Breadcrumbs::render('reponerProducto', $producto) }}
+@endsection
 
 @section('content')
-    @component('_components.cards')
+    @component('components.cards')
         @slot('titulo', 'Reponer ' . $producto->nombre)
         @slot('contenido')
             <form action="{{ route('productos.reponer.store', $producto->idProducto) }}" method="POST">

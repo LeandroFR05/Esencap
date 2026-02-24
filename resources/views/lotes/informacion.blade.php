@@ -11,7 +11,7 @@
                 class="btn {{ request()->routeIs('lotes.infoVencimientos') ? 'btn-info' : 'btn-outline-info' }}">Próximos Vencimientos</a>
             </div>
             <div class="col-auto">
-                <select name="insumos" id="insumos" class="form-select" style="max-width: 300px; margin-top: 10px;">
+                <select name="insumos" id="insumos" class="form-select" style="width: 250px; margin-top: 23px;">
                     <option value="todos">Todos</option>
                     @foreach($lotesAgrupados as $idInsumo => $lotes)
                         <option value="{{ $lotes->first()->insumo->nombre }}">{{ $lotes->first()->insumo->nombre }}</option>

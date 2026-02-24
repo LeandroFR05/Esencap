@@ -11,8 +11,8 @@ class LoteInsumoController extends Controller
 {
     public function showLotes($insumoId): View {
         $lote = LoteInsumo::where('idInsumo', $insumoId)->get();
-        $nombreInsumo = Insumo::where('idInsumo', $insumoId)->get('nombre');
-        return view('lotes.show', compact('lote', 'nombreInsumo'));
+        $insumo = Insumo::where('idInsumo', $insumoId)->first();
+        return view('lotes.show', compact('lote', 'insumo'));
     }
 
 
@@ -44,7 +44,9 @@ class LoteInsumoController extends Controller
     }
 
 
-    public function eliminar(LoteInsumo $lote) {
+    public function eliminar(Request $request, LoteInsumo $lote) {
         $lote->delete();
+        $idInsumo = $request->input('idInsumo');
+        return redirect()->route('lotes.show', $idInsumo)->with('success', 'Lote eliminado exitosamente.');
     }
 }

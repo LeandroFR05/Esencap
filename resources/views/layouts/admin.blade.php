@@ -19,6 +19,7 @@
 </head>
 
 <body>
+
     <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
     <div id="app">
         <div id="sidebar">
@@ -72,9 +73,9 @@
                     <i class="bi bi-justify fs-3"></i>
                 </a>
             </header>
-            
+
 <div class="page-heading">
-    <h3>@yield('title')</h3>
+    <h5>@yield('title')</h5>
 </div> 
 <div class="page-content"> 
     @yield('content')
@@ -95,6 +96,6 @@
 <script src="{{asset('assets/static/js/pages/dashboard.js')}}"></script>
 
 @yield('scripts')
-
+@include('_partials.alerts')
 </body>
 </html>

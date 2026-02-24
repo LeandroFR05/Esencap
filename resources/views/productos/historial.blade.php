@@ -1,5 +1,8 @@
 @extends('layouts.admin')
 @section('page', 'Historial del Producto')
+@section('title')
+    {{ Breadcrumbs::render('historialProducto', $producto) }}
+@endsection
 
 @section('content')
 

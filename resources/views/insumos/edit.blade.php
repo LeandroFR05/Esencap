@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 @section('page', 'Editar Insumo')
+@section('title')
+    {{ Breadcrumbs::render('editarInsumo', $insumo) }}
+@endsection
+
 @section('content')
 
     @component('components.cards')

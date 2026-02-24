@@ -50,7 +50,7 @@ class InsumoController extends Controller
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
 
-        return redirect()->route('insumos.estante')->with('success', 'Insumo creado exitosamente.');
+        return redirect()->route('insumos.create')->with('success', 'Insumo creado exitosamente.');
     }
 
 

@@ -1,7 +1,10 @@
 @extends('layouts.admin')
 @section('page', 'Inicio')
-@section('title', 'Bienvenido')
+@section('title')
+    {{ Breadcrumbs::render('home') }}
+@endsection
 @section('content')
+
     <div class="row">
         <div class="col-6 col-lg-3 col-md-6">
             <div class="card">
@@ -89,7 +92,6 @@
     const productosVendidos = JSON.parse('{!! json_encode(array_values($cantProductosVendidos)) !!}');
     const porcentajeStockBajo = JSON.parse('{{ json_encode($porcentajeStockBajo) }}');
 
-    console.log(porcentajeStockBajo);
     
     var options = {
         chart: {

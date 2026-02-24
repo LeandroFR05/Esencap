@@ -1,9 +1,11 @@
 @extends('layouts.admin')
 @section('page', 'Editar Producto')
-
+@section('title')
+    {{ Breadcrumbs::render('editar', $producto) }}
+@endsection
 @section('content')
     @component('components.cards')
-        @slot('titulo', 'Editar Producto')
+        @slot('titulo', 'Editar ' . $producto->nombre)
         @slot('contenido')
             <!-- FORMULARIO -->
             <form action="{{ route('productos.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">
@@ -43,15 +45,7 @@
         @endslot
 
         @slot('footer')
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <a href="{{ route('productos.reponer', $producto->idProducto) }}" class="btn btn-primary w-100">Reponer</a>
-                </div>
-                    <!-- HISTORIAL DE ELABORACIONES -->
-                <div class="col-md-6">
-                    <a href="{{ route('productos.historial', $producto->idProducto) }}" class="btn btn-info w-100">Historial</a>
-                </div>
-            </div>
+            
         @endslot
     @endcomponent
 
