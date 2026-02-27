@@ -3,11 +3,11 @@
 @section('title')
     {{ Breadcrumbs::render('nuevoInsumo') }}
 @endsection
-@section('content')
 
+@section('content')
     @component('components.cards')
         @slot('titulo', 'Crear Nuevo Insumo')
-         @slot('contenido')
+        @slot('contenido')
             <form method="POST" action="{{ route('insumos.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row g-4">
@@ -15,12 +15,14 @@
                         <label for="nombre">Nombre:</label>
                         <input type="text" name="nombre" class="form-control" required>
                         <div class="mt-3">
-                            <label for="stock">Cantidad de envases:</label>
-                            <input type="number" name="stock" class="form-control" required>
-                        </div>
-                        <div class="mt-3">
-                            <label for="contenidoPorUnidad">Contenido por Unidad:</label>
-                            <input type="number" name="contenidoPorUnidad" class="form-control" required>
+                            <label for="stockInicial">Stock Inicial</label>
+                            <div class="input-group">
+                                <input type="number" name="stockInicial" class="form-control">
+                                <select name="unidad" class="form-select">
+                                    <option value="gramos">gramos</option>
+                                    <option value="unidades">unidades</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="mt-3">
                             <label for="idFamilia">Familia:</label>
@@ -40,9 +42,13 @@
                             <label for="fase">Fase:</label>
                             <input type="text" name="fase" class="form-control" required>
                         </div>
+                        <div class="mt-3">
+                            <label for="fechaCompra">Fecha de Compra:</label>
+                            <input type="date" name="fechaCompra" class="form-control" required>
+                        </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="nombre">Foto:</label>
+                        <label for="foto">Foto:</label>
                         @include('_partials.dropzone')
                         <div class="mt-3">
                             <label for="fechaVencimiento">Fecha de Vencimiento:</label>

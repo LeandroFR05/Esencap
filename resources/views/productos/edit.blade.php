@@ -18,13 +18,25 @@
                         <input type="text" name="nombre" value="{{ $producto->nombre }}" class="form-control" required>
                         <div class="mt-3">
                             <label for="stock">Stock total:</label>
-                            <input type="number" name="stock" value="{{ $stockTotal }}" class="form-control" 
-                            style="background-color: #f3f3f3ff;" readonly>
+                            <div class="input-group">
+                                <input type="number" name="stock" value="{{ $stockTotal }}" class="form-control" 
+                                style="background-color: #f3f3f3ff;" readonly>
+                                <span class="input-group-text w-25 d-flex justify-content-center">unidades</span>
+                            </div>
                         </div>
                         <div class="mt-3">
                             <label for="contenidoPorUnidad">Contenido por Unidad:</label>
-                            <input type="number" name="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" 
-                            class="form-control" style="background-color: #f3f3f3ff;" readonly>
+                            <div class="input-group">
+                                <input type="number" name="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" 
+                                class="form-control" style="background-color: #f3f3f3ff;" readonly>
+                                <span class="input-group-text w-25 d-flex justify-content-center">gramos</span>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="{{ route('productos.historial', $producto->idProducto) }}" 
+                            class="btn btn-outline-info w-100">
+                                Historial
+                            </a>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">

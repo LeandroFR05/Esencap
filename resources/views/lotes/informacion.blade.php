@@ -23,9 +23,9 @@
 
     <div class="card-body">
         @if($bandera == 1)
-            <h6 style="display: flex; justify-content: center;">No hay lotes próximos a vencerse</h6>
+            <h6 style="display: flex; justify-content: center;">No existen lotes próximos a vencerse</h6>
         @elseif($bandera == 2)
-            <h6 style="display: flex; justify-content: center;">No hay lotes con bajo stock</h6>
+            <h6 style="display: flex; justify-content: center;">No existen lotes con bajo stock</h6>
         @else
             <table class="table table-bordered table-hover" id="tableLotes">
                 <thead class="table-dark">

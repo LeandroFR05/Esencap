@@ -18,11 +18,18 @@ class LoteInsumo extends Model
         return Carbon::parse($value)->format('d-m-Y');
     }
 
+    public function getFechaCompraAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
+
     protected $fillable = [
         'numeroLote',
         'idInsumo',
-        'stock', 
-        'fechaVencimiento'
+        'stockInicial',
+        'stockActual', 
+        'fechaVencimiento',
+        'fechaCompra'
     ];
 
 

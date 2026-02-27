@@ -15,8 +15,7 @@ class Insumo extends Model
     protected $fillable = [
         'nombre',
         'foto', 
-        'fase', 
-        'contenidoPorUnidad',
+        'fase',
         'idFamilia',
         'disponible'
     ];

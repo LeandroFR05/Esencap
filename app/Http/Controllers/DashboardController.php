@@ -17,9 +17,9 @@ class DashboardController extends Controller
 
         $hoy = date('Y-m-d');
         $lotesProximosaVencer = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy . ' +30 days')))
-            ->where('stock', '>', 0)->count();
+            ->where('stockActual', '>', 0)->count();
 
-        $lotesBajoStock = LoteInsumo::where('stock', '<=', 5)->count();
+        $lotesBajoStock = LoteInsumo::where('stockActual', '<=', 5)->count();
 
         return view('dashboard', compact('ventas_data', 'cantProductosVendidos', 'porcentajeStockBajo', 'lotesProximosaVencer', 
         'lotesBajoStock'));

@@ -14,7 +14,9 @@
                     <thead class="table-dark">
                         <tr>
                             <th scope="col">Número de lote</th>
-                            <th scope="col">Stock</th>
+                            <th scope="col">Stock Inicial</th>
+                            <th scope="col">Stock Actual</th>
+                            <th scope="col">Fecha de compra</th>
                             <th scope="col">Fecha de vencimiento</th>
                             <th scope="col">Acción</th>
                         </tr>
@@ -23,7 +25,9 @@
                         @foreach($lote as $item)
                             <tr>
                                 <td>{{ $item->numeroLote }}</td>
-                                <td>{{ $item->stock }}</td>
+                                <td>{{ $item->stockInicial }}gr</td>
+                                <td>{{ $item->stockActual }}gr</td>
+                                <td>{{ $item->fechaCompra}}</td>
                                 <td>{{ $item->fechaVencimiento}}</td>
                                 <td>
                                     <form action="{{ route('lotes.eliminar', $item->idLote) }}" method="POST">

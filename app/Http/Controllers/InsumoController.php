@@ -15,7 +15,7 @@ use Illuminate\Http\JsonResponse;
 class InsumoController extends Controller
 {
     public function insumos(): View {
-        $insumos = Insumo::all();
+        $insumos = Insumo::withSum('lotes', 'stockActual')->get();
         return view('insumos.estante', compact('insumos'));
     }
 
@@ -27,7 +27,6 @@ class InsumoController extends Controller
 
 
     public function store(InsumoRequest $request): RedirectResponse {
-
         if ($request->hasFile('foto'))
             // Si se subió una imagen, la guardamos
             $fotoPath = $request->file('foto')->store('uploads', 'public');
@@ -38,7 +37,6 @@ class InsumoController extends Controller
         $insumo = Insumo::create([
             'nombre' => $request->input('nombre'),
             'foto' => $fotoPath,
-            'contenidoPorUnidad' => $request->input('contenidoPorUnidad'),
             'idFamilia' => $request->input('idFamilia'),
             'fase' => $request->input('fase'),
         ]);
@@ -46,7 +44,9 @@ class InsumoController extends Controller
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
             'numeroLote' => 1,
-            'stock' => $request->input('stock') * $insumo->contenidoPorUnidad,
+            'stockInicial' => $request->input('stockInicial'),
+            'stockActual' => $request->input('stockInicial'),
+            'fechaCompra' => $request->input('fechaCompra'),
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
 
@@ -56,8 +56,8 @@ class InsumoController extends Controller
 
     public function edit(Insumo $insumo): View {
         $familias = Familia::all();
-        $stockLotes = LoteInsumo::where('idInsumo', $insumo->idInsumo)->sum('stock');
-        return view('insumos.edit', compact('insumo', 'familias', 'stockLotes'));
+        $stockActual = LoteInsumo::where('idInsumo', $insumo->idInsumo)->sum('stockActual');
+        return view('insumos.edit', compact('insumo', 'familias', 'stockActual'));
     }
 
 
@@ -86,7 +86,11 @@ class InsumoController extends Controller
     
 
     public function reponer(Insumo $insumo): View {
-        return view('insumos.reponer', compact('insumo'));
+        $ultimoNumero = LoteInsumo::where('idInsumo', $insumo->idInsumo)
+            ->max('numeroLote');
+        $nuevoNumero = $ultimoNumero ? $ultimoNumero + 1 : 1;
+
+        return view('insumos.reponer', compact('insumo', 'nuevoNumero'));
     }
 
 
@@ -99,7 +103,9 @@ class InsumoController extends Controller
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
             'numeroLote' => $nuevoNumero,
-            'stock' => $request->input('stock'),
+            'stockInicial' => $request->input('stockInicial'),
+            'stockActual' => $request->input('stockInicial'),
+            'fechaCompra' => $request->input('fechaCompra'),
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
 

@@ -19,7 +19,7 @@ class LoteInsumoController extends Controller
     public function vencidos() {
         $hoy = date('Y-m-d');
         $lotesVencidos = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy . ' +30 days')))
-            ->where('stock', '>', 0)->get();
+            ->where('stockActual', '>', 0)->get();
         $lotesAgrupados = $lotesVencidos->groupBy('idInsumo');
 
         $bandera = 0;
@@ -32,7 +32,7 @@ class LoteInsumoController extends Controller
 
 
     public function infoStock() {
-        $lotesBajoStock = LoteInsumo::where('stock', '<=', 5)->get();
+        $lotesBajoStock = LoteInsumo::where('stockActual', '<=', 5)->get();
         $lotesAgrupados = $lotesBajoStock->groupBy('idInsumo');
 
         $bandera = 0;

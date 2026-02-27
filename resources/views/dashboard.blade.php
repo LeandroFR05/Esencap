@@ -133,19 +133,22 @@
 
 
     var options = {
-          series: [porcentajeStockBajo],
-          chart: {
-          height: 350,
-          type: 'radialBar',
+        series: [porcentajeStockBajo],
+        chart: {
+            height: 350,
+            type: 'radialBar',
         },
         plotOptions: {
-          radialBar: {
-            hollow: {
-              size: porcentajeStockBajo + '%',
+            radialBar: {
+                hollow: {
+                    size: '60%', // controla el diámetro interno
+                },
+                track: {
+                    margin: 10, // aumenta el margen entre el anillo y el hueco, afinando el espesor
+                }
             }
-          },
         },
-        labels: ['Productos'],
+        labels: ['Porcentaje'],
     };
 
     var chart = new ApexCharts(document.querySelector("#chart3"), options);

@@ -18,41 +18,15 @@
                         <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" value="{{ $insumo->nombre }}" class="form-control" required>
                         <div class="mt-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="stockTotal">Stock Total</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="cantEnvases">Cantidad de envases</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
+                            <label for="stockTotal">Stock Total</label>
                             <div class="input-group">
-                                <input type="number" name="stockTotal" value="{{ $stockLotes }}" class="form-control" readonly>
-                                <span class="input-group-text">gr</span>
-                            </div>
-                            <label>=</label>
-                            <div class="input-group">
-                                <input type="number" name="cantEnvases" 
-                                value="{{ number_format($stockLotes / $insumo->contenidoPorUnidad, 2, '.', '') }}" class="form-control" readonly>
-                                <span class="input-group-text">ud</span>
+                                <input type="number" name="stockTotal" value="{{ $stockActual }}" class="form-control" readonly>
+                                <span class="input-group-text">gramos</span>
                             </div>
                         </div>
                         <div class="mt-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="fase">Fase</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="contPorUnidad">Contenido por Unidad</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
+                            <label for="fase">Fase</label>
                             <input type="text" name="fase" value="{{ $insumo->fase }}" class="form-control" required>
-                            <input type="number" name="contenidoPorUnidad" value="{{ $insumo->contenidoPorUnidad }}" 
-                            class="form-control" required>
                         </div>
                         <div class="mt-3">
                             <label for="idFamilia">Familia</label>
@@ -84,7 +58,7 @@
         @slot('footer')
             <div class="row g-3">
                 <div class="col-md-8">
-                    <button type="submit" class="btn btn-success w-100">Editar</button>
+                    <button type="submit" class="btn btn-success w-100">Guardar</button>
                 </div>
                 <div class="col-md-4">
                     <button type="button" class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#modalDeshabilitarInsumo">
