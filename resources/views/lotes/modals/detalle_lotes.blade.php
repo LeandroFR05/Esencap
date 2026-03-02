@@ -1,6 +1,6 @@
 @foreach($lotesAgrupados as $idInsumo => $lotes)
     <div class="modal fade" id="modalLotes-{{ $lotes->first()->idLote }}" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -15,17 +15,19 @@
                         <thead>
                             <tr>
                                 <th>Lote</th>
-                                <th>Stock (gr)</th>
-                                <th>Envases</th>
-                                <th>Vencimiento</th>
+                                <th>Stock inicial</th>
+                                <th>Stock actual</th>
+                                <th>Fecha de compra</th>
+                                <th>Fecha de vencimiento</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($lotes as $detalleLote)
                                 <tr>
                                     <td>{{ $detalleLote->numeroLote }}</td>
-                                    <td>{{ $detalleLote->stock }}</td>
-                                    <td>{{ number_format($detalleLote->stock / $detalleLote->insumo->contenidoPorUnidad, 2, '.', '') }}</td>
+                                    <td>{{ $detalleLote->stockInicial }}{{ $lotes->first()->insumo->unidadDeMedida }}</td>
+                                    <td>{{ $detalleLote->stockActual }}{{ $lotes->first()->insumo->unidadDeMedida }}</td>
+                                    <td>{{ $detalleLote->fechaCompra }}</td>
                                     <td>{{ $detalleLote->fechaVencimiento }}</td>
                                 </tr>
                             @endforeach

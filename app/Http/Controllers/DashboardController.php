@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Venta;
 use App\Models\Historial;
 use App\Models\LoteInsumo;
+use App\Models\Insumo;
 
 class DashboardController extends Controller
 {
@@ -16,10 +17,28 @@ class DashboardController extends Controller
         $porcentajeStockBajo = $this->calcularPorcentajeStockBajo();
 
         $hoy = date('Y-m-d');
-        $lotesProximosaVencer = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy . ' +30 days')))
+        $lotesProximosaVencer = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy . ' +10 days')))
             ->where('stockActual', '>', 0)->count();
 
-        $lotesBajoStock = LoteInsumo::where('stockActual', '<=', 5)->count();
+        $insumos = Insumo::all();
+        $lotesAgrupados = collect();
+
+        foreach ($insumos as $insumo) {
+            // Definir el stock mínimo según la unidad de medida
+            $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
+                'gramos'   => 500,
+                'kilos'    => 1,
+                'unidades' => 10,
+                'litros'   => 2,
+                default    => 5,
+            };
+
+            $lotesBajoStock = 0;
+            // Buscar lotes de ese insumo con stock bajo
+            $lotesBajoStock += LoteInsumo::where('idInsumo', $insumo->idInsumo)
+                ->where('stockActual', '<=', $stockMinimo)
+                ->count();                  
+        }
 
         return view('dashboard', compact('ventas_data', 'cantProductosVendidos', 'porcentajeStockBajo', 'lotesProximosaVencer', 
         'lotesBajoStock'));
