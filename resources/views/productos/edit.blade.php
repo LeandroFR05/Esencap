@@ -3,6 +3,7 @@
 @section('title')
     {{ Breadcrumbs::render('editar', $producto) }}
 @endsection
+
 @section('content')
     @component('components.cards')
         @slot('titulo', 'Editar ' . $producto->nombre)

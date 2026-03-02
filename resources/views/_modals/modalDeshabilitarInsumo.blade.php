@@ -10,10 +10,10 @@
                 <form method="POST" action="{{ route('insumos.deshabilitar', $insumo->idInsumo) }}">
                     @csrf
                     @method('PUT')
-                    <p>¿Está seguro de que desea deshabilitar este insumo?</p>
+                    <p>¿Está seguro de que desea eliminar este insumo?</p>
                     <div class="d-flex justify-content-end gap-2">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Sí, deshabilitar</button>
+                        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
                     </div>
                 </form>
             </div>

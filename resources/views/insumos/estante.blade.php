@@ -24,7 +24,7 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">{{ $insumo->nombre }}</h5>
                                     <!-- Product price-->
-                                    Stock: {{ $insumo->lotes->sum('stockActual') }}gr
+                                    Stock: {{ $insumo->lotes->sum('stockActual') }} {{ $insumo->unidadDeMedida }}
                                 </div>
                             </div>
 

@@ -12,7 +12,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Tabla loteInsumos: eliminar columna stock y agregar nuevas
         Schema::table('loteInsumos', function (Blueprint $table) {
             $table->date('fechaCompra')->default(DB::raw('CURRENT_DATE'));
         });

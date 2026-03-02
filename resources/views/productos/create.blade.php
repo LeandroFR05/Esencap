@@ -13,18 +13,18 @@
                 <div class="row g-4">
                     <div class="col-12 col-md-6">
                         <!-- INFORMACIÓN INICIAL -->
-                        <label for="nombre">Nombre (*)</label>
+                        <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control" required>
                         <div class="mt-3"> <!-- mt= margin-top -->
-                            <label for="stock">Stock (*)</label>
+                            <label for="stock">Stock</label>
                             <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" required>
                         </div>
                         <div class="mt-3"> 
-                            <label for="contenidoPorUnidad">Contenido por Unidad (*)</label>
+                            <label for="contenidoPorUnidad">Contenido por Unidad</label>
                             <input type="number" name="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" class="form-control contenidoPorUnidad" required>
                         </div>
                         <div class="mt-3">
-                            <label for="fechaElaboracion">Fecha de Elaboración (*)</label>
+                            <label for="fechaElaboracion">Fecha de Elaboración</label>
                             <input type="date" name="fechaElaboracion" value="{{ old('fechaElaboracion') }}" class="form-control" required>
                         </div>
                     </div>
@@ -44,7 +44,10 @@
                             <div id="contenedor-formulas">
                                 <div class="row formula-item">
                                     <div class="col">
-                                        <input type="number" name="porcentaje[]" class="form-control porcentaje" required>
+                                        <div class="input-group">
+                                            <input type="number" name="porcentaje[]" class="form-control porcentaje" required>
+                                            <span class="input-group-text w-25 d-flex justify-content-center">%</span>
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <select name="familia[]" class="form-control select-familia" required>
@@ -54,11 +57,14 @@
                                         </select>
                                     </div>
                                     <div class="col">
-                                        <input type="number" name="contenido[]" class="form-control contenido" readonly required>
+                                        <div class="input-group">
+                                            <input type="number" name="contenido[]" class="form-control contenido" readonly required>
+                                            <span class="input-group-text w-25 d-flex justify-content-center">gr</span>
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <select name="insumo[]" class="form-control select-insumo" required>
-                                            <option value="">Seleccione una familia primero</option>
+                                            <option value="">Seleccione una familia</option>
                                         </select>
                                     </div>
                                 </div>

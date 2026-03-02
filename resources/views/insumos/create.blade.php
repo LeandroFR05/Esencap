@@ -6,7 +6,7 @@
 
 @section('content')
     @component('components.cards')
-        @slot('titulo', 'Crear Nuevo Insumo')
+        @slot('titulo', 'Nuevo Insumo')
         @slot('contenido')
             <form method="POST" action="{{ route('insumos.store') }}" enctype="multipart/form-data">
                 @csrf
@@ -18,9 +18,11 @@
                             <label for="stockInicial">Stock Inicial</label>
                             <div class="input-group">
                                 <input type="number" name="stockInicial" class="form-control">
-                                <select name="unidad" class="form-select">
+                                <select name="unidadDeMedida" class="form-select">
                                     <option value="gramos">gramos</option>
                                     <option value="unidades">unidades</option>
+                                    <option value="kilos">kilos</option>
+                                    <option value="litros">litros</option>
                                 </select>
                             </div>
                         </div>

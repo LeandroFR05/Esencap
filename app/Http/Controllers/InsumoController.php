@@ -39,6 +39,7 @@ class InsumoController extends Controller
             'foto' => $fotoPath,
             'idFamilia' => $request->input('idFamilia'),
             'fase' => $request->input('fase'),
+            'unidadDeMedida' => $request->input('unidadDeMedida')
         ]);
 
         LoteInsumo::create([

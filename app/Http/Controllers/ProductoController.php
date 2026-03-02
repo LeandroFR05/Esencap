@@ -79,9 +79,16 @@ class ProductoController extends Controller
             $idInsumo = $item['idInsumo'];
             $contenidoNecesario = $item['contenido'];
 
+            // Traemos el insumo para conocer su unidad de medida
+            $insumo = Insumo::find($idInsumo);
+            $unidad = $insumo->unidadDeMedida;
+
+            // Convertimos el contenidoNecesario a la unidad base según el insumo
+            $contenidoNecesario = $this->convertirUnidad($contenidoNecesario, $unidad);
+
             //Buscamos lotes que coincidan con el insumo y que tengan stock disponible con fecha de vencimiento más cercana
             $lotes = LoteInsumo::where('idInsumo', $idInsumo)
-                ->where('stock', '>', 0)
+                ->where('stockActual', '>', 0)
                 ->orderBy('fechaVencimiento', 'asc')
                 ->get();
             
@@ -92,16 +99,15 @@ class ProductoController extends Controller
                     break;
                 }
 
-                if ($lote->stock >= $contenidoNecesario) {
-                    $lote->stock -= $contenidoNecesario;
+                if ($lote->stockActual >= $contenidoNecesario) {
+                    $lote->stockActual -= $contenidoNecesario;
                     $lote->save();
                     $contenidoNecesario = 0;
-                }
-                else {
-                    $contenidoNecesario -= $lote->stock;
-                    $lote->stock = 0;
+                } else {
+                    $contenidoNecesario -= $lote->stockActual;
+                    $lote->stockActual = 0;
                     $lote->save();
-                } 
+                }
             }
             if ($contenidoNecesario > 0) {
                 $nombreInsumo = Insumo::find($idInsumo)->nombre;
@@ -109,6 +115,21 @@ class ProductoController extends Controller
             }
         }
     }
+
+    private function convertirUnidad(float $valor, string $unidad): float
+    {
+        switch (strtolower($unidad)) {
+            case 'kilos':
+                return $valor / 1000; // convertir a gramos
+            case 'gramos':
+                return $valor; // ya está en gramos
+            case 'litros':
+                return $valor / 1000;
+            default:
+                return $valor; // fallback
+        }
+    }
+
 
 
     // Con las siguientes funciones guardamos el nuevo producto y sus relaciones

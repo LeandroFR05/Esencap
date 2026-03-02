@@ -7,7 +7,7 @@
 @section('content')
 
     @component('components.cards')
-        @slot('titulo', 'Editar Insumo')
+        @slot('titulo', 'Editar ' . $insumo->nombre)
 
         @slot('contenido')
             <form action="{{ route('insumos.update', $insumo->idInsumo) }}" method="POST" enctype="multipart/form-data">
@@ -18,12 +18,13 @@
                         <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" value="{{ $insumo->nombre }}" class="form-control" required>
                         <div class="mt-3">
-                            <label for="stockTotal">Stock Total</label>
+                            <label for="stockTotal">Stock Actual</label>
                             <div class="input-group">
-                                <input type="number" name="stockTotal" value="{{ $stockActual }}" class="form-control" readonly>
-                                <span class="input-group-text">gramos</span>
+                                <input type="number" id="stockTotal" name="stockTotal" value="{{ $stockActual }}" class="form-control" readonly>
+                                <span class="input-group-text w-25 d-flex justify-content-center">{{ $insumo->unidadDeMedida }}</span>
                             </div>
                         </div>
+
                         <div class="mt-3">
                             <label for="fase">Fase</label>
                             <input type="text" name="fase" value="{{ $insumo->fase }}" class="form-control" required>
@@ -57,12 +58,19 @@
 
         @slot('footer')
             <div class="row g-3">
-                <div class="col-md-8">
-                    <button type="submit" class="btn btn-success w-100">Guardar</button>
+                <div class="col-md-2">
+                    <a href="{{ route('lotes.show', $insumo->idInsumo) }}" 
+                    class="btn btn-outline-info w-100">
+                        <i class="bi bi-box-seam"></i> Ver Lotes
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success w-100">
+                    <i class="bi bi-check-circle"></i> Guardar</button>
                 </div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#modalDeshabilitarInsumo">
-                        <i class="bi bi-slash-circle"></i> Deshabilitar
+                    <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modalDeshabilitarInsumo">
+                        <i class="bi bi-trash3-fill"></i> Eliminar
                     </button>
                 </div>
             </div>
