@@ -26,7 +26,7 @@
                         @foreach ($producto->historiales as $historial)
                             <tr>
                                 <td>{{ $historial->fechaElaboracion }}</td>
-                                <td>{{ $historial->stock }}</td>
+                                <td>{{ $historial->stock }}u.</td>
                                 <td>
                                 <button 
                                     class="btn btn-sm btn-primary"

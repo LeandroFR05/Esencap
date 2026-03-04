@@ -13,11 +13,14 @@
                 <div class="row g-4">
                     <div class="col-md-12">
                         <label for="stock">Stock:</label>
-                        <input type="number" name="stock" class="form-control" required>
+                        <input type="number" name="stock" class="form-control stock" required>
                         <div class="mt-3">
                             <label for="contenidoPorUnidad">Contenido por Unidad:</label>
-                            <input type="number" name="contenidoPorUnidad" class="form-control contenidoPorUnidad"
-                            value="{{ $producto->contenidoPorUnidad }}" readonly required> 
+                            <div class="input-group">
+                                <input type="number" name="contenidoPorUnidad" class="form-control contenidoPorUnidad"
+                                value="{{ $producto->contenidoPorUnidad }}" readonly required> 
+                                <span class="input-group-text w-25 d-flex justify-content-center">gramos</span>
+                            </div>
                         </div>
                         <div class="mt-3">
                             <label for="fechaElaboracion">Fecha de elaboración:</label>
@@ -34,7 +37,10 @@
                     @foreach($historial->formulas as $fila)
                         <div class="row formula-item mb-2">
                             <div class="col">
-                                <input type="number" name="porcentaje[]" value="{{ $fila->porcentaje }}" class="form-control porcentaje" required>
+                                <div class="input-group">
+                                    <input type="number" name="porcentaje[]" value="{{ $fila->porcentaje }}" class="form-control porcentaje" required>
+                                    <span class="input-group-text w-25 d-flex justify-content-center">%</span>   
+                                </div>
                             </div>
                             <div class="col">
                                 <select name="familia[]" class="form-control select-familia" required>
@@ -47,7 +53,10 @@
                                 </select>
                             </div>
                             <div class="col">
-                                <input type="number" name="contenido[]" value="{{ $fila->contenido }}" class="form-control contenido" required>
+                                <div class="input-group">
+                                    <input type="number" name="contenido[]" value="{{ $fila->contenido }}" class="form-control contenido" required>
+                                    <span class="input-group-text w-25 d-flex justify-content-center">gr</span>
+                                </div>
                             </div>
                             <div class="col">
                                 <!-- <input type="hidden" name="insumo[]" value="{{ $fila->insumo->idInsumo }}"> -->
@@ -97,19 +106,4 @@
 @endif
 
 
-@section('scripts')
-    <!-- Script para clonar la fórmula -->
-    <script src="{{ asset('js/productos/clonarFormula.js') }}"></script>
-
-    <!-- Borrar clon -->
-    <script src="{{ asset('js/productos/borrarFormula.js') }}"></script>
-
-    <!-- Cada vez que selecciono una familia, se llama a este script para buscar los insumos vinculados a esa familia -->
-    <script src="{{ asset('js/productos/busquedaInsumos.js') }}"></script>
-
-    <!-- Para controlar que el porcentaje llegue siempre a 100% -->
-    <!-- <script src="{{ asset('js/productos/controlarPorcentaje.js') }}"></script> -->
-
-    <!-- Para calcular el contenido -->
-    <script src="{{ asset('js/productos/calcularContenido.js') }}"></script>
-@endsection
+@include('productos.partials.scripts')

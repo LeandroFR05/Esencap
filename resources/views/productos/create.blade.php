@@ -17,11 +17,18 @@
                         <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control" required>
                         <div class="mt-3"> <!-- mt= margin-top -->
                             <label for="stock">Stock</label>
-                            <input type="number" name="stock" value="{{ old('stock') }}" class="form-control" required>
+                            <div class="input-group">
+                                <input type="number" name="stock" value="{{ old('stock') }}" class="form-control stock" required>
+                                <span class="input-group-text w-25 d-flex justify-content-center">unidades</span>
+                            </div>
                         </div>
                         <div class="mt-3"> 
                             <label for="contenidoPorUnidad">Contenido por Unidad</label>
-                            <input type="number" name="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" class="form-control contenidoPorUnidad" required>
+                            <div class="input-group">
+                                <input type="number" name="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" 
+                                class="form-control contenidoPorUnidad" required>
+                                <span class="input-group-text w-25 d-flex justify-content-center">gramos</span>
+                            </div>    
                         </div>
                         <div class="mt-3">
                             <label for="fechaElaboracion">Fecha de Elaboración</label>
@@ -42,10 +49,11 @@
                         <div class="row">
                             <!-- Inputs y Selects -->
                             <div id="contenedor-formulas">
-                                <div class="row formula-item">
+                                <div class="row formula-item mb-2">
                                     <div class="col">
                                         <div class="input-group">
-                                            <input type="number" name="porcentaje[]" class="form-control porcentaje" required>
+                                            <input type="number" step="0.01" name="porcentaje[]" 
+                                            class="form-control porcentaje" required>
                                             <span class="input-group-text w-25 d-flex justify-content-center">%</span>
                                         </div>
                                     </div>
@@ -58,7 +66,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="input-group">
-                                            <input type="number" name="contenido[]" class="form-control contenido" readonly required>
+                                            <input type="number" name="contenido[]" class="form-control contenido" readonly>
                                             <span class="input-group-text w-25 d-flex justify-content-center">gr</span>
                                         </div>
                                     </div>
@@ -109,24 +117,7 @@
 @endif
 
 
-@section('scripts')
-    <script src="{{ asset('js/dropzone.js') }}"></script>
-
-    <!-- Script para clonar la fórmula -->
-    <script src="{{ asset('js/productos/clonarFormula.js') }}"></script>
-
-    <!-- Borrar clon -->
-    <script src="{{ asset('js/productos/borrarFormula.js') }}"></script>
-
-    <!-- Cada vez que selecciono una familia, se llama a este script para buscar los insumos vinculados a esa familia -->
-    <script src="{{ asset('js/productos/busquedaInsumos.js') }}"></script>
-
-    <!-- Para controlar que el porcentaje llegue siempre a 100% -->
-    <!-- <script src="{{ asset('js/productos/controlarPorcentaje.js') }}"></script> -->
-
-    <!-- Para calcular el contenido -->
-    <script src="{{ asset('js/productos/calcularContenido.js') }}"></script>
-@endsection
+@include('productos.partials.scripts')
 
 
 

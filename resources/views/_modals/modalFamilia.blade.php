@@ -7,9 +7,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('familias.store') }}">
+                <form id="formFamilia">
                     @csrf
-
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre:</label>
                         <input type="text" name="nombre" class="form-control" required>
@@ -24,3 +23,34 @@
         </div>
     </div>
 </div>
+
+
+<script>
+document.getElementById('formFamilia').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    fetch("{{ route('familias.store') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Agregamos la nueva familia al select
+        let select = document.querySelector('select[name="idFamilia"]');
+        let option = document.createElement('option');
+        option.value = data.idFamilia;
+        option.text = data.nombre;
+        option.selected = true;
+        select.appendChild(option);
+
+        // Cerramos modal
+        let modal = bootstrap.Modal.getInstance(document.getElementById('modalFamilia'));
+        modal.hide();
+    });
+});
+</script>

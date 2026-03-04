@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 
 class FamiliaController extends Controller
 {
-    public function store(Request $request) {
-        Familia::create($request->all());
-        return redirect()->back()->with('success', 'Familia creada exitosamente.');
+    public function store(Request $request)
+    {
+        $familia = Familia::create([
+            'nombre' => $request->nombre
+        ]);
+
+        return response()->json($familia);
     }
+
 }

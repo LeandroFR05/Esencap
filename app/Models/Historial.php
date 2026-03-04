@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Producto;
 use App\Models\Formula;
+use Carbon\Carbon;
 
 class Historial extends Model
 {
@@ -19,6 +20,11 @@ class Historial extends Model
         'idBase',
         'idRecalculada'
     ];
+
+    public function getFechaElaboracionAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
 
 
     //Relaciones

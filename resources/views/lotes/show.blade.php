@@ -25,8 +25,8 @@
                         @foreach($lote as $item)
                             <tr>
                                 <td>{{ $item->numeroLote }}</td>
-                                <td>{{ $item->stockInicial }}gr</td>
-                                <td>{{ $item->stockActual }}gr</td>
+                                <td>{{ $item->stockInicial }} {{ $insumo->unidadDeMedida }}</td>
+                                <td>{{ $item->stockActual }} {{ $insumo->unidadDeMedida }}</td>
                                 <td>{{ $item->fechaCompra}}</td>
                                 <td>{{ $item->fechaVencimiento}}</td>
                                 <td>
