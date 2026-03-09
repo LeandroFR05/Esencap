@@ -1,20 +1,41 @@
-// Seleccionamos el botón y le añadimos un evento click
 document.getElementById('btn-agregar').addEventListener('click', function() {
 
-    // Seleccionamos el primer bloque
     let original = document.querySelector('.formula-item');
-
-    // Lo clonamos
     let clone = original.cloneNode(true);
 
-    // Limpiar los inputs
+    // Limpiar inputs
     clone.querySelectorAll('input').forEach(input => input.value = '');
 
     // Resetear selects
     clone.querySelectorAll('select').forEach(select => {
-        select.selectedIndex = 0;
+
+        if (select.classList.contains('select-insumo')) {
+            select.innerHTML = '<option value=""></option>';
+        } else {
+            select.selectedIndex = 0;
+        }
+
     });
 
-    // Agregar el clon al contenedor
+    // Botón eliminar
+    let btnEliminar = clone.querySelector('.btn-eliminar');
+    if (btnEliminar) {
+        btnEliminar.addEventListener('click', function () {
+            clone.remove();
+        });
+    }
+
     document.getElementById('contenedor-formulas').appendChild(clone);
+});
+
+
+// Evento eliminar para el primer bloque
+document.addEventListener('click', function(e){
+    if(e.target.classList.contains('btn-eliminar')){
+        let item = e.target.closest('.formula-item');
+
+        if(document.querySelectorAll('.formula-item').length > 1){
+            item.remove();
+        }
+    }
 });

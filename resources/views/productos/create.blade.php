@@ -49,7 +49,8 @@
                         <div class="row">
                             <!-- Inputs y Selects -->
                             <div id="contenedor-formulas">
-                                <div class="row formula-item mb-2">
+                                <div class="row formula-item mb-2 align-items-center">
+                                    <!-- Porcentaje -->
                                     <div class="col">
                                         <div class="input-group">
                                             <input type="number" step="0.01" name="porcentaje[]" 
@@ -57,39 +58,49 @@
                                             <span class="input-group-text w-25 d-flex justify-content-center">%</span>
                                         </div>
                                     </div>
+                                    <!-- Familia -->
                                     <div class="col">
                                         <select name="familia[]" class="form-control select-familia" required>
+                                            <option value="">Seleccione una familia</option>
                                             @foreach($familias as $familia)
                                                 <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                    <!-- Contenido -->
                                     <div class="col">
                                         <div class="input-group">
                                             <input type="number" name="contenido[]" class="form-control contenido" readonly>
                                             <span class="input-group-text w-25 d-flex justify-content-center">gr</span>
                                         </div>
                                     </div>
+                                    <!-- Insumo -->
                                     <div class="col">
                                         <select name="insumo[]" class="form-control select-insumo" required>
-                                            <option value="">Seleccione una familia</option>
+                                            <option value=""></option>
                                         </select>
+                                    </div>
+                                    <!-- Botón eliminar -->
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-danger btn-eliminar">
+                                            <i class="bi bi-trash3-fill d-flex align-items-center justify-content-center"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div><br>
                         </div><br>
 
                         <div class="row g-3"> 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <button type="button" id="btn-agregar" class="btn btn-primary w-100">
                                     Agregar
                                 </button>
                             </div>
-                            <div class="col-md-6">
+                            <!-- <div class="col-md-6">
                                 <button type="button" id="btn-borrar" class="btn btn-danger w-100">
                                     Borrar
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

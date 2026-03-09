@@ -62,5 +62,5 @@ Route::get('/historial', [HistorialController::class, 'historial'])->middleware(
 //VENTAS ROUTES
 Route::get('/ventas', [VentaController::class, 'ventas'])->middleware('auth')->name('ventas.index');
 Route::get('/productos/buscar', [VentaController::class, 'buscar']);
-Route::get('/ventas/historial/{idProducto}', [VentaController::class, 'historial'])->middleware('auth');
 Route::post('/ventas/store', [VentaController::class, 'store'])->middleware('auth')->name('ventas.store');
+Route::get('/ventas/historial', [VentaController::class, 'historial'])->middleware('auth')->name('ventas.historial');

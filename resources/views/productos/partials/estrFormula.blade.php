@@ -1,14 +1,15 @@
 <!-- FÓRMULAS BASE Y RECALCULADA -->
 <!-- Labels -->
-<div class="row">
-    <div class="col">
-        <label for="formulaBase" class="form-label">Formula Base</label>
+<div class="row mb-2">
+    <div class="col-6">
+        <label class="form-label fw-bold">Fórmula Base</label>
     </div>
-    <div class="col">
-        <label for="formulaRecalculada" class="form-label">Formula Recalculada</label>
+    <div class="col-6">
+        <label class="form-label fw-bold">Fórmula Recalculada</label>
     </div>
+    <div class="col-auto"></div>
 </div>
-<div class="row">
+<div class="row mb-2">
     <div class="col">
         <label for="porcentaje" class="form-label">Porcentaje</label>
     </div>
@@ -20,5 +21,8 @@
     </div>
     <div class="col">
         <label for="idInsumo" class="form-label">Insumo</label>
+    </div>
+    <div class="col-auto text-center">
+        <label for="accion" class="form-label">Acción</label>
     </div>
 </div>

@@ -26,7 +26,14 @@
             <li class="sidebar-item {{ request()->routeIs('historial.general') ? 'active' : '' }}">
                 <a href="{{ route('historial.general') }}" class='sidebar-link'>
                     <i class="bi bi-list-task"></i>
-                    <span>Historial</span>
+                    <span>Historial de elaboración</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item {{ request()->routeIs('ventas.historial') ? 'active' : '' }}">
+                <a href="{{ route('ventas.historial') }}" class='sidebar-link'>
+                    <i class="bi bi-list-task"></i>
+                    <span>Historial de ventas</span>
                 </a>
             </li>
         

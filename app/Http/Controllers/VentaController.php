@@ -30,16 +30,10 @@ class VentaController extends Controller
         return response()->json($productos);
     }
 
-
-    public function historial($idProducto): JsonResponse
+    public function historial(): View
     {
-        $historial = Historial::where('idProducto', $idProducto)
-            ->orderBy('fechaElaboracion', 'desc')
-            ->get(['idHistorial', 'fechaElaboracion', 'stock']);
-
-        return response()->json($historial);
+        return view('ventas.historial');
     }
-
 
     public function store(VentaRequest $request): RedirectResponse
     {

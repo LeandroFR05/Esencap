@@ -15,6 +15,7 @@ class Venta extends Model
         'idProducto',
         'cantidad',
         'fecha',
+        'cliente'
     ];
 
 

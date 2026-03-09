@@ -55,7 +55,11 @@
                     <h5>Ventas registradas por mes</h5>
                 </div>
                 <div class="card-body">
-                    <div id="chart"></div>
+                    @if(empty($ventas_data))
+                        <p class="text-center text-muted">No hay datos disponibles para mostrar este gráfico.</p>
+                    @else
+                        <div id="chart"></div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -66,7 +70,11 @@
                     <h5>Productos con bajo stock</h5>
                 </div>
                 <div class="card-body">
-                    <div id="chart3"></div>
+                    @if(empty($porcentajeStockBajo))
+                        <p class="text-center text-muted">No hay datos disponibles para mostrar este gráfico.</p>
+                    @else
+                        <div id="chart3"></div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -78,7 +86,11 @@
                     <h5>Productos más vendidos</h5>
                 </div>
                 <div class="card-body">
-                    <div id="chart2"></div>
+                    @if(empty($cantProductosVendidos))
+                        <p class="text-center text-muted">No hay datos disponibles para mostrar este gráfico.</p>
+                    @else
+                        <div id="chart2"></div>
+                    @endif
                 </div>
             </div>
         </div>

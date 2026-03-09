@@ -13,6 +13,19 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
     $trail->push('Inicio', route('dashboard'));
 });
 
+//LOTES
+//Bajo stock
+Breadcrumbs::for('bajoStock', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Lotes con bajo stock', route('lotes.infoStock'));
+});
+
+//Vencidos
+Breadcrumbs::for('vencidos', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Lotes próximos a vencerse', route('lotes.infoVencimientos'));
+});
+
 //PRODUCTOS
 //Estante de productos
 Breadcrumbs::for('productos', function (BreadcrumbTrail $trail) {

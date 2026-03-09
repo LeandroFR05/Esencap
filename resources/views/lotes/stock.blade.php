@@ -1,8 +1,10 @@
 @extends('layouts.admin')
 @section('page', 'Lotes')
-@section('title', 'Stock de Lotes')
+@section('title')
+    {{ Breadcrumbs::render('bajoStock') }}
+@endsection
 @section('content')
 
-    @include('lotes.informacion')
+    @include('lotes.informacionPrueba')
 
 @endsection

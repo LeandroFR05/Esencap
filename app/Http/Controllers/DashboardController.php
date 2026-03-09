@@ -22,6 +22,7 @@ class DashboardController extends Controller
 
         $insumos = Insumo::all();
         $lotesAgrupados = collect();
+        $lotesBajoStock = 0;
 
         foreach ($insumos as $insumo) {
             // Definir el stock mínimo según la unidad de medida
@@ -33,7 +34,6 @@ class DashboardController extends Controller
                 default    => 5,
             };
 
-            $lotesBajoStock = 0;
             // Buscar lotes de ese insumo con stock bajo
             $lotesBajoStock += LoteInsumo::where('idInsumo', $insumo->idInsumo)
                 ->where('stockActual', '<=', $stockMinimo)

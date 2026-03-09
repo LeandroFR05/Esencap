@@ -19,6 +19,7 @@
                         <tr>
                             <th>Fecha de Elaboración</th>
                             <th>Stock disponible</th>
+                            <th>Contenido por unidad</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -26,13 +27,14 @@
                         @foreach ($producto->historiales as $historial)
                             <tr>
                                 <td>{{ $historial->fechaElaboracion }}</td>
-                                <td>{{ $historial->stock }}u.</td>
+                                <td>{{ $historial->stock }}u</td>
+                                <td>{{ $producto->contenidoPorUnidad }}gr</td>
                                 <td>
                                 <button 
                                     class="btn btn-sm btn-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalHistorialProd-{{ $historial->idHistorial }}">
-                                    Ver detalle
+                                    Ver formula
                                 </button>
                             </td>
                             </tr>

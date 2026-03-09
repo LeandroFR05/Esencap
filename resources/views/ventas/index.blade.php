@@ -20,6 +20,9 @@
                             <label for="cantidad">Cantidad:</label>
                             <input type="number" name="cantidad" id="cantidad" class="form-control" required>
                         </div>
+                        <div class="mt-3">
+                            <label for="cliente">Cliente:</label>
+                            <input type="text" name="cliente" id="cliente" class="form-control" required>
                         <div class="mt-3"> 
                             <label for="fecha">Fecha:</label>
                             <input type="date" name="fecha" id="fecha" class="form-control" required>
