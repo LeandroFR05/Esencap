@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Producto;
+use Carbon\Carbon;
 
 class Venta extends Model
 {
@@ -17,6 +18,12 @@ class Venta extends Model
         'fecha',
         'cliente'
     ];
+
+
+    public function getFechaAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
+    }
 
 
     //Relaciones

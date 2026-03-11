@@ -56,25 +56,3 @@
     <script src="{{ asset('js/ventas/registrarVenta.js') }}"></script>
 @endsection
 
-
-
-<!-- Función para cargar el historial de ventas del producto seleccionado -->
-<!-- function cargarHistorial(idProducto) { -->
-        <!-- historialSelect.innerHTML = '';
-
-        fetch(`/ventas/historial/${idProducto}`)
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item.idHistorial;
-                option.textContent = `Fecha: ${item.fechaElaboracion} - Stock: ${item.stock}`;
-                historialSelect.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error(error);
-        });  -->
-<!-- } -->
-     
-

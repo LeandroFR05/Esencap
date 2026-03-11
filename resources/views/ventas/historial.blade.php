@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('page', 'Historial de ventas')
 @section('title')
-    {{ Breadcrumbs::render('historialGeneral') }}
+    {{ Breadcrumbs::render('ventasHistorial') }}
 @endsection
 @section('content')
 
@@ -32,26 +32,17 @@
                     <tr>
                         <th>Fecha</th>
                         <th>Producto</th>
-                        <th>Stock</th>
-                        <th>Contenido por unidad</th>
-                        <th>Acción</th>
+                        <th>Cliente</th>
+                        <th>Cantidad</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($historial as $h)
+                    @foreach ($ventas as $v)
                         <tr>
-                            <td>{{ $h->fechaElaboracion }}</td>
-                            <td>{{ $h->producto->nombre }}</td>
-                            <td>{{ $h->stock }}u</td>
-                            <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
-                            <td>
-                                <button 
-                                    class="btn btn-sm btn-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalHistorial-{{ $h->idHistorial }}">
-                                    Ver fórmula
-                                </button>
-                            </td>
+                            <td>{{ $v->fecha }}</td>
+                            <td>{{ $v->producto->nombre }}</td>
+                            <td>{{ $v->cliente }}</td>
+                            <td>{{ $v->cantidad }}u.</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -59,3 +50,14 @@
         </div>
     </div>
 </div>
+
+<div class="d-flex justify-content-center mt-3">
+    {{ $ventas->links() }}
+</div>
+
+@endsection
+
+
+@section('scripts')
+    <script src="{{asset('js/filtros_historiales.js')}}"></script>
+@endsection

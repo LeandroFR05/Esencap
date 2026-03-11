@@ -7,6 +7,7 @@ use Diglactic\Breadcrumbs\Breadcrumbs;
 // This import is also not required, and you could replace `BreadcrumbTrail $trail`
 //  with `$trail`. This is nice for IDE type checking and completion.
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
+use PhpParser\Node\Expr\FuncCall;
 
 // Home
 Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
@@ -98,6 +99,11 @@ Breadcrumbs::for('historialGeneral', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('ventas', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Ventas', route('ventas.index'));
+});
+
+Breadcrumbs::for('ventasHistorial', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Historial', route('ventas.index'));
 });
 
 // Home > Blog

@@ -32,7 +32,10 @@ class VentaController extends Controller
 
     public function historial(): View
     {
-        return view('ventas.historial');
+        $ventas = Venta::with(
+            'producto'
+        )->paginate();
+        return view('ventas.historial', compact('ventas'));
     }
 
     public function store(VentaRequest $request): RedirectResponse
