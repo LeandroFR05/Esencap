@@ -60,18 +60,39 @@
             </li>
         
         <li class="sidebar-title">Ajustes</li>
-            <li class="sidebar-item">
-                <a href="{{ route('logout') }}" class="sidebar-link"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="bi bi-box-arrow-left"></i>
-                    <span>Cerrar Sesión</span>
+            <li class="sidebar-item has-sub">
+                <a class="sidebar-link" href="#">
+                    <i class="bi bi-person-circle"></i>
+                    <span>{{ Auth::user()->name }}</span>
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                    @method('POST')
-                </form>
-            </li>
 
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link">Perfil</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="#" class="submenu-link">Seguridad</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="{{ route('logout') }}" class="submenu-link"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Cerrar Sesión
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                            @method('POST')
+                        </form>
+                    </li>
+                </ul>
+            </li>
+            @auth
+            <li class="sidebar-item">
+                <a href="{{ route('register') }}" class="sidebar-link">
+                    <i class="bi bi-person-add"></i>
+                    <span>{{ __('Nuevo usuario') }}</span>
+                </a>
+            </li>
+            @endauth
     </ul>
 </div>
 

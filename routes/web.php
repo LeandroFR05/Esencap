@@ -8,7 +8,9 @@ use App\Http\Controllers\LoteInsumoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 //LOGIN ROUTES
 Route::get('/', function () {
@@ -64,6 +66,14 @@ Route::get('/ventas', [VentaController::class, 'ventas'])->middleware('auth')->n
 Route::get('/productos/buscar', [VentaController::class, 'buscar']);
 Route::post('/ventas/store', [VentaController::class, 'store'])->middleware('auth')->name('ventas.store');
 Route::get('/ventas/historial', [VentaController::class, 'historial'])->middleware('auth')->name('ventas.historial');
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// disable public registration and provide auth-only routes
+Auth::routes(['register' => false]);
+
+Route::middleware('auth')->group(function () {
+    // allow authenticated users to create other users
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+});
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
