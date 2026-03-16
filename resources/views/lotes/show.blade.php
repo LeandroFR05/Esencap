@@ -9,7 +9,7 @@
         @slot('titulo', 'Lotes de ' . $insumo->nombre)
 
         @slot('contenido')
-            @forelse($lote as $item)
+            @if($lote->isNotEmpty())
                 <table class="table table-bordered table-hover">
                     <thead class="table-dark">
                         <tr>
@@ -35,7 +35,7 @@
                                         @method('DELETE')
                                         <input type="hidden" name="idInsumo" value="{{ $insumo->idInsumo }}">
                                         <button type="submit"
-                                            class="btn btn-sm btn-danger">
+                                            class="btn btn-sm btn-danger delete-btn">
                                             <i class="bi bi-trash3-fill d-flex align-items-center justify-content-center"></i>
                                         </button>
                                     </form>
@@ -44,13 +44,26 @@
                         @endforeach
                     </tbody>
                 </table>
-            @empty
-                <h6 style="display: flex; justify-content: center;">No existen lotes para este insumo</h6>
-            @endforelse
+            @else
+                <h6 style="display: flex; justify-content: center;">No existen lotes para este insumo actualmente</h6>
+            @endif
         @endslot
 
         @slot('footer')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}" 
+                   class="btn btn-outline-success">
+                    <i class="bi bi-plus-lg"></i>
+                    Reponer
+                </a>
+            </div>
         @endslot
     @endcomponent
     
+@endsection
+
+
+
+@section('scripts')
+    <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
 @endsection

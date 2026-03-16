@@ -89,7 +89,8 @@
     
     <script src="{{asset('assets/compiled/js/app.js')}}"></script>
     
-    
+    <!-- Librería Sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
 <!-- Need: Apexcharts -->
 <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>

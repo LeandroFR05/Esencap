@@ -44,30 +44,42 @@
 
                             <!-- Lista de lotes -->
                             <div class="col-md-10">
-                                <table class="table table-sm table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Lote</th>
-                                            <th>Stock inicial</th>
-                                            <th>Stock actual</th>
-                                            <th>Fecha de compra</th>
-                                            <th>Fecha de vencimiento</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <div class="lotes-scroll">
+                                <div class="lotes-scroll">
+                                    <table class="table table-sm table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Lote</th>
+                                                <th>Stock inicial</th>
+                                                <th>Stock actual</th>
+                                                <th>Fecha de compra</th>
+                                                <th>Fecha de vencimiento</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                             @foreach($lotes as $detalleLote)
                                                 <tr>
                                                     <td>{{ $detalleLote->numeroLote }}</td>
-                                                    <td>{{ $detalleLote->stockInicial }}{{ $lotes->first()->insumo->unidadDeMedida }}</td>
-                                                    <td>{{ $detalleLote->stockActual }}{{ $lotes->first()->insumo->unidadDeMedida }}</td>
+                                                    <td>{{ $detalleLote->stockInicial }} {{ $lotes->first()->insumo->unidadDeMedida }}</td>
+                                                    <td>{{ $detalleLote->stockActual }} {{ $lotes->first()->insumo->unidadDeMedida }}</td>
                                                     <td>{{ $detalleLote->fechaCompra }}</td>
                                                     <td>{{ $detalleLote->fechaVencimiento }}</td>
+                                                    <td>
+                                                        <form action="{{ route('lotes.eliminar', $detalleLote->idLote) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" name="idInsumo" value="{{ $lotes->first()->insumo->idInsumo }}">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-danger delete-btn">
+                                                                <i class="bi bi-trash3-fill d-flex align-items-center justify-content-center"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                             @endforeach
-                                        </div>
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,4 +92,5 @@
 <!--Filtros-->
 @section('scripts')
     <script src="{{ asset('js/lotes.js') }}"></script>
+    <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
 @endsection

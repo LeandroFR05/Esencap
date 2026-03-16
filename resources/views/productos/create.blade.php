@@ -120,14 +120,6 @@
 @endsection
 
 
-<!-- Este error se muestra cuando no hay suficiente stock -->
-@if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-
-
 @include('productos.partials.scripts')
 
 

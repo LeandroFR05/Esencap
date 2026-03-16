@@ -63,7 +63,11 @@ class LoteInsumoController extends Controller
 
     public function eliminar(Request $request, LoteInsumo $lote) {
         $lote->delete();
-        $idInsumo = $request->input('idInsumo');
-        return redirect()->route('lotes.show', $idInsumo)->with('success', 'Lote eliminado exitosamente.');
+
+        // Redirigir a la página anterior (última vista) si está disponible,
+        // o en su defecto a la ruta de listar lotes.
+        $redirectTo = url()->previous() ?: route('lotes.show', $request->input('idInsumo'));
+
+        return redirect($redirectTo)->with('success', 'Lote eliminado exitosamente.');
     }
 }

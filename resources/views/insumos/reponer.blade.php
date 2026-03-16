@@ -18,7 +18,10 @@
                         <input type="number" name="numeroLote" value="{{ $nuevoNumero }}" class="form-control" readonly>
                         <div class="mt-3">
                             <label for="stockInicial">Stock Inicial:</label>
-                            <input type="number" name="stockInicial" class="form-control" required>
+                            <div class="input-group">
+                                <input type="number" name="stockInicial" class="form-control" required>
+                                <span class="input-group-text w-25 d-flex justify-content-center">{{ $insumo->unidadDeMedida }}</span>
+                            </div>
                         </div>
                         <div class="mt-3">
                             <label for="fechaCompra">Fecha de compra:</label>
