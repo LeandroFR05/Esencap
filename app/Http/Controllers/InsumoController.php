@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InsumoRequest;
 use App\Models\Familia;
+use App\Models\Formula;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
 use Illuminate\Contracts\View\View;
@@ -58,7 +59,8 @@ class InsumoController extends Controller
     public function edit(Insumo $insumo): View {
         $familias = Familia::all();
         $stockActual = LoteInsumo::where('idInsumo', $insumo->idInsumo)->sum('stockActual');
-        return view('insumos.edit', compact('insumo', 'familias', 'stockActual'));
+        $formula = Formula::where('idInsumo', $insumo->idInsumo)->first();
+        return view('insumos.edit', compact('insumo', 'familias', 'stockActual', 'formula'));
     }
 
 
@@ -82,7 +84,7 @@ class InsumoController extends Controller
         }
 
         $insumo->update($validated);
-        return redirect()->route('insumos.estante')->with('success', 'Insumo actualizado exitosamente.');
+        return redirect()->route('insumos.edit', ['insumo' => $insumo->idInsumo])->with('success', 'Insumo actualizado exitosamente.');
     }
     
 
@@ -95,22 +97,18 @@ class InsumoController extends Controller
     }
 
 
-    public function reponerStore(Request $request, Insumo $insumo): RedirectResponse {
-
-        $ultimoNumero = LoteInsumo::where('idInsumo', $insumo->idInsumo)
-            ->max('numeroLote');
-        $nuevoNumero = $ultimoNumero ? $ultimoNumero + 1 : 1;
+    public function reponerStore(InsumoRequest $request, Insumo $insumo): RedirectResponse {
 
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
-            'numeroLote' => $nuevoNumero,
+            'numeroLote' => $request->input('numeroLote'),
             'stockInicial' => $request->input('stockInicial'),
             'stockActual' => $request->input('stockInicial'),
             'fechaCompra' => $request->input('fechaCompra'),
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
 
-        return redirect()->route('insumos.estante')->with('success', 'Insumo repuesto exitosamente.');
+        return redirect()->route('insumos.reponer', ['insumo' => $insumo->idInsumo])->with('success', 'Insumo repuesto exitosamente.');
     }
 
 

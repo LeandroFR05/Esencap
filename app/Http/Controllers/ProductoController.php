@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 class ProductoController extends Controller
 {
     public function productos(): View {
-        $productos = Producto::withSum('historiales', 'stock')->get();
+        $productos = Producto::withSum('historiales', 'stockActual')->get();
         return view('productos.estante', compact('productos'));
     }
 
@@ -156,7 +156,8 @@ class ProductoController extends Controller
     {
         return Historial::create([
             'idProducto' => $producto->idProducto,
-            'stock' => $request->stock,
+            'stockIncial' => $request->stockInicial,
+            'stockActual' => $request->stockActual,
             'fechaElaboracion' => $request->fechaElaboracion
         ]);
     }
@@ -185,7 +186,7 @@ class ProductoController extends Controller
 
 
     public function edit(Producto $producto): View {
-        $stockTotal = Historial::where('idProducto', $producto->idProducto)->sum('stock');
+        $stockTotal = Historial::where('idProducto', $producto->idProducto)->sum('stockActual');
     
         return view('productos.edit', compact('producto', 'stockTotal'));
     }
@@ -211,7 +212,7 @@ class ProductoController extends Controller
         }
 
         $producto->update($validated);
-        return redirect()->route('productos.estante')->with('success', 'Producto actualizado exitosamente.');
+        return redirect()->route('productos.edit', ['producto' => $producto->idProducto])->with('success', 'Producto actualizado exitosamente.');
     }
 
 
@@ -226,7 +227,7 @@ class ProductoController extends Controller
     }
     
 
-    public function reponerStore(Request $request, Producto $producto): RedirectResponse {
+    public function reponerStore(ProductoRequest $request, Producto $producto): RedirectResponse {
         try {
             // Con estas funciones comprobamos de que haya suficiente stock de los insumos, y los descontamos en los lotes
             $items = $this->mapearInsumos($request);
@@ -236,7 +237,7 @@ class ProductoController extends Controller
             $historial = $this->crearHistorial($producto, $request);
             $this->crearFormulas($historial, $request);
 
-            $resultado = redirect()->route('productos.estante')->with('success', 'Producto repuesto exitosamente.');
+            $resultado = redirect()->route('productos.reponer', $producto->idProducto)->with('success', 'Producto repuesto exitosamente.');
         } catch (\Exception $e) {
             $resultado = redirect()->route('productos.reponer', $producto->idProducto)->with(['error' => $e->getMessage()])->withInput();
         }

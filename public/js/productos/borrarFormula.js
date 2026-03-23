@@ -1,13 +1,20 @@
-document.getElementById('btn-borrar').addEventListener('click', function() {
+// Delegación: cualquier botón .btn-eliminar elimina su bloque
+// (incluidos los clónicos creados dinamicamente)
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-eliminar');
+    if (!btn) return;
 
-    let contenedor = document.getElementById('contenedor-formulas');
-    let bloques = contenedor.querySelectorAll('.formula-item');
+    const item = btn.closest('.formula-item');
 
-    // Evitar eliminar el primer bloque
-    if (bloques.length > 1) {
-        let ultimo = bloques[bloques.length - 1];
-        ultimo.remove();
-    } else {
-        alert("No se puede borrar todos los bloques");
+    if(document.querySelectorAll('.formula-item').length > 1){
+        item.remove();
+    }
+    else{
+        Swal.fire({
+            title: 'Error',
+            text: "No se puede eliminar toda la fórmula",
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
     }
 });

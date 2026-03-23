@@ -22,9 +22,29 @@ class ProductoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => 'required|string|max:50',
+            'nombre' => 'required|sometimes|string|max:50',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=2000,max_height=2000',
-            'contenidoPorUnidad' => 'required|numeric',
+            'fechaElaboracion' => 'bail|sometimes|required|date_format:Y-m-d',
+        ];
+    }
+
+
+
+    public function messages(): array
+    {
+        return [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.string' => 'El nombre debe ser texto.',
+            'nombre.max' => 'El nombre no puede tener más de 50 caracteres.',
+
+            'foto.image' => 'El archivo debe ser una imagen.',
+            'foto.mimes' => 'Formato inválido (jpeg, png, jpg, gif, avif, webp).',
+            'foto.max' => 'La imagen no debe superar los 2MB.',
+            'foto.dimensions' => 'Máximo permitido: 2000x2000px.',
+
+            'fechaElaboracion.required' => 'La fecha de vencimiento es obligatoria.',
+            'fechaElaboracion.date' => 'La fecha de vencimiento no es válida.',
+            'fechaElaboracion.date_format' => 'El formato de fecha de vencimiento debe ser DD-MM-YYYY.',
         ];
     }
 }

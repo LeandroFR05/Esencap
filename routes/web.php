@@ -60,6 +60,7 @@ Route::post('/productos/reponer/{producto}', [ProductoController::class, 'repone
 
 //HISTORIAL ROUTES
 Route::get('/historial', [HistorialController::class, 'historial'])->middleware('auth')->name('historial.general');
+Route::delete('/historial/eliminar/{historial}', [HistorialController::class, 'eliminar'])->middleware('auth')->name('historial.eliminar');
 
 //VENTAS ROUTES
 Route::get('/ventas', [VentaController::class, 'ventas'])->middleware('auth')->name('ventas.index');

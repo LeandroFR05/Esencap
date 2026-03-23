@@ -5,12 +5,12 @@
         <h5>Filtros:</h5>
         <div class="row align-items-center g-3">
             <div class="col-auto">
-                <a href="{{ route('lotes.infoStock') }}" 
-                class="btn {{ request()->routeIs('lotes.infoStock') ? 'btn-info' : 'btn-outline-info' }}">Bajo Stock</a>
-            </div>
-            <div class="col-auto">
                 <a href="{{ route('lotes.infoVencimientos') }}" 
                 class="btn {{ request()->routeIs('lotes.infoVencimientos') ? 'btn-info' : 'btn-outline-info' }}">Próximos Vencimientos</a>
+            </div>
+            <div class="col-auto">
+                <a href="{{ route('lotes.infoStock') }}" 
+                class="btn {{ request()->routeIs('lotes.infoStock') ? 'btn-info' : 'btn-outline-info' }}">Bajo Stock</a>
             </div>
             <div class="col-auto">
                 <select name="insumos" id="insumos" class="form-select" style="width: 250px; margin-top: 23px;">
@@ -58,7 +58,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach($lotes as $detalleLote)
-                                                <tr>
+                                                <tr class="{{ \Carbon\Carbon::parse($detalleLote->fechaVencimiento)->isPast() ? 'table-danger' : '' }}">
                                                     <td>{{ $detalleLote->numeroLote }}</td>
                                                     <td>{{ $detalleLote->stockInicial }} {{ $lotes->first()->insumo->unidadDeMedida }}</td>
                                                     <td>{{ $detalleLote->stockActual }} {{ $lotes->first()->insumo->unidadDeMedida }}</td>
@@ -91,6 +91,6 @@
 
 <!--Filtros-->
 @section('scripts')
-    <script src="{{ asset('js/lotes.js') }}"></script>
+    <script src="{{ asset('js/lotes/filtros.js') }}"></script>
     <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
 @endsection

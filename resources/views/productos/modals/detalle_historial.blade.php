@@ -1,7 +1,9 @@
 @foreach ($producto->historiales as $historial)
     <x-historial 
         :id="'modalHistorialProd-' . $historial->idHistorial" 
-        :titulo="$historial->producto->nombre">
+        :titulo="$historial->producto->nombre"
+        :contenidoPorUnidad="$historial->producto->contenidoPorUnidad"
+        :stockInicial="$historial->stockInicial">
         
         @foreach ($historial->formulas as $f)
             <tr>

@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    <title>Inicio de sesión</title>
+@endsection
 
 @section('content')
 <div class="container">
@@ -19,7 +22,7 @@
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <strong>Credenciales incorrectas</strong>
                                     </span>
                                 @enderror
                             </div>
@@ -33,7 +36,7 @@
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                                        <strong>Contraseña incorrecta</strong>
                                     </span>
                                 @enderror
                             </div>

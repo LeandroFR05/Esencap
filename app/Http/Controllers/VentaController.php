@@ -45,20 +45,20 @@ class VentaController extends Controller
 
         try {
             $historial = Historial::where('idProducto', $idProducto)
-                ->orderBy('fechaElaboracion', 'desc')
+                ->orderBy('fechaElaboracion', 'asc')
                 ->get();
 
             foreach ($historial as $item) {
                 if ($cantidad <= 0) {
                     break;
                 }
-                if ($item->stock > $cantidad) {
-                    $item->stock -= $cantidad;
+                if ($item->stockActual > $cantidad) {
+                    $item->stockActual -= $cantidad;
                     $item->save();
                     $cantidad = 0;
                 } else {
-                    $cantidad -= $item->stock;
-                    $item->stock = 0;
+                    $cantidad -= $item->stockActual;
+                    $item->stockActual = 0;
                     $item->save();
                 } 
             }

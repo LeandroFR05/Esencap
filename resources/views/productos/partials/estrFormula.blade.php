@@ -5,9 +5,8 @@
         <label class="form-label fw-bold">Fórmula Base</label>
     </div>
     <div class="col-6">
-        <label class="form-label fw-bold">Fórmula Recalculada</label>
+        <label class="form-label fw-bold" style="margin-left: -35px;">Fórmula Recalculada</label>
     </div>
-    <div class="col-auto"></div>
 </div>
 <div class="row mb-2">
     <div class="col">

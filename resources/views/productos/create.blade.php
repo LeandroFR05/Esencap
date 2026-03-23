@@ -16,9 +16,9 @@
                         <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control" required>
                         <div class="mt-3"> <!-- mt= margin-top -->
-                            <label for="stock">Stock</label>
+                            <label for="stockInicial">Stock inicial</label>
                             <div class="input-group">
-                                <input type="number" name="stock" value="{{ old('stock') }}" class="form-control stock" required>
+                                <input type="number" name="stockInicial" value="{{ old('stockInicial') }}" class="form-control stockInicial" required>
                                 <span class="input-group-text w-25 d-flex justify-content-center">unidades</span>
                             </div>
                         </div>
@@ -96,11 +96,6 @@
                                     Agregar
                                 </button>
                             </div>
-                            <!-- <div class="col-md-6">
-                                <button type="button" id="btn-borrar" class="btn btn-danger w-100">
-                                    Borrar
-                                </button>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -119,8 +114,13 @@
     
 @endsection
 
+@section('scripts')
+    @include('productos.partials.scripts')
+    <script src="{{ asset('js/dropzone.js') }}"></script>
+    
+@endsection
 
-@include('productos.partials.scripts')
+
 
 
 

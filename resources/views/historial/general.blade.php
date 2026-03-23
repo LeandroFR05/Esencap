@@ -32,7 +32,8 @@
                     <tr>
                         <th>Fecha</th>
                         <th>Producto</th>
-                        <th>Stock</th>
+                        <th>Stock inicial</th>
+                        <th>Stock actual</th>
                         <th>Contenido por unidad</th>
                         <th>Acción</th>
                     </tr>
@@ -42,7 +43,8 @@
                         <tr>
                             <td>{{ $h->fechaElaboracion }}</td>
                             <td>{{ $h->producto->nombre }}</td>
-                            <td>{{ $h->stock }}u</td>
+                            <td>{{ $h->stockInicial }}u</td>
+                            <td>{{ $h->stockActual }}u</td>
                             <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
                             <td>
                                 <button 

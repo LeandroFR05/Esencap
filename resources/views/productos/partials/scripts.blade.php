@@ -1,4 +1,4 @@
-@section('scripts')
+
     <!-- Script para clonar la fórmula -->
     <script src="{{ asset('js/productos/clonarFormula.js') }}"></script>
 
@@ -13,4 +13,3 @@
 
     <!-- Para calcular el contenido -->
     <script src="{{ asset('js/productos/calcularContenido.js') }}"></script>
-@endsection

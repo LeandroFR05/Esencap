@@ -7,6 +7,7 @@ use App\Models\Venta;
 use App\Models\Historial;
 use App\Models\LoteInsumo;
 use App\Models\Insumo;
+use App\Models\Producto;
 
 class DashboardController extends Controller
 {
@@ -15,6 +16,9 @@ class DashboardController extends Controller
         $ventas_data = $this->ventasMensuales();
         $cantProductosVendidos = $this->cantidadProductosVendidos();
         $porcentajeStockBajo = $this->calcularPorcentajeStockBajo();
+        $ventasDiarias = $this->ventasDiarias();
+        $insumosRegistrados = $this->insumosRegistrados();
+        $productosRegistrados = $this->productosRegistrados();
 
         $hoy = date('Y-m-d');
         $lotesProximosaVencer = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy . ' +10 days')))
@@ -41,11 +45,21 @@ class DashboardController extends Controller
         }
 
         return view('dashboard', compact('ventas_data', 'cantProductosVendidos', 'porcentajeStockBajo', 'lotesProximosaVencer', 
-        'lotesBajoStock'));
+        'lotesBajoStock', 'ventasDiarias', 'insumosRegistrados', 'productosRegistrados'));
     }
 
 
     // FUNCIONES PRIVADAS DE INDEX
+    private function insumosRegistrados()
+    {
+        return Insumo::count();
+    }
+
+    private function productosRegistrados()
+    {
+        return Producto::count();
+    }
+
     private function ventasMensuales()
     {
         $ventas_mensuales = Venta::select(
@@ -64,6 +78,23 @@ class DashboardController extends Controller
 
         return $ventas_data;
     }
+
+
+    private function ventasDiarias()
+    {
+        $ventas_diarias = Venta::select(
+            DB::raw("DATE(fecha) as dia"),
+            DB::raw("SUM(cantidad) as total")  // O COUNT(*) si prefieres número de ventas
+        )
+        ->where('fecha', '>=', now()->subDays(30))
+        ->groupBy('dia')
+        ->orderBy('dia')
+        ->get()
+        ->toArray();
+
+        return $ventas_diarias;  // Retorna array con ['dia' => '2023-01-01', 'total' => 10]
+    }
+
 
     private function cantidadProductosVendidos()
     {
@@ -85,7 +116,7 @@ class DashboardController extends Controller
         $limiteStockBajo = 5;
         $totalProductos = Historial::count();
 
-        $stockBajo = Historial::where('stock', '<=', $limiteStockBajo)->count();
+        $stockBajo = Historial::where('stockActual', '<=', $limiteStockBajo)->count();
         $porcentajeStockBajo = $totalProductos > 0 ? round(($stockBajo / $totalProductos) * 100, 2) : 0;
         return $porcentajeStockBajo;
     }

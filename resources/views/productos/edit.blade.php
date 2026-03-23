@@ -16,7 +16,7 @@
                     <div class="col-12 col-md-6">
                         <!-- Datos iniciales -->
                         <label for="nombre">Nombre:</label>
-                        <input type="text" name="nombre" value="{{ $producto->nombre }}" class="form-control" required>
+                        <input type="text" name="nombre" value="{{ $producto->nombre }}" class="form-control @error('nombre') is-invalid @enderror" required>
                         <div class="mt-3">
                             <label for="stock">Stock total:</label>
                             <div class="input-group">

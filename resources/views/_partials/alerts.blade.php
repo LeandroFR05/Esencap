@@ -28,6 +28,30 @@
     </script>
 @endif
 
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            let lista = `
+                <ul style="text-align:left;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            `;
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Errores encontrados',
+                html: lista,
+                confirmButtonText: 'Aceptar'
+            });
+
+        });
+    </script>
+@endif
+
+
 @if(session('warning'))
     <script>
         document.addEventListener('DOMContentLoaded', function() {

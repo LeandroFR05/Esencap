@@ -25,11 +25,11 @@
                         </div>
                         <div class="mt-3">
                             <label for="fechaCompra">Fecha de compra:</label>
-                            <input type="date" name="fechaCompra" class="form-control" required>
+                            <input type="date" name="fechaCompra" class="form-control @error('fechaCompra') is-invalid @enderror" required>
                         </div>
                         <div class="mt-3">
                             <label for="fechaVencimiento">Fecha de vencimiento:</label>
-                            <input type="date" name="fechaVencimiento" class="form-control" required>
+                            <input type="date" name="fechaVencimiento" class="form-control @error('fechaVencimiento') is-invalid @enderror" required>
                         </div>
                     </div>
                 </div>

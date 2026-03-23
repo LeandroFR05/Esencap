@@ -18,7 +18,8 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Fecha de Elaboración</th>
-                            <th>Stock disponible</th>
+                            <th>Stock inicial</th>
+                            <th>Stock actual</th>
                             <th>Contenido por unidad</th>
                             <th>Acción</th>
                         </tr>
@@ -27,16 +28,32 @@
                         @foreach ($producto->historiales as $historial)
                             <tr>
                                 <td>{{ $historial->fechaElaboracion }}</td>
-                                <td>{{ $historial->stock }}u</td>
+                                <td>{{ $historial->stockInicial }}u</td>
+                                <td>{{ $historial->stockActual }}u</td>
                                 <td>{{ $producto->contenidoPorUnidad }}gr</td>
                                 <td>
-                                <button 
-                                    class="btn btn-sm btn-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalHistorialProd-{{ $historial->idHistorial }}">
-                                    Ver formula
-                                </button>
-                            </td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button 
+                                                class="btn btn-sm btn-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalHistorialProd-{{ $historial->idHistorial }}">
+                                                Ver formula
+                                            </button>
+                                        </div>
+                                        <div class="col">
+                                            <form action="{{ route('historial.eliminar', $historial->idHistorial) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="idProducto" value="{{ $producto->idProducto }}">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-danger delete-btn">
+                                                    <i class="bi bi-trash3-fill d-flex align-items-center justify-content-center"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -48,4 +65,8 @@
 
 @include('productos.modals.detalle_historial')
 
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
 @endsection

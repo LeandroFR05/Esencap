@@ -16,7 +16,7 @@
                 <div class="row g-4">
                     <div class="col-12 col-md-6">
                         <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" value="{{ $insumo->nombre }}" class="form-control" required>
+                        <input type="text" name="nombre" value="{{ $insumo->nombre }}" class="form-control @error('nombre') is-invalid @enderror" required>
                         <div class="mt-3">
                             <label for="stockTotal">Stock Actual</label>
                             <div class="input-group">
@@ -27,24 +27,29 @@
 
                         <div class="mt-3">
                             <label for="fase">Fase</label>
-                            <input type="text" name="fase" value="{{ $insumo->fase }}" class="form-control" required>
+                            <input type="text" name="fase" value="{{ $insumo->fase }}" class="form-control @error('fase') is-invalid @enderror" required>
                         </div>
                         <div class="mt-3">
                             <label for="idFamilia">Familia</label>
                             <div class="d-flex align-items-center">
-                                <select name="idFamilia" class="form-control" required>
-                                    @foreach($familias as $familia)
-                                        <!--Esta lógica selecciona la familia que actualmente esta utilizando el insumo-->
-                                        <option value="{{ $familia->idFamilia }}"
-                                            {{ $familia->idFamilia == $insumo->idFamilia ? 'selected' : '' }}>
-                                            {{ $familia->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <!--Usamos una botón que nos lleva a una ventana modal para poder crear familias-->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFamilia">
-                                    <i class="bi bi-plus-lg"></i>
-                                </button>
+                                @if($formula)
+                                    <select name="idFamilia" class="form-control" required>
+                                        <option value="{{ $insumo->idFamilia }}">{{ $insumo->familia->nombre }}</option>
+                                    </select>
+                                @else
+                                    <select name="idFamilia" class="form-control" required>
+                                        @foreach($familias as $familia)
+                                            <!--Esta lógica selecciona la familia que actualmente esta utilizando el insumo-->
+                                            <option value="{{ $familia->idFamilia }}"
+                                                {{ $familia->idFamilia == $insumo->idFamilia ? 'selected' : '' }}>
+                                                {{ $familia->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFamilia">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     </div>

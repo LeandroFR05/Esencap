@@ -41,6 +41,31 @@
                                 {{ $slot }}
                             </tbody>
                         </table>
+                        <p>Calculado sobre:</p>
+
+                        <div class="d-flex align-items-center mb-2">
+                            <label class="me-2 mb-0" style="width: 140px;">
+                                Stock inicial:
+                            </label>
+
+                            <input type="number"
+                                value="{{ $stockInicial }}"
+                                class="form-control form-control-sm"
+                                style="width: 90px;"
+                                readonly>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-2">
+                            <label class="me-2 mb-0" style="width: 140px;">
+                                Contenido por unidad:
+                            </label>
+
+                            <input type="number"
+                                value="{{ $contenidoPorUnidad }}"
+                                class="form-control form-control-sm"
+                                style="width: 90px;"
+                                readonly>
+                        </div>
                     </div>
                 </div>
             </div>

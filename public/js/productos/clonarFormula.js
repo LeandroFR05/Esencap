@@ -14,28 +14,7 @@ document.getElementById('btn-agregar').addEventListener('click', function() {
         } else {
             select.selectedIndex = 0;
         }
-
     });
 
-    // Botón eliminar
-    let btnEliminar = clone.querySelector('.btn-eliminar');
-    if (btnEliminar) {
-        btnEliminar.addEventListener('click', function () {
-            clone.remove();
-        });
-    }
-
     document.getElementById('contenedor-formulas').appendChild(clone);
-});
-
-
-// Evento eliminar para el primer bloque
-document.addEventListener('click', function(e){
-    if(e.target.classList.contains('btn-eliminar')){
-        let item = e.target.closest('.formula-item');
-
-        if(document.querySelectorAll('.formula-item').length > 1){
-            item.remove();
-        }
-    }
 });
