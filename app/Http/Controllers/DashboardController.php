@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use App\Models\Venta;
 use App\Models\Historial;
-use App\Models\LoteInsumo;
 use App\Models\Insumo;
+use App\Models\LoteInsumo;
 use App\Models\Producto;
+use App\Models\Venta;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $productosRegistrados = $this->productosRegistrados();
 
         $hoy = date('Y-m-d');
-        $lotesProximosaVencer = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy . ' +10 days')))
+        $lotesProximosaVencer = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy.' +10 days')))
             ->where('stockActual', '>', 0)->count();
 
         $insumos = Insumo::all();
@@ -31,23 +31,22 @@ class DashboardController extends Controller
         foreach ($insumos as $insumo) {
             // Definir el stock mínimo según la unidad de medida
             $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
-                'gramos'   => 500,
-                'kilos'    => 1,
+                'gramos' => 500,
+                'kilos' => 1,
                 'unidades' => 10,
-                'litros'   => 2,
-                default    => 5,
+                'litros' => 2,
+                default => 5,
             };
 
             // Buscar lotes de ese insumo con stock bajo
             $lotesBajoStock += LoteInsumo::where('idInsumo', $insumo->idInsumo)
                 ->where('stockActual', '<=', $stockMinimo)
-                ->count();                  
+                ->count();
         }
 
-        return view('dashboard', compact('ventas_data', 'cantProductosVendidos', 'porcentajeStockBajo', 'lotesProximosaVencer', 
-        'lotesBajoStock', 'ventasDiarias', 'insumosRegistrados', 'productosRegistrados'));
+        return view('dashboard', compact('ventas_data', 'cantProductosVendidos', 'porcentajeStockBajo', 'lotesProximosaVencer',
+            'lotesBajoStock', 'ventasDiarias', 'insumosRegistrados', 'productosRegistrados'));
     }
-
 
     // FUNCIONES PRIVADAS DE INDEX
     private function insumosRegistrados()
@@ -63,13 +62,13 @@ class DashboardController extends Controller
     private function ventasMensuales()
     {
         $ventas_mensuales = Venta::select(
-            DB::raw("MONTH(fecha) as mes"),
-            DB::raw("COUNT(*) as total")
+            DB::raw('MONTH(fecha) as mes'),
+            DB::raw('COUNT(*) as total')
         )
-        ->groupBy('mes')
-        ->orderBy('mes')
-        ->get()
-        ->toArray();
+            ->groupBy('mes')
+            ->orderBy('mes')
+            ->get()
+            ->toArray();
 
         $ventas_data = array_fill(1, 12, 0);
         foreach ($ventas_mensuales as $venta) {
@@ -79,33 +78,36 @@ class DashboardController extends Controller
         return $ventas_data;
     }
 
-
     private function ventasDiarias()
     {
-        $ventas_diarias = Venta::select(
-            DB::raw("DATE(fecha) as dia"),
-            DB::raw("SUM(cantidad) as total")  // O COUNT(*) si prefieres número de ventas
-        )
-        ->where('fecha', '>=', now()->subDays(30))
-        ->groupBy('dia')
-        ->orderBy('dia')
-        ->get()
-        ->toArray();
+        $ventas_diarias = DB::table('ventas as v')
+            ->join('carritos as c', 'c.idVenta', '=', 'v.idVenta')
+            ->select(
+                DB::raw('DATE(v.fecha) as dia'),
+                DB::raw('SUM(c.cantidad) as total')
+            )
+            ->where('v.fecha', '>=', now()->subDays(30))
+            ->groupBy('dia')
+            ->orderBy('dia')
+            ->get()
+            ->toArray();
 
-        return $ventas_diarias;  // Retorna array con ['dia' => '2023-01-01', 'total' => 10]
+        return $ventas_diarias;
     }
-
 
     private function cantidadProductosVendidos()
     {
         return DB::table('ventas as v')
-            ->join('productos as p', 'p.idProducto', '=', 'v.idProducto')
+            ->join('carritos as c', 'c.idVenta', '=', 'v.idVenta')
+            ->join('productos as p', 'p.idProducto', '=', 'c.idProducto')
             ->select(
-                'v.idProducto',
+                DB::raw('DATE(v.fecha) as dia'),
+                'p.idProducto',
                 'p.nombre as nombre',
-                DB::raw('SUM(v.cantidad) as total_vendidos')
+                DB::raw('SUM(c.cantidad) as total_vendidos')
             )
-            ->groupBy('v.idProducto', 'p.nombre')
+            ->groupBy('dia', 'p.idProducto', 'p.nombre')
+            ->orderBy('dia', 'desc')
             ->orderBy('total_vendidos', 'desc')
             ->get()
             ->toArray();
@@ -118,6 +120,7 @@ class DashboardController extends Controller
 
         $stockBajo = Historial::where('stockActual', '<=', $limiteStockBajo)->count();
         $porcentajeStockBajo = $totalProductos > 0 ? round(($stockBajo / $totalProductos) * 100, 2) : 0;
+
         return $porcentajeStockBajo;
     }
 }

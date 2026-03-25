@@ -41,30 +41,39 @@
                                 {{ $slot }}
                             </tbody>
                         </table>
-                        <p>Calculado sobre:</p>
 
-                        <div class="d-flex align-items-center mb-2">
-                            <label class="me-2 mb-0" style="width: 140px;">
-                                Stock inicial:
-                            </label>
-
-                            <input type="number"
-                                value="{{ $stockInicial }}"
-                                class="form-control form-control-sm"
-                                style="width: 90px;"
-                                readonly>
-                        </div>
-
-                        <div class="d-flex align-items-center mb-2">
-                            <label class="me-2 mb-0" style="width: 140px;">
-                                Contenido por unidad:
-                            </label>
-
-                            <input type="number"
-                                value="{{ $contenidoPorUnidad }}"
-                                class="form-control form-control-sm"
-                                style="width: 90px;"
-                                readonly>
+                        <div class="mt-4 pt-2 border-top">
+                            <h6 class="text-uppercase text-muted mb-3 small fw-semibold">
+                                <i class="bi bi-calculator me-2"></i>Calculado sobre
+                            </h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body py-2 px-3">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="text-muted small">Stock inicial</span>
+                                                <div>
+                                                    <span class="fw-bold fs-5 text-dark">{{ $stockInicial }}</span>
+                                                    <span class="text-muted small ms-1">unidades</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body py-2 px-3">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="text-muted small">Contenido por unidad</span>
+                                                <div>
+                                                    <span class="fw-bold fs-5 text-dark">{{ $contenidoPorUnidad }}</span>
+                                                    <span class="text-muted small ms-1">gramos</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -35,7 +35,7 @@
                         <th>Stock inicial</th>
                         <th>Stock actual</th>
                         <th>Contenido por unidad</th>
-                        <th>Acción</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,13 +46,22 @@
                             <td>{{ $h->stockInicial }}u</td>
                             <td>{{ $h->stockActual }}u</td>
                             <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
-                            <td>
+                            <td class="d-flex justify-content-center align-items-center gap-2">
                                 <button 
                                     class="btn btn-sm btn-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalHistorial-{{ $h->idHistorial }}">
-                                    Ver fórmula
+                                    <i class="bi bi-eye-fill"></i>
                                 </button>
+                                <form action="{{ route('historial.eliminar', $h->idHistorial) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="idProducto" value="{{ $h->producto->idProducto }}">
+                                    <button type="submit"
+                                        class="btn btn-sm btn-danger delete-btn">
+                                        <i class="bi bi-trash3-fill"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -74,4 +83,5 @@
 
 @section('scripts')
     <script src="{{asset('js/filtros_historiales.js')}}"></script>
+    <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
 @endsection

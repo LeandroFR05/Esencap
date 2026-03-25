@@ -8,13 +8,15 @@
 <div class="container">
 
     <div class="card">
-        <div class="card-header">Historial de Ventas</div>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="mb-0">Historial de Ventas</span>
+        </div>
         <div class="card-body">
 
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="producto">Producto</label>
-                    <input type="text" id="producto" class="form-control">
+                    <label for="cliente">Cliente</label>
+                    <input type="text" id="cliente" class="form-control">
                 </div>
                 <div class="col-md-4">
                     <label for="fecha">Fecha</label>
@@ -30,23 +32,30 @@
             <table class="table table-bordered table-hover" id="tableHistorial">
                 <thead class="table-dark">
                     <tr>
-                        <th>Fecha</th>
-                        <th>Producto</th>
+                        <th style="width: 150px;">Fecha</th>
                         <th>Cliente</th>
-                        <th>Cantidad</th>
+                        <th style="width: 120px;">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($ventas as $v)
                         <tr>
                             <td>{{ $v->fecha }}</td>
-                            <td>{{ $v->producto->nombre }}</td>
                             <td>{{ $v->cliente }}</td>
-                            <td>{{ $v->cantidad }}u.</td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-sm w-100" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalVenta{{ $v->idVenta }}">
+                                    <i class="bi bi-eye"></i> Ver
+                                </button>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+
+            @include('ventas.modals.modal_detalleVenta')
+            
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Historial;
-use App\Models\Venta;
+use App\Models\Carrito;
 
 class Producto extends Model
 {
@@ -16,9 +16,7 @@ class Producto extends Model
     protected $fillable = [
         'nombre',
         'foto', 
-        'contenidoPorUnidad',
-        'idBase',
-        'idRecalculada'
+        'contenidoPorUnidad'
     ];
 
 
@@ -28,9 +26,9 @@ class Producto extends Model
         return $this->hasMany(Historial::class, 'idProducto', 'idProducto');
     }
 
-    public function ventas()
+    public function carritos()
     {
-        return $this->hasMany(Venta::class, 'idProducto', 'idProducto');
+        return $this->hasMany(Carrito::class, 'idProducto', 'idProducto');
     }
 
 

@@ -136,7 +136,7 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <h5>Evolución de las ventas</h5>
+                    <h5>Cantidad de productos vendidos por día</h5>
                 </div>
                 <div class="card-body">
                     @if(empty($cantProductosVendidos))
@@ -154,7 +154,7 @@
 @section('scripts')
 <script>
     const ventasData = JSON.parse('{{ json_encode(array_values($ventas_data)) }}');
-    const productosVendidos = JSON.parse('{!! json_encode(array_values($cantProductosVendidos)) !!}');
+    const productosMasVendidos = JSON.parse('{!! json_encode(array_values($cantProductosVendidos)) !!}');
     const porcentajeStockBajo = JSON.parse('{{ json_encode($porcentajeStockBajo) }}');
     const ventasDiarias = JSON.parse('{!! json_encode(array_values($ventasDiarias)) !!}');
 
@@ -180,12 +180,12 @@
 
     //Productos más vendidos
     var options = {
-          series: productosVendidos.map(item => Number(item.total_vendidos)),
+          series: productosMasVendidos.map(item => Number(item.total_vendidos)),
           chart: {
           width: 380,
           type: 'pie',
         },
-        labels: productosVendidos.map(item => `${item.nombre}`),
+        labels: productosMasVendidos.map(item => `${item.nombre}`),
         responsive: [{
           breakpoint: 480,
           options: {
@@ -225,7 +225,7 @@
     chart.render();
 
 
-    //Evolución de las ventas
+    //Cantidad de productos vendidos por día
     var options = {
         chart: {
             type: 'line',

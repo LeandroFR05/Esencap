@@ -21,7 +21,7 @@
                             <th>Stock inicial</th>
                             <th>Stock actual</th>
                             <th>Contenido por unidad</th>
-                            <th>Acción</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,28 +31,22 @@
                                 <td>{{ $historial->stockInicial }}u</td>
                                 <td>{{ $historial->stockActual }}u</td>
                                 <td>{{ $producto->contenidoPorUnidad }}gr</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button 
-                                                class="btn btn-sm btn-primary"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalHistorialProd-{{ $historial->idHistorial }}">
-                                                Ver formula
-                                            </button>
-                                        </div>
-                                        <div class="col">
-                                            <form action="{{ route('historial.eliminar', $historial->idHistorial) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" name="idProducto" value="{{ $producto->idProducto }}">
-                                                <button type="submit"
-                                                    class="btn btn-sm btn-danger delete-btn">
-                                                    <i class="bi bi-trash3-fill d-flex align-items-center justify-content-center"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                <td class="d-flex justify-content-center align-items-center gap-2">
+                                    <button
+                                        class="btn btn-sm btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalHistorialProd-{{ $historial->idHistorial }}">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </button>
+                                    
+                                    <form action="{{ route('historial.eliminar', $historial->idHistorial) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="idProducto" value="{{ $producto->idProducto }}">
+                                        <button type="submit" class="btn btn-sm btn-danger delete-btn">
+                                            <i class="bi bi-trash3-fill"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

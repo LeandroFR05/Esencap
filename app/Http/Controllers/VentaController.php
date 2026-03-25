@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Producto;
-use App\Models\Historial;
 use App\Http\Requests\VentaRequest;
+use App\Models\Historial;
+use App\Models\Producto;
 use App\Models\Venta;
 use Illuminate\Contracts\View\View;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class VentaController extends Controller
 {
@@ -32,44 +33,66 @@ class VentaController extends Controller
 
     public function historial(): View
     {
-        $ventas = Venta::with(
-            'producto'
-        )->paginate();
+        $ventas = Venta::with('carritos.producto')->paginate();
+
         return view('ventas.historial', compact('ventas'));
     }
 
     public function store(VentaRequest $request): RedirectResponse
     {
-        $idProducto = $request->input('idProducto');
-        $cantidad = $request->input('cantidad');
+        $cliente = $request->input('cliente');
+        $fecha = $request->input('fecha');
+        $carrito = json_decode($request->input('carrito'), true);
 
         try {
-            $historial = Historial::where('idProducto', $idProducto)
-                ->orderBy('fechaElaboracion', 'asc')
-                ->get();
+            DB::beginTransaction();
 
-            foreach ($historial as $item) {
-                if ($cantidad <= 0) {
-                    break;
+            // Crear la venta
+            $venta = Venta::create([
+                'cliente' => $cliente,
+                'fecha' => $fecha,
+            ]);
+
+            // Procesar cada producto del carrito
+            foreach ($carrito as $item) {
+                $idProducto = $item['idProducto'];
+                $cantidad = $item['cantidad'];
+
+                $historial = Historial::where('idProducto', $idProducto)
+                    ->orderBy('fechaElaboracion', 'asc')
+                    ->get();
+
+                foreach ($historial as $lote) {
+                    if ($cantidad <= 0) {
+                        break;
+                    }
+                    if ($lote->stockActual > $cantidad) {
+                        $lote->stockActual -= $cantidad;
+                        $lote->save();
+                        $cantidad = 0;
+                    } else {
+                        $cantidad -= $lote->stockActual;
+                        $lote->stockActual = 0;
+                        $lote->save();
+                    }
                 }
-                if ($item->stockActual > $cantidad) {
-                    $item->stockActual -= $cantidad;
-                    $item->save();
-                    $cantidad = 0;
-                } else {
-                    $cantidad -= $item->stockActual;
-                    $item->stockActual = 0;
-                    $item->save();
-                } 
-            }
-            if ($cantidad > 0) {
-                throw new \Exception('No hay suficiente stock para completar la venta.');
+                if ($cantidad > 0) {
+                    throw new \Exception('No hay suficiente stock para completar la venta.');
+                }
+
+                // Guardar en carritos
+                DB::table('carritos')->insert([
+                    'idVenta' => $venta->idVenta,
+                    'idProducto' => $idProducto,
+                    'cantidad' => $item['cantidad'],
+                ]);
             }
 
-            Venta::create($request->all()); //Guardar la venta
+            DB::commit();
 
             $resultado = redirect()->route('ventas.index')->with('success', 'Venta realizada exitosamente.');
         } catch (\Exception $e) {
+            DB::rollBack();
             $resultado = redirect()->route('ventas.index')->with('error', $e->getMessage());
         }
 

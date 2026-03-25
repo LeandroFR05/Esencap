@@ -22,7 +22,7 @@ class VentaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idProducto' => 'required|exists:productos,idProducto',
+            'idProducto' => 'required|sometimes|exists:productos,idProducto',
             'cantidad' => 'required|integer|min:1',
         ];
     }

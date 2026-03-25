@@ -31,19 +31,26 @@
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="d-flex justify-content-center gap-2">
+                                    
                                     <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}" 
-                                    class="btn btn-outline-success">
-                                        <i class="bi bi-plus-lg d-flex align-items-center justify-content-center"></i>
+                                        class="btn btn-outline-success" 
+                                        data-bs-toggle="tooltip" 
+                                        title="Reponer Stock">
+                                        <i class="bi bi-plus-lg"></i>
                                     </a>
 
                                     <a href="{{ route('insumos.edit', $insumo->idInsumo) }}" 
-                                    class="btn btn-outline-warning">
-                                        <i class="bi bi-pencil d-flex align-items-center justify-content-center"></i>
+                                        class="btn btn-outline-warning" 
+                                        data-bs-toggle="tooltip" 
+                                        title="Editar Insumo">
+                                        <i class="bi bi-pencil"></i>
                                     </a>
 
                                     <a href="{{ route('lotes.show', $insumo->idInsumo) }}" 
-                                    class="btn btn-outline-info">
-                                        <i class="bi bi-box-seam d-flex align-items-center justify-content-center"></i>
+                                        class="btn btn-outline-info" 
+                                        data-bs-toggle="tooltip" 
+                                        title="Ver Lotes">
+                                        <i class="bi bi-box-seam"></i>
                                     </a>
                                 </div>    
                             </div>
@@ -59,5 +66,16 @@
             @endforelse
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    });
+</script>
 @endsection
 
