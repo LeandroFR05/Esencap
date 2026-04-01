@@ -114,7 +114,7 @@ class InsumoController extends Controller
 
     public function deshabilitar(Insumo $insumo): RedirectResponse {
         $insumo->update(['disponible' => false]);
-        return redirect()->route('insumos.estante')->with('danger', 'Insumo deshabilitado exitosamente.');
+        return redirect()->route('insumos.estante')->with('success', 'Insumo eliminado exitosamente.');
     }
 
     // Esta función es para obtener los insumos vinculados a una determinada familia seleccionada en la fabricación de un producto.

@@ -9,16 +9,18 @@ use Illuminate\Http\Request;
 
 class LoteInsumoController extends Controller
 {
-    public function showLotes($insumoId): View {
+    public function showLotes($insumoId): View
+    {
         $lote = LoteInsumo::where('idInsumo', $insumoId)->get();
         $insumo = Insumo::where('idInsumo', $insumoId)->first();
+
         return view('lotes.show', compact('lote', 'insumo'));
     }
 
-
-    public function vencidos() {
+    public function vencidos()
+    {
         $hoy = date('Y-m-d');
-        $lotesVencidos = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy . ' +10 days')))
+        $lotesVencidos = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy.' +10 days')))
             ->where('stockActual', '>', 0)->get();
         $lotesAgrupados = $lotesVencidos->groupBy('idInsumo');
 
@@ -30,19 +32,19 @@ class LoteInsumoController extends Controller
         return view('lotes.vencimientos', compact('lotesAgrupados', 'bandera'));
     }
 
-
-    public function infoStock() {
-        $insumos = Insumo::all();
+    public function infoStock()
+    {
+        $insumos = Insumo::where('disponible', 1)->get();
         $lotesAgrupados = collect();
 
         foreach ($insumos as $insumo) {
             // Definir el stock mínimo según la unidad de medida
             $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
-                'gramos'   => 500,
-                'kilos'    => 1,
+                'gramos' => 500,
+                'kilos' => 1,
                 'unidades' => 10,
-                'litros'   => 1,
-                default    => 5,
+                'litros' => 1,
+                default => 5,
             };
 
             // Buscar lotes de ese insumo con stock bajo
@@ -60,14 +62,26 @@ class LoteInsumoController extends Controller
         return view('lotes.stock', compact('lotesAgrupados', 'bandera'));
     }
 
-
-    public function eliminar(Request $request, LoteInsumo $lote) {
+    public function eliminar(Request $request, LoteInsumo $lote)
+    {
         $lote->delete();
 
-        // Redirigir a la página anterior (última vista) si está disponible,
-        // o en su defecto a la ruta de listar lotes.
         $redirectTo = url()->previous() ?: route('lotes.show', $request->input('idInsumo'));
 
         return redirect($redirectTo)->with('success', 'Lote eliminado exitosamente.');
+    }
+
+    public function actualizar(Request $request, LoteInsumo $lote)
+    {
+        $request->validate([
+            'stockActual' => 'required|numeric|min:0',
+        ]);
+
+        $lote->update([
+            'stockActual' => $request->stockActual,
+        ]);
+
+        return redirect()->route('lotes.show', $request->input('idInsumo'))
+            ->with('success', 'Stock actualizado exitosamente.');
     }
 }

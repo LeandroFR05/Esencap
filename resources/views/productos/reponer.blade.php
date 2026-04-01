@@ -52,6 +52,7 @@
                                         <!-- Familia -->
                                         <div class="col">
                                             <select name="familia[]" class="form-control select-familia" required>
+                                                <option value="">Seleccione una familia</option>
                                                 @foreach($familias as $familia)
                                                     <option value="{{ $familia->idFamilia }}"
                                                         @selected($familia->idFamilia == $fila->familia->idFamilia)>
@@ -63,7 +64,7 @@
                                         <!-- Contenido -->
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="number" name="contenido[]" value="{{ $fila->contenido }}" class="form-control contenido" required>
+                                                <input type="number" name="contenido[]" value="{{ $fila->contenido }}" class="form-control contenido" readonly>
                                                 <span class="input-group-text w-25 d-flex justify-content-center">gr</span>
                                             </div>
                                         </div>

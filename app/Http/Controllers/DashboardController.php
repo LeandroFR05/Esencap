@@ -24,7 +24,7 @@ class DashboardController extends Controller
         $lotesProximosaVencer = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy.' +10 days')))
             ->where('stockActual', '>', 0)->count();
 
-        $insumos = Insumo::all();
+        $insumos = Insumo::where('disponible', 1)->get();
         $lotesAgrupados = collect();
         $lotesBajoStock = 0;
 
@@ -51,8 +51,9 @@ class DashboardController extends Controller
     // FUNCIONES PRIVADAS DE INDEX
     private function insumosRegistrados()
     {
-        return Insumo::count();
+        return Insumo::where('disponible', 1)->count();
     }
+
 
     private function productosRegistrados()
     {

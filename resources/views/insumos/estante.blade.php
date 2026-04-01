@@ -42,7 +42,7 @@
                                     <a href="{{ route('insumos.edit', $insumo->idInsumo) }}" 
                                         class="btn btn-outline-warning" 
                                         data-bs-toggle="tooltip" 
-                                        title="Editar Insumo">
+                                        title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
 

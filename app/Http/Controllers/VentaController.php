@@ -58,6 +58,9 @@ class VentaController extends Controller
                 $idProducto = $item['idProducto'];
                 $cantidad = $item['cantidad'];
 
+                $producto = Producto::find($idProducto);
+                $nombreProducto = $producto->nombre;
+
                 $historial = Historial::where('idProducto', $idProducto)
                     ->orderBy('fechaElaboracion', 'asc')
                     ->get();
@@ -77,7 +80,7 @@ class VentaController extends Controller
                     }
                 }
                 if ($cantidad > 0) {
-                    throw new \Exception('No hay suficiente stock para completar la venta.');
+                    throw new \Exception("No hay suficiente stock de " . $nombreProducto . " para completar la venta.");
                 }
 
                 // Guardar en carritos
@@ -93,7 +96,10 @@ class VentaController extends Controller
             $resultado = redirect()->route('ventas.index')->with('success', 'Venta realizada exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();
-            $resultado = redirect()->route('ventas.index')->with('error', $e->getMessage());
+            $resultado = redirect()->route('ventas.index')
+                ->with('error', $e->getMessage())
+                ->withInput()
+                ->with('carrito', $carrito);
         }
 
         return $resultado;

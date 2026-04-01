@@ -14,6 +14,17 @@ let controller;
 let timeout;
 let busquedaActiva = false;
 
+// Recuperar carrito guardado si existe
+const carritoOld = document.getElementById('carrito-old')?.value;
+if (carritoOld) {
+    try {
+        carrito = JSON.parse(carritoOld);
+        renderizarCarrito();
+    } catch (e) {
+        console.error('Error al parsear carrito guardado:', e);
+    }
+}
+
 // Buscar producto (con mínimo 2 caracteres)
 producto.addEventListener('input', function() {
     clearTimeout(timeout);
@@ -174,16 +185,40 @@ function renderizarCarrito() {
 
 // Registrar venta
 btnRegistrar.addEventListener('click', function() {
-    const cliente = document.getElementById('cliente').value.trim();
-    const fecha = document.getElementById('fecha').value;
+    const clienteInput = document.getElementById('cliente');
+    const fechaInput = document.getElementById('fecha');
 
-    if (!cliente || !fecha) {
-        alert('Complete el cliente y la fecha');
+    const cliente = clienteInput.value.trim();
+    const fecha = fechaInput.value;
+
+    // Limpiar mensajes previos
+    clienteInput.setCustomValidity('');
+    fechaInput.setCustomValidity('');
+
+    // Validar cliente
+    if (!cliente) {
+        clienteInput.setCustomValidity('Complete este campo');
+        clienteInput.reportValidity();
+        clienteInput.focus();
+        return;
+    }
+
+    // Validar fecha
+    if (!fecha) {
+        fechaInput.setCustomValidity('Seleccione una fecha');
+        fechaInput.reportValidity();
+        fechaInput.focus();
         return;
     }
 
     if (carrito.length === 0) {
-        alert('Agregue al menos un producto al carrito');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Carrito vacío',
+            text: 'Agregue al menos un producto al carrito.',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#3085d6'
+        });
         return;
     }
 
@@ -202,5 +237,8 @@ btnRegistrar.addEventListener('click', function() {
     formVenta.submit();
 });
 
-// Inicializar fecha con hoy
-document.getElementById('fecha').valueAsDate = new Date();
+// Inicializar fecha con hoy (solo si no hay un valor previo)
+const fechaInput = document.getElementById('fecha');
+if (!fechaInput.value) {
+    fechaInput.valueAsDate = new Date();
+}

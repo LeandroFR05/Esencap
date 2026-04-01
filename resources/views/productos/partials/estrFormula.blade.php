@@ -1,5 +1,4 @@
 <!-- FÓRMULAS BASE Y RECALCULADA -->
-<!-- Labels -->
 <div class="row mb-2">
     <div class="col-6">
         <label class="form-label fw-bold">Fórmula Base</label>

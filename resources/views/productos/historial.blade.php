@@ -51,8 +51,22 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr class="table-secondary fw-bold">
+                            <td colspan="2" class="text-end">Stock Total:</td>
+                            <td>{{ $producto->historiales->sum('stockActual') }}u</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             @endif
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('productos.reponer', $producto->idProducto) }}" 
+                    class="btn btn-outline-success">
+                    <i class="bi bi-plus-lg"></i>Reponer
+                </a>
+            </div>
         </div>
     </div>
 </div>

@@ -1,18 +1,37 @@
 document.addEventListener('input', function(e) {
-    if (e.target.classList.contains('porcentaje')) {
-        
-        // Obtenemos los valores
-        let inputPorcentaje = e.target;
-        let porcentaje = parseFloat(inputPorcentaje.value) || 0;
+
+    if (e.target.classList.contains('porcentaje') || e.target.classList.contains('stockInicial')) {
+
         let contenidoPorUnidad = parseFloat(document.querySelector('.contenidoPorUnidad').value) || 0;
-        let stock = parseFloat(document.querySelector('.stock').value) || 0;
+        let stockInicial = parseFloat(document.querySelector('.stockInicial').value) || 0;
 
-        // Para encontrar el clon o bloque correcto
-        let bloque = inputPorcentaje.closest('.formula-item');
-        let inputContenido = bloque.querySelector('.contenido');
+        // Si cambia porcentaje recalcula solo ese bloque
+        if (e.target.classList.contains('porcentaje')) {
 
-        // Hacemos la operación
-        let resultado = ((porcentaje * contenidoPorUnidad) / 100) * stock;
-        inputContenido.value = resultado;
+            let bloque = e.target.closest('.formula-item');
+            let inputContenido = bloque.querySelector('.contenido');
+
+            let porcentaje = parseFloat(e.target.value) || 0;
+
+            let resultado = ((porcentaje * contenidoPorUnidad) / 100) *stockInicial;
+
+            inputContenido.value = resultado;
+        }
+
+        // Si cambia stockInicial recalcula TODOS
+        if (e.target.classList.contains('stockInicial')) {
+
+            document.querySelectorAll('.formula-item')
+                .forEach(bloque => {
+
+                    let porcentaje = parseFloat(bloque.querySelector('.porcentaje').value) || 0;
+
+                    let inputContenido = bloque.querySelector('.contenido');
+
+                    let resultado = ((porcentaje * contenidoPorUnidad) / 100) * stockInicial;
+
+                    inputContenido.value = resultado;
+                });
+        }
     }
 });

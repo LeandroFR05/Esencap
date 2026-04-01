@@ -15,10 +15,9 @@ class Historial extends Model
     protected $primaryKey = 'idHistorial';
     protected $fillable = [
         'idProducto',
-        'stock',
+        'stockInicial',
+        'stockActual',
         'fechaElaboracion',
-        'idBase',
-        'idRecalculada'
     ];
 
     public function getFechaElaboracionAttribute($value)

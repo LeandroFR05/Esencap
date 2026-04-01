@@ -233,7 +233,7 @@
             height: 220
         },
         series: [{
-            name: 'Ventas Diarias',
+            name: 'Productos vendidos',
             data: ventasDiarias.map(item => item.total)
         }],
         xaxis: {

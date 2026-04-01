@@ -13,11 +13,11 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label for="cliente">Cliente:</label>
-                        <input type="text" name="cliente" id="cliente" class="form-control" required>
+                        <input type="text" name="cliente" id="cliente" value="{{ old('cliente') }}" class="form-control @error('cliente') is-invalid @enderror" required>
                     </div>
                     <div class="col-md-6">
                         <label for="fecha">Fecha:</label>
-                        <input type="date" name="fecha" id="fecha" class="form-control" required>
+                        <input type="date" name="fecha" id="fecha" value="{{ old('fecha') }}" class="form-control @error('fecha') is-invalid @enderror" required>
                     </div>
                 </div>
 
@@ -67,6 +67,7 @@
                 </div>
 
                 <input type="hidden" name="carrito" id="carrito-input">
+                <input type="hidden" id="carrito-old" value="{{ session('carrito') ? json_encode(session('carrito')) : old('carrito') }}">
             </form>
         @endslot
 
