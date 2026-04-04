@@ -9,7 +9,7 @@
         @slot('titulo', 'Editar ' . $producto->nombre)
         @slot('contenido')
             <!-- FORMULARIO -->
-            <form action="{{ route('productos.update', $producto->idProducto) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('productos.update', $producto->idProducto) }}" method="POST" id="updateForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row g-4">
@@ -46,19 +46,25 @@
                         @include('_partials.dropzone', ['foto' => $producto->foto])
                     </div>
                 </div>
-                <!-- Enviar formulario -->
-                <div class="row g-3">
-                    <div class="col-md-12">
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-success w-100">Guardar</button>
-                        </div>
-                    </div>
-                </div>
             </form>
         @endslot
 
         @slot('footer')
-            
+            <!-- Enviar formulario -->
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <button type="submit" class="btn btn-success w-100" form="updateForm">Guardar</button>
+                </div>
+                <div class="col-md-4">
+                    <form action="{{ route('productos.destroy', $producto->idProducto) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger w-100 delete-btn">
+                            <i class="bi bi-trash3-fill"></i> Eliminar
+                        </button>
+                    </form>
+                </div>
+            </div>
         @endslot
     @endcomponent
 
@@ -67,4 +73,5 @@
 
 @section('scripts')
     <script src="{{ asset('js/removerImagenDropzone.js') }}"></script>
+    <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
 @endsection

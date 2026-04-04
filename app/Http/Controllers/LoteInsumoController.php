@@ -70,18 +70,4 @@ class LoteInsumoController extends Controller
 
         return redirect($redirectTo)->with('success', 'Lote eliminado exitosamente.');
     }
-
-    public function actualizar(Request $request, LoteInsumo $lote)
-    {
-        $request->validate([
-            'stockActual' => 'required|numeric|min:0',
-        ]);
-
-        $lote->update([
-            'stockActual' => $request->stockActual,
-        ]);
-
-        return redirect()->route('lotes.show', $request->input('idInsumo'))
-            ->with('success', 'Stock actualizado exitosamente.');
-    }
 }

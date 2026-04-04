@@ -54,9 +54,11 @@ Route::get('/productos/historial/{producto}', [ProductoController::class, 'histo
 Route::get('/productos/showFormula/{producto}', [ProductoController::class, 'showFormula'])->middleware('auth')->name('productos.showFormula');
 Route::get('/productos/reponer/{producto}', [ProductoController::class, 'reponer'])->middleware('auth')->name('productos.reponer');
 Route::post('/productos/reponer/{producto}', [ProductoController::class, 'reponerStore'])->middleware('auth')->name('productos.reponer.store');
+Route::delete('/productos/eliminar/{producto}', [ProductoController::class, 'eliminar'])->middleware('auth')->name('productos.destroy');
 
 // HISTORIAL ROUTES
 Route::get('/historial', [HistorialController::class, 'historial'])->middleware('auth')->name('historial.general');
+Route::put('/historial/actualizar/{historial}', [HistorialController::class, 'actualizar'])->middleware('auth')->name('historial.actualizar');
 Route::delete('/historial/eliminar/{historial}', [HistorialController::class, 'eliminar'])->middleware('auth')->name('historial.eliminar');
 
 // VENTAS ROUTES

@@ -3,14 +3,12 @@
 @section('title')
     {{ Breadcrumbs::render('historialGeneral') }}
 @endsection
+
 @section('content')
 
-<div class="container">
-
-    <div class="card">
-        <div class="card-header">Historial de Elaboración</div>
-        <div class="card-body">
-
+    @component('components.cards')
+        @slot('titulo', 'Historial de elaboración')
+        @slot('contenido')
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="producto">Producto</label>
@@ -27,61 +25,65 @@
                 </div>
             </div>
 
-            <table class="table table-bordered table-hover" id="tableHistorial">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Producto</th>
-                        <th>Stock inicial</th>
-                        <th>Stock actual</th>
-                        <th>Contenido por unidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($historial as $h)
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="tableHistorial">
+                    <thead class="table-dark">
                         <tr>
-                            <td>{{ $h->fechaElaboracion }}</td>
-                            <td>{{ $h->producto->nombre }}</td>
-                            <td>{{ $h->stockInicial }}u</td>
-                            <td>{{ $h->stockActual }}u</td>
-                            <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
-                            <td class="d-flex justify-content-center align-items-center gap-2">
-                                <button 
-                                    class="btn btn-sm btn-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalHistorial-{{ $h->idHistorial }}">
-                                    <i class="bi bi-eye-fill"></i>
-                                </button>
-                                <form action="{{ route('historial.eliminar', $h->idHistorial) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="hidden" name="idProducto" value="{{ $h->producto->idProducto }}">
-                                    <button type="submit"
-                                        class="btn btn-sm btn-danger delete-btn">
-                                        <i class="bi bi-trash3-fill"></i>
-                                    </button>
-                                </form>
-                            </td>
+                            <th>Fecha</th>
+                            <th>Producto</th>
+                            <th>Stock inicial</th>
+                            <th>Stock actual</th>
+                            <th>Contenido por unidad</th>
+                            <th style="width: 120px;">Acciones</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+                    </thead>
+                    <tbody>
+                        @foreach ($historial as $h)
+                            <tr>
+                                <td>{{ $h->fechaElaboracion }}</td>
+                                <td>{{ $h->producto->nombre }}</td>
+                                <td>{{ $h->stockInicial }}u</td>
+                                <td>{{ $h->stockActual }}u</td>
+                                <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <button 
+                                            class="btn btn-sm btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalHistorial-{{ $h->idHistorial }}">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </button>
+                                        <form action="{{ route('historial.eliminar', $h->idHistorial) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="idProducto" value="{{ $h->producto->idProducto }}">
+                                            <button type="submit"
+                                                class="btn btn-sm btn-danger delete-btn">
+                                                <i class="bi bi-trash3-fill"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endslot
+        @slot('footer')
+            <div class="d-flex justify-content-center mt-3">
+                {{ $historial->links() }}
+            </div>
+        @endslot
+    @endcomponent
 
 
-@include('historial.modals.detalle_historial')
-
-<div class="d-flex justify-content-center mt-3">
-    {{ $historial->links() }}
-</div>
+    @include('historial.modals.detalle_historial')
 
 @endsection
 
 
 @section('scripts')
-    <script src="{{asset('js/filtros_historiales.js')}}"></script>
-    <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
+    <script src="{{ asset('js/filtros_historiales.js') }}"></script>
+    <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
 @endsection

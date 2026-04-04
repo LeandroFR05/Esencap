@@ -92,5 +92,5 @@
 <!--Filtros-->
 @section('scripts')
     <script src="{{ asset('js/lotes/filtros.js') }}"></script>
-    <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
+    <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
 @endsection

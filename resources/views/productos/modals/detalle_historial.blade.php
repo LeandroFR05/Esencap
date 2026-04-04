@@ -1,5 +1,5 @@
 @foreach ($producto->historiales as $historial)
-    <x-historial 
+    <x-historialInfo 
         :id="'modalHistorialProd-' . $historial->idHistorial" 
         :titulo="$historial->producto->nombre"
         :contenidoPorUnidad="$historial->producto->contenidoPorUnidad"
@@ -13,5 +13,5 @@
                 <td>{{ $f->insumo->nombre }}</td>
             </tr>
         @endforeach
-    </x-historial>
+    </x-historialInfo>
 @endforeach

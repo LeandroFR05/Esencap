@@ -36,21 +36,12 @@
                                     <td>{{ $item->fechaVencimiento }}</td>
                                     <td>
                                         <div class="d-flex gap-2 justify-content-center">
-                                            <button type="button"
-                                                class="btn btn-sm btn-outline-warning edit-stock-btn"
-                                                data-id="{{ $item->idLote }}"
-                                                data-stock="{{ $item->stockActual }}"
-                                                data-unidad="{{ $insumo->unidadDeMedida }}"
-                                                data-toggle="tooltip"
-                                                title="Modificar stock">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
                                             <form action="{{ route('lotes.eliminar', $item->idLote) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <input type="hidden" name="idInsumo" value="{{ $insumo->idInsumo }}">
                                                 <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger delete-btn"
+                                                    class="btn btn-sm btn-danger delete-btn"
                                                     data-toggle="tooltip"
                                                     title="Eliminar lote">
                                                     <i class="bi bi-trash3-fill"></i>
@@ -86,38 +77,8 @@
         @endslot
     @endcomponent
 
-    <div class="modal fade" id="modalEditarStock" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modificar Stock Actual</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="formEditarStock" action="" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" id="loteId" name="loteId">
-                    <input type="hidden" name="idInsumo" value="{{ $insumo->idInsumo }}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="nuevoStock" class="form-label fw-semibold">Stock Actual</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="nuevoStock" name="stockActual" min="0" required>
-                                <span class="input-group-text" id="unidadMedida">{{ $insumo->unidadDeMedida }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success">Guardar cambios</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
-    <script src="{{ asset('js/lotes/editarStock.js') }}"></script>
+    <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
 @endsection

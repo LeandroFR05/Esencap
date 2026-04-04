@@ -21,7 +21,7 @@
                             <label for="stockTotal">Stock Total</label>
                             <div class="d-flex align-items-center">
                                 <div class="input-group" style="flex: 1;">
-                                    <input type="number" id="stockTotal" name="stockTotal" value="{{ $stockActual }}" class="form-control" readonly>
+                                    <input type="number" id="stockTotal" name="stockTotal" value="{{ $stockActual }}" class="form-control" style="background-color: #f3f3f3ff;" readonly>
                                     <span class="input-group-text w-25 d-flex justify-content-center">{{ $insumo->unidadDeMedida }}</span>
                                 </div>
                                 <a href="{{ route('lotes.show', $insumo->idInsumo) }}" 
@@ -39,7 +39,7 @@
                             <label for="idFamilia">Familia</label>
                             <div class="d-flex align-items-center">
                                 @if($formula)
-                                    <select name="idFamilia" class="form-control" required>
+                                    <select name="idFamilia" class="form-control" style="background-color: #f3f3f3ff;" required>
                                         <option value="{{ $insumo->idFamilia }}">{{ $insumo->familia->nombre }}</option>
                                     </select>
                                 @else
@@ -96,5 +96,5 @@
 
 @section('scripts')
     <script src="{{ asset('js/removerImagenDropzone.js') }}"></script>
-    <script src="{{ asset('js/lotes/confirmarEliminacion.js') }}"></script>
+    <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
 @endsection

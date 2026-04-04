@@ -192,6 +192,7 @@ class ProductoController extends Controller
         return view('productos.edit', compact('producto', 'stockTotal'));
     }
 
+
     public function update(ProductoRequest $request, Producto $producto)
     {
         $validated = $request->validated();
@@ -217,6 +218,7 @@ class ProductoController extends Controller
         return redirect()->route('productos.edit', ['producto' => $producto->idProducto])->with('success', 'Producto actualizado exitosamente.');
     }
 
+
     public function reponer(Producto $producto): View
     {
         $familias = Familia::all();
@@ -227,6 +229,7 @@ class ProductoController extends Controller
 
         return view('productos.reponer', compact('producto', 'historial', 'familias'));
     }
+
 
     public function reponerStore(ProductoRequest $request, Producto $producto): RedirectResponse
     {
@@ -247,6 +250,7 @@ class ProductoController extends Controller
         return $resultado;
     }
 
+
     public function historial(Producto $producto): View
     {
 
@@ -256,5 +260,18 @@ class ProductoController extends Controller
         ])->find($producto->idProducto);
 
         return view('productos.historial', compact('producto'));
+    }
+
+
+    public function eliminar(Producto $producto): RedirectResponse
+    {
+        // Antes de eliminar el producto, eliminamos su foto si existe
+        if ($producto->foto && Storage::disk('public')->exists($producto->foto)) {
+            Storage::disk('public')->delete($producto->foto);
+        }
+
+        $producto->delete();
+
+        return redirect()->route('productos.estante')->with('success', 'Producto eliminado exitosamente.');
     }
 }
