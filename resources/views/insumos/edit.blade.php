@@ -16,7 +16,7 @@
                 <div class="row g-4">
                     <div class="col-12 col-md-6">
                         <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" value="{{ $insumo->nombre }}" class="form-control @error('nombre') is-invalid @enderror" required>
+                        <input type="text" name="nombre" id="nombre" value="{{ $insumo->nombre }}" class="form-control @error('nombre') is-invalid @enderror" required>
                         <div class="mt-3">
                             <label for="stockTotal">Stock Total</label>
                             <div class="d-flex align-items-center">
@@ -33,17 +33,17 @@
 
                         <div class="mt-3">
                             <label for="fase">Fase</label>
-                            <input type="text" name="fase" value="{{ $insumo->fase }}" class="form-control @error('fase') is-invalid @enderror" required>
+                            <input type="text" name="fase" id="fase" value="{{ $insumo->fase }}" class="form-control @error('fase') is-invalid @enderror" required>
                         </div>
                         <div class="mt-3">
                             <label for="idFamilia">Familia</label>
                             <div class="d-flex align-items-center">
                                 @if($formula)
-                                    <select name="idFamilia" class="form-control" style="background-color: #f3f3f3ff;" required>
+                                    <select name="idFamilia" id="idFamilia" class="form-control" style="background-color: #f3f3f3ff;" required>
                                         <option value="{{ $insumo->idFamilia }}">{{ $insumo->familia->nombre }}</option>
                                     </select>
                                 @else
-                                    <select name="idFamilia" class="form-control" required>
+                                    <select name="idFamilia" id="idFamilia" class="form-control" required>
                                         @foreach($familias as $familia)
                                             <!--Esta lógica selecciona la familia que actualmente esta utilizando el insumo-->
                                             <option value="{{ $familia->idFamilia }}"
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="foto">Foto:</label>
+                        <label>Foto:</label>
                         <input type="hidden" name="remove_foto" id="remove-foto" value="0">
                         @include('_partials.dropzone', ['foto' => $insumo->foto])
                     </div>

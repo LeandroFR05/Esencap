@@ -40,11 +40,10 @@ class LoteInsumoController extends Controller
         foreach ($insumos as $insumo) {
             // Definir el stock mínimo según la unidad de medida
             $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
-                'gramos' => 500,
+                'gramos' => 100,
                 'kilos' => 1,
                 'unidades' => 10,
                 'litros' => 1,
-                default => 5,
             };
 
             // Buscar lotes de ese insumo con stock bajo

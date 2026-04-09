@@ -84,6 +84,6 @@
 
 
 @section('scripts')
-    <script src="{{ asset('js/filtros_historiales.js') }}"></script>
+    <script src="{{ asset('js/historial/filtros_historial.js') }}"></script>
     <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
 @endsection

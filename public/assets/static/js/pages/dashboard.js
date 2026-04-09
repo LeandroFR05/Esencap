@@ -151,8 +151,20 @@ var chartIndonesia = new ApexCharts(
   optionsIndonesia
 )
 
-chartIndonesia.render()
-chartAmerica.render()
-chartEurope.render()
-chartProfileVisit.render()
-chartVisitorsProfile.render()
+
+if (document.querySelector("#chart-profile-visit")) {
+  chartProfileVisit.render();
+}
+if (document.querySelector("#chart-visitors-profile")) {
+  chartVisitorsProfile.render();
+}
+if (document.querySelector("#chart-europe")) {
+  chartEurope.render();
+}
+if (document.querySelector("#chart-america")) {
+  chartAmerica.render();
+}
+if (document.querySelector("#chart-indonesia")) {
+  chartIndonesia.render();
+}
+

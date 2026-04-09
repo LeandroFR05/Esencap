@@ -4,6 +4,8 @@
     {{ Breadcrumbs::render('nuevo') }}
 @endsection
 
+<link rel="stylesheet" href="{{ asset('css/Productos/estCreate.css') }}">
+
 @section('content')
     @component('components.cards')
         @slot('titulo', 'Crear Nuevo Producto')
@@ -14,29 +16,29 @@
                     <div class="col-12 col-md-6">
                         <!-- INFORMACIÓN INICIAL -->
                         <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control" required>
+                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" class="form-control" required>
                         <div class="mt-3"> <!-- mt= margin-top -->
                             <label for="stockInicial">Stock inicial</label>
                             <div class="input-group">
-                                <input type="number" name="stockInicial" value="{{ old('stockInicial') }}" class="form-control stockInicial" required>
+                                <input type="number" name="stockInicial" id="stockInicial" value="{{ old('stockInicial') }}" class="form-control stockInicial" required>
                                 <span class="input-group-text w-25 d-flex justify-content-center">unidades</span>
                             </div>
                         </div>
                         <div class="mt-3"> 
                             <label for="contenidoPorUnidad">Contenido por Unidad</label>
                             <div class="input-group">
-                                <input type="number" name="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" 
+                                <input type="number" name="contenidoPorUnidad" id="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" 
                                 class="form-control contenidoPorUnidad" required>
                                 <span class="input-group-text w-25 d-flex justify-content-center">gramos</span>
                             </div>    
                         </div>
                         <div class="mt-3">
                             <label for="fechaElaboracion">Fecha de Elaboración</label>
-                            <input type="date" name="fechaElaboracion" value="{{ old('fechaElaboracion') }}" class="form-control" required>
+                            <input type="date" name="fechaElaboracion" id="fechaElaboracion" value="{{ old('fechaElaboracion') }}" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="foto">Foto</label>
+                        <label>Foto</label>
                         @include('_partials.dropzone')
                     </div>
                 </div>
@@ -88,64 +90,6 @@
                         </div>
                     </div>
                 </div>
-
-                <style>
-                    .formula-card {
-                        background: #ffffff;
-                        border: 1px solid #e2e8f0;
-                        border-radius: 12px;
-                        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-                        transition: box-shadow 0.2s ease;
-                    }
-
-                    .formula-card:hover {
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                    }
-
-                    .formula-item .form-control,
-                    .formula-item .form-select {
-                        border-radius: 8px;
-                        border: 1px solid #e2e8f0;
-                        transition: border-color 0.2s, box-shadow 0.2s;
-                        height: 31px;
-                        padding-top: 0.375rem;
-                        padding-bottom: 0.375rem;
-                        box-sizing: border-box;
-                    }
-
-                    .formula-item .form-select {
-                        line-height: 1.4;
-                    }
-
-                    .formula-item .input-group {
-                        display: flex;
-                    }
-
-                    .formula-item .form-control:focus,
-                    .formula-item .form-select:focus {
-                        border-color: #0d6efd;
-                        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
-                    }
-
-                    .formula-item .input-group-text {
-                        background: #f8f9fa;
-                        border: 1px solid #e2e8f0;
-                        border-radius: 0 8px 8px 0;
-                        font-size: 0.8rem;
-                        font-weight: 500;
-                        color: #6c757d;
-                        height: 31px;
-                        padding-top: 0.375rem;
-                        padding-bottom: 0.375rem;
-                        box-sizing: border-box;
-                    }
-
-                    .btn-outline-danger:hover {
-                        background: #dc3545;
-                        border-color: #dc3545;
-                        color: white;
-                    }
-                </style>
         @endslot
 
         @slot('footer')

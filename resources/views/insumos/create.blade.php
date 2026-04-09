@@ -13,13 +13,13 @@
                 <div class="row g-4">
                     <div class="col-12 col-md-6">
                         <label for="nombre">Nombre:</label>
-                        <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control @error('nombre') is-invalid @enderror" required>
+                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" class="form-control @error('nombre') is-invalid @enderror" required>
                         
                         <div class="mt-3">
                             <label for="stockInicial">Stock Inicial</label>
                             <div class="input-group">
-                                <input type="number" name="stockInicial" value="{{ old('stockInicial') }}" class="form-control @error('stockInicial') is-invalid @enderror">
-                                <select name="unidadDeMedida" class="form-select">
+                                <input type="number" name="stockInicial" id="stockInicial" value="{{ old('stockInicial') }}" class="form-control @error('stockInicial') is-invalid @enderror">
+                                <select name="unidadDeMedida" id="unidadDeMedida" class="form-select">
                                     <option value="gramos">gramos</option>
                                     <option value="unidades">unidades</option>
                                     <option value="kilos">kilos</option>
@@ -31,7 +31,7 @@
                         <div class="mt-3">
                             <label for="idFamilia">Familia:</label>
                             <div class="d-flex align-items-center">
-                                <select name="idFamilia" value="{{ old('idFamilia') }}" class="form-control" required>
+                                <select name="idFamilia" id="idFamilia" value="{{ old('idFamilia') }}" class="form-control" required>
                                     @foreach($familias as $familia)
                                         <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
                                     @endforeach
@@ -45,7 +45,7 @@
 
                         <div class="mt-3">
                             <label for="fase">Fase:</label>
-                            <select name="fase" value="{{ old('fase') }}" class="form-control" required>
+                            <select name="fase" id="fase" value="{{ old('fase') }}" class="form-control" required>
                                 <option value="primera">Acuosa</option>
                                 <option value="segunda">Oleosa</option>
                                 <option value="tercera">Activos</option>
@@ -54,16 +54,16 @@
 
                         <div class="mt-3">
                             <label for="fechaCompra">Fecha de Compra:</label>
-                            <input type="date" name="fechaCompra" value="{{ old('fechaCompra') }}" class="form-control @error('fechaCompra') is-invalid @enderror" required>
+                            <input type="date" name="fechaCompra" id="fechaCompra" value="{{ old('fechaCompra') }}" class="form-control @error('fechaCompra') is-invalid @enderror" required>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="foto">Foto:</label>
+                        <label>Foto:</label>
                         @include('_partials.dropzone')
                         
                         <div class="mt-3">
                             <label for="fechaVencimiento">Fecha de Vencimiento:</label>
-                            <input type="date" name="fechaVencimiento" value="{{ old('fechaVencimiento') }}" class="form-control @error('fechaVencimiento') is-invalid @enderror" required>
+                            <input type="date" name="fechaVencimiento" id="fechaVencimiento" value="{{ old('fechaVencimiento') }}" class="form-control @error('fechaVencimiento') is-invalid @enderror" required>
                         </div>
                     </div>
                 </div>

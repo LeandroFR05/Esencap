@@ -58,7 +58,13 @@
                                         </thead>
                                         <tbody>
                                             @foreach($lotes as $detalleLote)
-                                                <tr class="{{ \Carbon\Carbon::parse($detalleLote->fechaVencimiento)->isPast() ? 'table-danger' : '' }}">
+                                                @php
+                                                    $isVencimientosRoute = request()->routeIs('lotes.infoVencimientos');
+                                                    $isStockRoute = request()->routeIs('lotes.infoStock');
+                                                    $isExpired = \Carbon\Carbon::parse($detalleLote->fechaVencimiento)->isPast();
+                                                    $isOutOfStock = $detalleLote->stockActual == 0;
+                                                @endphp
+                                                <tr class="{{ ($isVencimientosRoute && $isExpired) || ($isStockRoute && $isOutOfStock) ? 'table-danger' : '' }}">
                                                     <td>{{ $detalleLote->numeroLote }}</td>
                                                     <td>{{ $detalleLote->stockInicial }} {{ $lotes->first()->insumo->unidadDeMedida }}</td>
                                                     <td>{{ $detalleLote->stockActual }} {{ $lotes->first()->insumo->unidadDeMedida }}</td>

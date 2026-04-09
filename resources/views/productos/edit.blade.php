@@ -16,11 +16,11 @@
                     <div class="col-12 col-md-6">
                         <!-- Datos iniciales -->
                         <label for="nombre">Nombre:</label>
-                        <input type="text" name="nombre" value="{{ $producto->nombre }}" class="form-control @error('nombre') is-invalid @enderror" required>
+                        <input type="text" name="nombre" id="nombre" value="{{ $producto->nombre }}" class="form-control @error('nombre') is-invalid @enderror" required>
                         <div class="mt-3">
                             <label for="stock">Stock total:</label>
                             <div class="input-group">
-                                <input type="number" name="stock" value="{{ $stockTotal }}" class="form-control" 
+                                <input type="number" name="stock" id="stock" value="{{ $stockTotal }}" class="form-control" 
                                 style="background-color: #f3f3f3ff;" readonly>
                                 <span class="input-group-text w-25 d-flex justify-content-center">unidades</span>
                             </div>
@@ -28,7 +28,7 @@
                         <div class="mt-3">
                             <label for="contenidoPorUnidad">Contenido por Unidad:</label>
                             <div class="input-group">
-                                <input type="number" name="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" 
+                                <input type="number" name="contenidoPorUnidad" id="contenidoPorUnidad" value="{{ $producto->contenidoPorUnidad }}" 
                                 class="form-control" style="background-color: #f3f3f3ff;" readonly>
                                 <span class="input-group-text w-25 d-flex justify-content-center">gramos</span>
                             </div>
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="foto">Foto:</label>
+                        <label>Foto:</label>
                         <input type="hidden" name="remove_foto" id="remove-foto" value="0">
                         @include('_partials.dropzone', ['foto' => $producto->foto])
                     </div>

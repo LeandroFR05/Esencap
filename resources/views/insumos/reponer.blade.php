@@ -15,21 +15,21 @@
                 <div class="row g-4">
                     <div class="col-12">
                         <label for="numeroLote">Lote número:</label>
-                        <input type="number" name="numeroLote" value="{{ $nuevoNumero }}" class="form-control" readonly>
+                        <input type="number" name="numeroLote" id="numeroLote" value="{{ $nuevoNumero }}" class="form-control" readonly>
                         <div class="mt-3">
                             <label for="stockInicial">Stock Inicial:</label>
                             <div class="input-group">
-                                <input type="number" name="stockInicial" class="form-control" required>
+                                <input type="number" name="stockInicial" id="stockInicial" class="form-control" required>
                                 <span class="input-group-text w-25 d-flex justify-content-center">{{ $insumo->unidadDeMedida }}</span>
                             </div>
                         </div>
                         <div class="mt-3">
                             <label for="fechaCompra">Fecha de compra:</label>
-                            <input type="date" name="fechaCompra" class="form-control @error('fechaCompra') is-invalid @enderror" required>
+                            <input type="date" name="fechaCompra" id="fechaCompra" class="form-control @error('fechaCompra') is-invalid @enderror" required>
                         </div>
                         <div class="mt-3">
                             <label for="fechaVencimiento">Fecha de vencimiento:</label>
-                            <input type="date" name="fechaVencimiento" class="form-control @error('fechaVencimiento') is-invalid @enderror" required>
+                            <input type="date" name="fechaVencimiento" id="fechaVencimiento" class="form-control @error('fechaVencimiento') is-invalid @enderror" required>
                         </div>
                     </div>
                 </div>

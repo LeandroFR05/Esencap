@@ -9,14 +9,14 @@
                 </a>
             </li>
             
-            <li class="sidebar-item {{ request()->routeIs('productos.estante') ? 'active' : '' }}">
+            <li class="sidebar-item {{ request()->routeIs('productos.*') ? 'active' : '' }}">
                 <a href="{{ route('productos.estante') }}" class='sidebar-link'>
                     <i class="bi bi-grid-1x2-fill"></i>
                     <span>Productos</span>
                 </a>
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('insumos.estante') ? 'active' : '' }}">
+            <li class="sidebar-item {{ request()->routeIs('insumos.*') || request()->routeIs('lotes.*') ? 'active' : '' }}">
                 <a href="{{ route('insumos.estante') }}" class='sidebar-link'>
                     <i class="bi bi-grid-1x2-fill"></i>
                     <span>Insumos</span>
@@ -70,9 +70,9 @@
                     <li class="submenu-item">
                         <a href="#" class="submenu-link">Perfil</a>
                     </li>
-                    <li class="submenu-item">
+                    <!-- <li class="submenu-item">
                         <a href="#" class="submenu-link">Seguridad</a>
-                    </li>
+                    </li> -->
                     <li class="submenu-item">
                         <a href="{{ route('logout') }}" class="submenu-link"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

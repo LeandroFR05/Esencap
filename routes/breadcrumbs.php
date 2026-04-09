@@ -103,7 +103,7 @@ Breadcrumbs::for('ventas', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('ventasHistorial', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Historial', route('ventas.index'));
+    $trail->push('Historial de Ventas', route('ventas.index'));
 });
 
 // Home > Blog

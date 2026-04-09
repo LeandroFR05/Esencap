@@ -105,6 +105,11 @@ class ProductoController extends Controller
                     break;
                 }
 
+                // Verificar si la fecha de vencimiento ya pasó, si es así, saltar este lote
+                if (\Carbon\Carbon::parse($lote->fechaVencimiento)->isPast()) {
+                    continue;
+                }
+
                 if ($lote->stockActual >= $contenidoNecesario) {
                     $lote->stockActual -= $contenidoNecesario;
                     $lote->save();
@@ -115,9 +120,24 @@ class ProductoController extends Controller
                     $lote->save();
                 }
             }
+            
+            // Si aún falta contenido después de recorrer todos los lotes
             if ($contenidoNecesario > 0) {
                 $nombreInsumo = Insumo::find($idInsumo)->nombre;
-                throw new \Exception("El insumo {$nombreInsumo} no tiene stock suficiente.");
+                
+                // Recolectamos información de lotes vencidos y disponibles
+                $loteVencidos = $lotes->filter(function ($lote) {
+                    return \Carbon\Carbon::parse($lote->fechaVencimiento)->isPast();
+                })->pluck('numeroLote')->toArray();
+                
+                if (!empty($loteVencidos)) {
+                    $mensaje = "El insumo {$nombreInsumo} tiene los siguientes lotes vencidos: " . implode(', ', $loteVencidos) . ".";
+                }
+                else{
+                    $mensaje = "El insumo {$nombreInsumo} no tiene stock suficiente.";
+                }
+                
+                throw new \Exception($mensaje);
             }
         }
     }

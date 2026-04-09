@@ -3,6 +3,7 @@
 @section('title')
     {{ Breadcrumbs::render('bajoStock') }}
 @endsection
+
 @section('content')
 
     @include('lotes.informacionPrueba')

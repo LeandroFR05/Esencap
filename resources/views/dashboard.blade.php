@@ -3,6 +3,7 @@
 @section('title')
     {{ Breadcrumbs::render('home') }}
 @endsection
+
 @section('content')
     <div class="row">
         <div class="col-6 col-lg-3 col-md-6">
@@ -150,9 +151,15 @@
     </div>
 @endsection
 
+@section('styles')
+    <!-- Apexcharts -->
+    <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
+@endsection
 
 @section('scripts')
-<script>
+<script> 
+    src="{{asset('assets/static/js/pages/dashboard.js')}}"
+    
     const ventasData = JSON.parse('{{ json_encode(array_values($ventas_data)) }}');
     const productosMasVendidos = JSON.parse('{!! json_encode(array_values($cantProductosVendidos)) !!}');
     const porcentajeStockBajo = JSON.parse('{{ json_encode($porcentajeStockBajo) }}');
@@ -174,8 +181,11 @@
             categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
         }
     }
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+    const chartEl = document.querySelector("#chart");
+    if (chartEl) {
+        const chart = new ApexCharts(chartEl, options);
+        chart.render();
+    }
 
 
     //Productos más vendidos
@@ -198,8 +208,11 @@
           }
         }]
     };
-    var chart = new ApexCharts(document.querySelector("#chart2"), options);
-    chart.render();
+    const chartEl2 = document.querySelector("#chart2");
+    if (chartEl2) {
+        const chart = new ApexCharts(chartEl2, options);
+        chart.render();
+    }
 
 
     //Productos con bajo stock
@@ -221,8 +234,11 @@
         },
         labels: ['Porcentaje'],
     };
-    var chart = new ApexCharts(document.querySelector("#chart3"), options);
-    chart.render();
+    const chartEl3 = document.querySelector("#chart3");
+    if (chartEl3) {
+        const chart = new ApexCharts(chartEl3, options);
+        chart.render();
+    }
 
 
     //Cantidad de productos vendidos por día
@@ -258,7 +274,10 @@
             }
         }
     };
-    var chart = new ApexCharts(document.querySelector("#chart4"), options);
-    chart.render();
+    const chartEl4 = document.querySelector("#chart4");
+    if (chartEl4) {
+        const chart = new ApexCharts(chartEl4, options);
+        chart.render();
+    }
 </script>
 @endsection
