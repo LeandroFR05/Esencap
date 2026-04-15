@@ -11,6 +11,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Mail\EsencapMail;
+use Illuminate\Support\Facades\Mail;
 
 // LOGIN ROUTES
 Route::get('/', function () {
@@ -66,6 +68,16 @@ Route::get('/ventas', [VentaController::class, 'ventas'])->middleware('auth')->n
 Route::get('/productos/buscar', [VentaController::class, 'buscar']);
 Route::post('/ventas/store', [VentaController::class, 'store'])->middleware('auth')->name('ventas.store');
 Route::get('/ventas/historial', [VentaController::class, 'historial'])->middleware('auth')->name('ventas.historial');
+
+// USER PROFILE ROUTES
+Route::get('/profile', [App\Http\Controllers\UserController::class, 'show'])->middleware('auth')->name('profile');
+Route::put('/profile', [App\Http\Controllers\UserController::class, 'update'])->middleware('auth')->name('profile.update');
+
+// // EMAIL ROUTES
+// Route::get('/enviar-email', function () {
+//     Mail::to('zonda@example.com')->send(new EsencapMail());
+//     return view('dashboard');
+// })->name('send-email')->middleware('auth');
 
 // disable public registration and provide auth-only routes
 Auth::routes(['register' => false]);

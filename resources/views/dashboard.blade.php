@@ -4,6 +4,8 @@
     {{ Breadcrumbs::render('home') }}
 @endsection
 
+<link rel="stylesheet" href="{{ asset('assets/compiled/css/iconly.css') }}">
+
 @section('content')
     <div class="row">
         <div class="col-6 col-lg-3 col-md-6">

@@ -3,11 +3,15 @@
     <title>Inicio de sesión</title>
 @endsection
 
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/Login/form_login.css') }}">
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+<div class="container register-page">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-8 col-lg-6">
+            <div class="card register-card">
                 <div class="card-header">{{ __('Iniciar Sesión') }}</div>
 
                 <div class="card-body">
@@ -60,11 +64,11 @@
                                     {{ __('Acceder') }}
                                 </button>
 
-                                <!-- @if (Route::has('password.request'))
+                                @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('¿Olvidaste tu contraseña?') }}
                                     </a>
-                                @endif -->
+                                @endif
                             </div>
                         </div>
                     </form>
