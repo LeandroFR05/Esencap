@@ -1,95 +1,278 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--begin::Head-->
+  <head>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@yield('page')</title>
-    
-    <link rel="shortcut icon" href="./assets/compiled/svg/favicon.svg" type="image/x-icon">
 
-    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
-    
-    
+    <!--begin::Accessibility Meta Tags-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    <!--end::Accessibility Meta Tags-->
+
+    <!--begin::Primary Meta Tags-->
+    <meta name="title" content="AdminLTE v4 | Dashboard" />
+    <meta name="author" content="ColorlibHQ" />
+    <meta
+      name="description"
+      content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance."
+    />
+    <meta
+      name="keywords"
+      content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel, WCAG compliant"
+    />
+    <!--end::Primary Meta Tags-->
+
+    <!--begin::Accessibility Features-->
+    <!-- Skip links will be dynamically added by accessibility.js -->
+    <meta name="supported-color-schemes" content="light dark" />
+    <!--end::Accessibility Features-->
+
+    <!--begin::Fonts-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
+      crossorigin="anonymous"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <!--end::Fonts-->
+
+    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+      crossorigin="anonymous"
+    />
+    <!--end::Third Party Plugin(OverlayScrollbars)-->
+
+    <!--begin::Third Party Plugin(Bootstrap Icons)-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      crossorigin="anonymous"
+    />
+    <!--end::Third Party Plugin(Bootstrap Icons)-->
+
+    <!--begin::Required Plugin(AdminLTE)-->
+    <!--end::Required Plugin(AdminLTE)-->
+
+    <!-- apexcharts -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
+      integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
+      crossorigin="anonymous"
+    />
     @yield('styles')
-</head>
+  </head>
+  
 
-<body>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <!--begin::App Wrapper-->
+    <div class="app-wrapper">
+      <!--begin::Header-->
+      <nav class="app-header navbar navbar-expand bg-body">
+        <!--begin::Container-->
+        <div class="container-fluid">
+          <!--begin::Start Navbar Links-->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                <i class="bi bi-list"></i>
+              </a>
+            </li>
+          </ul>
+          <!--end::Start Navbar Links-->
 
-    <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
-    <div id="app">
-        <div id="sidebar">
-            <div class="sidebar-wrapper active">
-    <div class="sidebar-header position-relative">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="logo" style="margin-right: 10px; padding-top: 15px;">
-                <a href="{{ route('dashboard') }}">
-                    <h4 style="color: blue;">ESENCAP</h4>
+          <!--begin::End Navbar Links-->
+          <ul class="navbar-nav ms-auto">
+            <!--begin::Navbar Search-->
+            <li class="nav-item">
+              <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                <i class="bi bi-search"></i>
+              </a>
+            </li>
+            <!--end::Navbar Search-->
+
+
+            <!--begin::Notifications Dropdown Menu-->
+            <li class="nav-item dropdown">
+              <a class="nav-link" data-bs-toggle="dropdown" href="#">
+                <i class="bi bi-bell-fill"></i>
+                <span class="navbar-badge badge text-bg-warning">15</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                <span class="dropdown-item dropdown-header">15 Notifications</span>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                  <i class="bi bi-envelope me-2"></i> 4 new messages
+                  <span class="float-end text-secondary fs-7">3 mins</span>
                 </a>
-            </div>
-            <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                    role="img" class="iconify iconify--system-uicons" width="20" height="20"
-                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
-                    <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path
-                            d="M10.5 14.5c2.219 0 4-1.763 4-3.982a4.003 4.003 0 0 0-4-4.018c-2.219 0-4 1.781-4 4c0 2.219 1.781 4 4 4zM4.136 4.136L5.55 5.55m9.9 9.9l1.414 1.414M1.5 10.5h2m14 0h2M4.135 16.863L5.55 15.45m9.899-9.9l1.414-1.415M10.5 19.5v-2m0-14v-2"
-                            opacity=".3"></path>
-                        <g transform="translate(-210 -1)">
-                            <path d="M220.5 2.5v2m6.5.5l-1.5 1.5"></path>
-                            <circle cx="220.5" cy="11.5" r="4"></circle>
-                            <path d="m214 5l1.5 1.5m5 14v-2m6.5-.5l-1.5-1.5M214 18l1.5-1.5m-4-5h2m14 0h2"></path>
-                        </g>
-                    </g>
-                </svg>
-                <div class="form-check form-switch fs-6">
-                    <input class="form-check-input  me-0" type="checkbox" id="toggle-dark" style="cursor: pointer">
-                    <label class="form-check-label"></label>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                    role="img" class="iconify iconify--mdi" width="20" height="20" preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="m17.75 4.09l-2.53 1.94l.91 3.06l-2.63-1.81l-2.63 1.81l.91-3.06l-2.53-1.94L12.44 4l1.06-3l1.06 3l3.19.09m3.5 6.91l-1.64 1.25l.59 1.98l-1.7-1.17l-1.7 1.17l.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95l2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85c-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14c.4-.4.82-.76 1.27-1.08c.75-.53 1.93.36 1.85 1.19c-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82c-2.81 3.14-2.7 7.96.31 10.98c3.02 3.01 7.84 3.12 10.98.31Z">
-                    </path>
-                </svg>
-            </div>
-            <div class="sidebar-toggler  x">
-                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-            </div>
-        </div>
-    </div>
-    @include('_partials.menu')
-</div>
-        </div>
-        <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                  <i class="bi bi-people-fill me-2"></i> 8 friend requests
+                  <span class="float-end text-secondary fs-7">12 hours</span>
                 </a>
-            </header>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                  <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
+                  <span class="float-end text-secondary fs-7">2 days</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
+              </div>
+            </li>
+            <!--end::Notifications Dropdown Menu-->
 
-<div class="page-heading">
-    <h5>@yield('title')</h5>
-</div> 
-<div class="page-content"> 
-    @yield('content')
-</div>
-
-          
+            <!--begin::Fullscreen Toggle-->
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+              </a>
+            </li>
+            <!--end::Fullscreen Toggle-->
+          </ul>
+          <!--end::End Navbar Links-->
         </div>
+        <!--end::Container-->
+      </nav>
+      <!--end::Header-->
+      <!--begin::Sidebar-->
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <!--begin::Sidebar Brand-->
+        <div class="sidebar-brand">
+          <!--begin::Brand Link-->
+          <a href="/dashboard" class="brand-link">
+            <!--begin::Brand Text-->
+            <span class="brand-text fw-light">ESENCAP</span>
+            <!--end::Brand Text-->
+          </a>
+        </div>
+        @include('_partials.menu')
+        <!--end::Sidebar Wrapper-->
+      </aside>
+      <!--end::Sidebar-->
+      <!--begin::App Main-->
+      <main class="app-main">
+        <!--begin::App Content Header-->
+        <div class="app-content-header">
+          <!--begin::Container-->
+          <div class="container-fluid">
+            <!--begin::Row-->
+
+            <h4 class="mb-0">@yield('title')</h4>
+              
+            <!--end::Row-->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content Header-->
+        <!--begin::App Content-->
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
+              @yield('content')
+            <!-- /.row (main row) -->
+          </div>
+          <!--end::Container-->
+        </div>
+        <!--end::App Content-->
+      </main>
+      <!--end::App Main-->
+      <!--begin::Footer-->
+      <footer class="app-footer">
+        <!--begin::Copyright-->
+        <strong>
+          ESENCAP 2026
+        </strong>
+        <!--end::Copyright-->
+      </footer>
+      <!--end::Footer-->
     </div>
 
-    <script src="{{asset('assets/static/js/components/dark.js')}}"></script>
-    <script src="{{asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
-    <script src="{{asset('assets/compiled/js/app.js')}}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+      crossorigin="anonymous"
+    ></script>
     
-    <!-- Librería Sweetalert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-@yield('scripts')
-@include('_partials.alerts')
-</body>
+    <script>
+      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+      const Default = {
+        scrollbarTheme: 'os-theme-light',
+        scrollbarAutoHide: 'leave',
+        scrollbarClickScroll: true,
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+
+        // Disable OverlayScrollbars on mobile devices to prevent touch interference
+        const isMobile = window.innerWidth <= 992;
+
+        if (
+          sidebarWrapper &&
+          OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined &&
+          !isMobile
+        ) {
+          OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            scrollbars: {
+              theme: Default.scrollbarTheme,
+              autoHide: Default.scrollbarAutoHide,
+              clickScroll: Default.scrollbarClickScroll,
+            },
+          });
+        }
+      });
+    </script>
+    <!--end::OverlayScrollbars Configure-->
+
+    <!-- OPTIONAL SCRIPTS -->
+
+    <!-- sortablejs -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- sortablejs -->
+    <!-- <script>
+      new Sortable(document.querySelector('.connectedSortable'), {
+        group: 'shared',
+        handle: '.card-header',
+      });
+
+      const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
+      cardHeaders.forEach((cardHeader) => {
+        cardHeader.style.cursor = 'move';
+      });
+    </script> -->
+
+    <!-- apexcharts -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
+      integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- ChartJS -->
+    @yield('scripts')
+    @include('_partials.alerts')
+
+  </body>
 </html>

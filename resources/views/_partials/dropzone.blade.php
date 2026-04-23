@@ -1,10 +1,11 @@
-<label for="dropzone-file" id="dropzone-label" class="d-flex flex-column align-items-center justify-content-center w-100 border border-2 border-dashed border-secondary rounded-3 bg-light position-relative overflow-hidden" style="height: 16.9rem; cursor: pointer;">
+<label for="dropzone-file" id="dropzone-label" class="d-flex flex-column align-items-center justify-content-center w-100 border border-2 border-dashed border-secondary rounded-3 bg-light position-relative overflow-hidden" style="height: 15rem; cursor: pointer;">
     <div id="dropzone-content" class="d-flex flex-column align-items-center justify-content-center pt-5 pb-6">
         <svg class="mb-4 text-secondary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16" width="40" height="40">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
         </svg>
         <p class="mb-2 text-sm text-secondary"><span class="fw-bold">Haz clic para subir</span> o arrastra y suelta</p>
-        <p class="text-xs text-secondary">SVG, PNG, JPG o GIF (MAX. 2000x2000px)</p>
+        <p class="text-xs text-secondary">SVG, PNG, JPG o GIF</p>
+        <p class="text-xs text-secondary">(MAX. 2000x2000px)</p>
     </div>
 
     <div id="dropzone-preview" class="{{ isset($foto) && $foto ? '' : 'd-none' }} w-100 h-100 position-absolute top-0 start-0 d-flex justify-content-center align-items-center bg-white">

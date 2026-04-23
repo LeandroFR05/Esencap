@@ -4,94 +4,87 @@
     {{ Breadcrumbs::render('home') }}
 @endsection
 
-<link rel="stylesheet" href="{{ asset('assets/compiled/css/iconly.css') }}">
 
 @section('content')
     <div class="row">
-        <div class="col-6 col-lg-3 col-md-6">
-            <div class="card">
-                <div class="card-body px-4 py-4-5">
-                    <div class="row">
-                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                            <div class="stats-icon purple mb-2">
-                                <a href="{{ route('lotes.infoVencimientos') }}">
-                                    <i class="iconly-boldShow"></i>
-                                </a>
-                                
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                            <h6 class="text-muted font-semibold">Lotes próximos a vencerse</h6>
-                            <h6 class="font-extrabold mb-0">{{ $lotesProximosaVencer }}</h6>
-                        </div>
-                    </div> 
+        <div class="col-lg-3 col-6">
+            <!--begin::Small Box Widget 1-->
+            <div class="small-box text-bg-primary">
+                <div class="inner">
+                    <h3>{{ $lotesProximosaVencer }}</h3>
+                    <p>Lotes próximos a vencerse</p>
                 </div>
+
+                <i class="bi bi-clock-history small-box-icon"></i>
+
+                <a href="{{ route('lotes.infoVencimientos') }}"
+                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                    Ver más 
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            <!--end::Small Box Widget 1-->
+        </div>
+
+        {{-- Lotes con bajo stock --}}
+        <div class="col-lg-3 col-6">
+            <div class="small-box text-bg-danger">
+                <div class="inner">
+                    <h3>{{ $lotesBajoStock }}</h3>
+                    <p>Lotes con bajo stock</p>
+                </div>
+
+                <i class="bi bi-exclamation-circle small-box-icon"></i>
+
+                <a href="{{ route('lotes.infoStock') }}"
+                class="small-box-footer link-light link-underline-opacity-0">
+                    Ver más
+                    <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
         </div>
 
-        <div class="col-6 col-lg-3 col-md-6">
-            <div class="card"> 
-                <div class="card-body px-4 py-4-5">
-                    <div class="row">
-                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                            <div class="stats-icon purple mb-2">
-                                <a href="{{ route('lotes.infoStock') }}">
-                                    <i class="iconly-boldShow"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                            <h6 class="text-muted font-semibold">Lotes con bajo stock</h6>
-                            <h6 class="font-extrabold mb-0">{{ $lotesBajoStock }}</h6>
-                        </div>
-                    </div>
+        {{-- Insumos registrados --}}
+        <div class="col-lg-3 col-6">
+            <div class="small-box text-bg-success">
+
+                <div class="inner">
+                    <h3>{{ $insumosRegistrados }}</h3>
+                    <p>Insumos registrados</p>
                 </div>
+
+                <i class="bi bi-box-seam small-box-icon"></i>
+
+                <a href="{{ route('insumos.estante') }}"
+                class="small-box-footer link-light link-underline-opacity-0">
+                    Ver más
+                    <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
         </div>
 
-        <div class="col-6 col-lg-3 col-md-6">
-            <div class="card"> 
-                <div class="card-body px-4 py-4-5">
-                    <div class="row">
-                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                            <div class="stats-icon purple mb-2">
-                                <a href="{{ route('insumos.estante') }}">
-                                    <i class="iconly-boldShow"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                            <h6 class="text-muted font-semibold">Insumos registrados</h6>
-                            <h6 class="font-extrabold mb-0">{{ $insumosRegistrados }}</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{-- Productos registrados --}}
+        <div class="col-lg-3 col-6">
+            <div class="small-box text-bg-info">
 
-        <div class="col-6 col-lg-3 col-md-6">
-            <div class="card"> 
-                <div class="card-body px-4 py-4-5">
-                    <div class="row">
-                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                            <div class="stats-icon purple mb-2">
-                                <a href="{{ route('productos.estante') }}">
-                                    <i class="iconly-boldShow"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                            <h6 class="text-muted font-semibold">Productos registrados</h6>
-                            <h6 class="font-extrabold mb-0">{{ $productosRegistrados }}</h6>
-                        </div>
-                    </div>
+                <div class="inner">
+                    <h3>{{ $productosRegistrados }}</h3>
+                    <p>Productos registrados</p>
                 </div>
+
+                <i class="bi bi-bag-check small-box-icon"></i>
+
+                <a href="{{ route('productos.estante') }}"
+                class="small-box-footer link-light link-underline-opacity-0">
+                    Ver más
+                    <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 mb-4">
             <div class="card">
                 <div class="card-header">
                     <h5>Ventas registradas por mes</h5>
@@ -107,7 +100,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card" style="height: 92.5%;">
+            <div class="card" style="height: 94.7%; width: 100%;">
                 <div class="card-header">
                     <h5>Productos con bajo stock</h5>
                 </div>
@@ -137,7 +130,7 @@
             </div>
         </div>
         <div class="col-md-7">
-            <div class="card">
+            <div class="card" style="height: 96%;">
                 <div class="card-header">
                     <h5>Cantidad de productos vendidos por día</h5>
                 </div>
@@ -155,12 +148,12 @@
 
 @section('styles')
     <!-- Apexcharts -->
-    <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script>
+    <!-- <script src="{{asset('assets/extensions/apexcharts/apexcharts.min.js')}}"></script> -->
 @endsection
 
 @section('scripts')
 <script> 
-    src="{{asset('assets/static/js/pages/dashboard.js')}}"
+    // src="{{asset('assets/static/js/pages/dashboard.js')}}"
     
     const ventasData = JSON.parse('{{ json_encode(array_values($ventas_data)) }}');
     const productosMasVendidos = JSON.parse('{!! json_encode(array_values($cantProductosVendidos)) !!}');

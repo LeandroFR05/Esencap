@@ -8,33 +8,108 @@
 
 @section('content')
     @component('components.cards')
-        @slot('titulo', 'Reponer ' . $producto->nombre)
+        @slot('titulo')
+            <i class="bi bi-plus-square me-2"></i>
+            Reponer {{ $producto->nombre }}
+        @endslot
         @slot('contenido')
             <form action="{{ route('productos.reponer.store', $producto->idProducto) }}" method="POST">
                 @csrf
                 <div class="row g-4">
-                    <div class="col-md-12">
-                        <label for="stockInicial">Stock inicial:</label>
-                        <div class="input-group">
-                            <input type="number" name="stockInicial" id="stockInicial" class="form-control stockInicial" required>
-                            <span class="input-group-text w-25 d-flex justify-content-center">unidades</span>
-                        </div>
-                        <div class="mt-3">
-                            <label for="contenidoPorUnidad">Contenido por Unidad:</label>
+
+                    <!-- Stock Inicial -->
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
+                            <label for="stockInicial" class="form-label fw-semibold">
+                                Stock inicial
+                            </label>
+
                             <div class="input-group">
-                                <input type="number" name="contenidoPorUnidad" id="contenidoPorUnidad" class="form-control contenidoPorUnidad"
-                                value="{{ $producto->contenidoPorUnidad }}" readonly required> 
-                                <span class="input-group-text w-25 d-flex justify-content-center">gramos</span>
+                                <span class="input-group-text">
+                                    <i class="bi bi-box"></i>
+                                </span>
+
+                                <input type="number"
+                                    name="stockInicial"
+                                    id="stockInicial"
+                                    class="form-control stockInicial @error('stockInicial') is-invalid @enderror"
+                                    required>
+
+                                <span class="input-group-text">
+                                    unidades
+                                </span>
+
+                                @error('stockInicial')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
-                        <div class="mt-3">
-                            <label for="fechaElaboracion">Fecha de elaboración:</label>
-                            <input type="date" name="fechaElaboracion" id="fechaElaboracion" class="form-control @error('fechaElaboracion') is-invalid @enderror" required>
+                    </div>
+
+                    <!-- Contenido por Unidad -->
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
+                            <label for="contenidoPorUnidad" class="form-label fw-semibold">
+                                Contenido por Unidad
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-archive"></i>
+                                </span>
+
+                                <input type="number"
+                                    name="contenidoPorUnidad"
+                                    id="contenidoPorUnidad"
+                                    value="{{ $producto->contenidoPorUnidad }}"
+                                    class="form-control contenidoPorUnidad @error('contenidoPorUnidad') is-invalid @enderror"
+                                    readonly
+                                    required>
+
+                                <span class="input-group-text">
+                                    gramos
+                                </span>
+
+                                @error('contenidoPorUnidad')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
-                </div><br><br>
-                
 
+                    <!-- Fecha de Elaboración -->
+                    <div class="col-12 col-md-4">
+                        <div class="mb-3">
+                            <label for="fechaElaboracion" class="form-label fw-semibold">
+                                Fecha de elaboración
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-calendar-date"></i>
+                                </span>
+
+                                <input type="date"
+                                    name="fechaElaboracion"
+                                    id="fechaElaboracion"
+                                    class="form-control @error('fechaElaboracion') is-invalid @enderror"
+                                    required>
+
+                                @error('fechaElaboracion')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
                 <div class="formula-card">
                     <div class="card-body p-4">
                         <p>Última Elaboración</p>
@@ -94,9 +169,10 @@
         @endslot
 
         @slot('footer')
-            <div class="row g-3">
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-success w-100">Guardar</button>
+            <div class="row g-4">
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success w-25">
+                        <i class="bi bi-check-circle me-1"></i> Guardar</button>
                 </div>
             </div>
         @endslot

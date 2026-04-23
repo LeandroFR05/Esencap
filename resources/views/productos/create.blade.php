@@ -14,36 +14,118 @@
                 @csrf
                 <div class="row g-4">
                     <div class="col-12 col-md-6">
-                        <!-- INFORMACIÓN INICIAL -->
-                        <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" class="form-control" required>
-                        <div class="mt-3"> <!-- mt= margin-top -->
-                            <label for="stockInicial">Stock inicial</label>
+
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label fw-semibold">
+                                Nombre
+                            </label>
+
                             <div class="input-group">
-                                <input type="number" name="stockInicial" id="stockInicial" value="{{ old('stockInicial') }}" class="form-control stockInicial" required>
-                                <span class="input-group-text w-25 d-flex justify-content-center">unidades</span>
+                                <span class="input-group-text">
+                                    <i class="bi bi-tag"></i>
+                                </span>
+
+                                <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}"
+                                    class="form-control @error('nombre') is-invalid @enderror" required>
+
+                                @error('nombre')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
-                        <div class="mt-3"> 
-                            <label for="contenidoPorUnidad">Contenido por Unidad</label>
+
+                        <!-- Stock inicial -->
+                        <div class="mb-3">
+                            <label for="stockInicial" class="form-label fw-semibold">
+                                Stock inicial
+                            </label>
+
                             <div class="input-group">
-                                <input type="number" name="contenidoPorUnidad" id="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}" 
-                                class="form-control contenidoPorUnidad" required>
-                                <span class="input-group-text w-25 d-flex justify-content-center">gramos</span>
-                            </div>    
+                                <span class="input-group-text">
+                                    <i class="bi bi-box"></i>
+                                </span>
+
+                                <input type="number" name="stockInicial" id="stockInicial" value="{{ old('stockInicial') }}"
+                                    class="form-control stockInicial @error('stockInicial') is-invalid @enderror" required>
+                                <span class="input-group-text w-25">
+                                    unidades
+                                </span>
+
+                                @error('stockInicial')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="mt-3">
-                            <label for="fechaElaboracion">Fecha de Elaboración</label>
-                            <input type="date" name="fechaElaboracion" id="fechaElaboracion" value="{{ old('fechaElaboracion') }}" class="form-control" required>
+
+                        <!-- Contenido por Unidad -->
+                        <div class="mb-3">
+                            <label for="contenidoPorUnidad" class="form-label fw-semibold">
+                                Contenido por Unidad
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-archive"></i>
+                                </span>
+
+                                <input type="number" name="contenidoPorUnidad" id="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}"
+                                    class="form-control contenidoPorUnidad @error('contenidoPorUnidad') is-invalid @enderror" required>
+                                <span class="input-group-text w-25">
+                                    gramos
+                                </span>
+
+                                @error('contenidoPorUnidad')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Fecha de Elaboración -->
+                        <div class="mb-3">
+                            <label for="fechaElaboracion" class="form-label fw-semibold">
+                                Fecha de Elaboración
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-calendar-date"></i>
+                                </span>
+
+                                <input type="date" name="fechaElaboracion" id="fechaElaboracion" value="{{ old('fechaElaboracion') }}"
+                                    class="form-control @error('fechaElaboracion') is-invalid @enderror" required>
+
+                                @error('fechaElaboracion')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
+
                     <div class="col-12 col-md-6">
-                        <label>Foto</label>
-                        @include('_partials.dropzone')
+                        <div class="card border">
+                            <div class="card-header bg-body-secondary">
+                                <i class="bi bi-image me-2"></i>
+                                Foto
+                            </div>
+
+                            <div class="card-body">
+                                @include('_partials.dropzone')
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <br><br>
-                
+
+                <br>
+
                 <!-- FÓRMULA -->
                 <div class="formula-card">
                     <div class="card-body p-4">
@@ -96,7 +178,9 @@
             <!-- Enviar formulario -->
             <div class="row g-3">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-success w-100">Guardar</button>
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-check-circle me-1"></i> Guardar
+                    </button>
                 </div>
             </div>
             </form>

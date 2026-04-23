@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Mail\EsencapMail;
 use Illuminate\Support\Facades\Mail;
 
+
 // LOGIN ROUTES
 Route::get('/', function () {
     return redirect('/login');
@@ -21,6 +22,13 @@ Route::get('/', function () {
 // Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// REGISTRATION ROUTES
+Route::middleware('auth')->group(function () {
+    // allow authenticated users to create other users
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+});
 
 // DASHBOARD
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
@@ -73,19 +81,8 @@ Route::get('/ventas/historial', [VentaController::class, 'historial'])->middlewa
 Route::get('/profile', [App\Http\Controllers\UserController::class, 'show'])->middleware('auth')->name('profile');
 Route::put('/profile', [App\Http\Controllers\UserController::class, 'update'])->middleware('auth')->name('profile.update');
 
-// // EMAIL ROUTES
-// Route::get('/enviar-email', function () {
-//     Mail::to('zonda@example.com')->send(new EsencapMail());
-//     return view('dashboard');
-// })->name('send-email')->middleware('auth');
-
 // disable public registration and provide auth-only routes
 Auth::routes(['register' => false]);
 
-Route::middleware('auth')->group(function () {
-    // allow authenticated users to create other users
-    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [RegisterController::class, 'register']);
-});
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

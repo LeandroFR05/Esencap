@@ -10,61 +10,59 @@
 @endsection
 
 @section('content')
-    <div class="container px-4 px-lg-2 mt-2">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4">
-            @forelse($insumos as $insumo)
-                @if($insumo->disponible == true)
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <x-foto :foto="$insumo->foto" />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ $insumo->nombre }}</h5>
-                                    <!-- Product price-->
-                                    Stock: {{ $insumo->lotes->sum('stockActual') }} {{ $insumo->unidadDeMedida }}
-                                </div>
-                            </div>
-
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="d-flex justify-content-center gap-2">
-                                    
-                                    <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}" 
-                                        class="btn btn-outline-success" 
-                                        data-bs-toggle="tooltip" 
-                                        title="Reponer Stock">
-                                        <i class="bi bi-plus-lg"></i>
-                                    </a>
-
-                                    <a href="{{ route('insumos.edit', $insumo->idInsumo) }}" 
-                                        class="btn btn-outline-warning" 
-                                        data-bs-toggle="tooltip" 
-                                        title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-
-                                    <a href="{{ route('lotes.show', $insumo->idInsumo) }}" 
-                                        class="btn btn-outline-info" 
-                                        data-bs-toggle="tooltip" 
-                                        title="Ver Lotes">
-                                        <i class="bi bi-box-seam"></i>
-                                    </a>
-                                </div>    
+    <div class="row">
+        @forelse($insumos as $insumo)
+            @if($insumo->disponible == true)
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <x-foto :foto="$insumo->foto" />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">{{ $insumo->nombre }}</h5>
+                                <!-- Product price-->
+                                Stock: {{ $insumo->lotes->sum('stockActual') }} {{ $insumo->unidadDeMedida }}
                             </div>
                         </div>
-                    </div>
-                @endif
-            @empty
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        No hay insumos disponibles en este momento.
+
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="d-flex justify-content-center gap-2">
+                                
+                                <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}" 
+                                    class="btn btn-outline-success" 
+                                    data-bs-toggle="tooltip" 
+                                    title="Reponer Stock">
+                                    <i class="bi bi-plus-lg"></i>
+                                </a>
+
+                                <a href="{{ route('insumos.edit', $insumo->idInsumo) }}" 
+                                    class="btn btn-outline-warning" 
+                                    data-bs-toggle="tooltip" 
+                                    title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+                                <a href="{{ route('lotes.show', $insumo->idInsumo) }}" 
+                                    class="btn btn-outline-info" 
+                                    data-bs-toggle="tooltip" 
+                                    title="Ver Lotes">
+                                    <i class="bi bi-box-seam"></i>
+                                </a>
+                            </div>    
+                        </div>
                     </div>
                 </div>
-            @endforelse
-        </div>
+            @endif
+        @empty
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    No hay insumos disponibles en este momento.
+                </div>
+            </div>
+        @endforelse
     </div>
 @endsection
 

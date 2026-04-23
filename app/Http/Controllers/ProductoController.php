@@ -208,8 +208,11 @@ class ProductoController extends Controller
     public function edit(Producto $producto): View
     {
         $stockTotal = Historial::where('idProducto', $producto->idProducto)->sum('stockActual');
+        $ultimaElaboracion = Historial::where('idProducto', $producto->idProducto)
+        ->latest('fechaElaboracion')
+        ->value('fechaElaboracion');
 
-        return view('productos.edit', compact('producto', 'stockTotal'));
+        return view('productos.edit', compact('producto', 'stockTotal', 'ultimaElaboracion'));
     }
 
 
