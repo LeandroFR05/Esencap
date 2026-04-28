@@ -286,15 +286,25 @@ class ProductoController extends Controller
     }
 
 
-    public function eliminar(Producto $producto): RedirectResponse
-    {
-        // Antes de eliminar el producto, eliminamos su foto si existe
-        if ($producto->foto && Storage::disk('public')->exists($producto->foto)) {
-            Storage::disk('public')->delete($producto->foto);
-        }
-
+    public function eliminar(Producto $producto): RedirectResponse {
+        $producto->estado = false;
+        $producto->save();
         $producto->delete();
 
         return redirect()->route('productos.estante')->with('success', 'Producto eliminado exitosamente.');
+    }
+
+    public function eliminados(): View {
+        $productosEliminados = Producto::onlyTrashed()->get();
+        return view('productos.eliminados', compact('productosEliminados'));
+    }
+
+    public function restore($idProducto): RedirectResponse {
+        $producto = Producto::onlyTrashed()->findOrFail($idProducto);
+        $producto->restore();
+        $producto->estado = true;
+        $producto->save();
+
+        return redirect()->route('productos.eliminados')->with('success', 'Producto restaurado exitosamente.');
     }
 }

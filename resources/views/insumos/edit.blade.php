@@ -198,7 +198,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <form action="{{ route('insumos.deshabilitar', $insumo->idInsumo) }}" method="POST">
+                    <form action="{{ route('insumos.destroy', $insumo->idInsumo) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger w-100 delete-btn">
@@ -212,7 +212,6 @@
 
     <!--Llamamos a las ventanas modales-->
     @include('_modals.modalFamilia')
-    @include('_modals.modalDeshabilitarInsumo')
 @endsection
 
 

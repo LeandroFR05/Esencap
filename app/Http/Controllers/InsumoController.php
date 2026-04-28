@@ -112,9 +112,26 @@ class InsumoController extends Controller
     }
 
 
-    public function deshabilitar(Insumo $insumo): RedirectResponse {
-        $insumo->update(['disponible' => false]);
+    public function eliminar(Insumo $insumo): RedirectResponse {
+        $insumo->estado = false;
+        $insumo->save();
+        $insumo->delete();
+
         return redirect()->route('insumos.estante')->with('success', 'Insumo eliminado exitosamente.');
+    }
+
+    public function eliminados(): View {
+        $insumosEliminados = Insumo::onlyTrashed()->get();
+        return view('insumos.eliminados', compact('insumosEliminados'));
+    }
+
+    public function restore($idInsumo): RedirectResponse {
+        $insumo = Insumo::onlyTrashed()->findOrFail($idInsumo);
+        $insumo->restore();
+        $insumo->estado = true;
+        $insumo->save();
+
+        return redirect()->route('insumos.eliminados')->with('success', 'Insumo restaurado exitosamente.');
     }
 
     // Esta función es para obtener los insumos vinculados a una determinada familia seleccionada en la fabricación de un producto.
@@ -122,18 +139,4 @@ class InsumoController extends Controller
         $insumos = Insumo::where('idFamilia', $idFamilia)->get();
         return response()->json($insumos);
     }
-
-
-    /* public function eliminar(Insumo $insumo): RedirectResponse {
-        // Eliminar la foto asociada si existe
-        if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {
-            Storage::disk('public')->delete($insumo->foto);
-        }
-
-        // Eliminar el insumo
-        $insumo->delete();
-
-        return redirect()->route('insumos.estante')->with('danger', 'Insumo eliminado exitosamente.');
-    }
-    */
 }

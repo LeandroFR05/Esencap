@@ -41,7 +41,9 @@ Route::get('/insumos/edit/{insumo}', [InsumoController::class, 'edit'])->middlew
 Route::put('/insumos/update/{insumo}', [InsumoController::class, 'update'])->middleware('auth')->name('insumos.update');
 Route::get('/insumos/reponer/{insumo}', [InsumoController::class, 'reponer'])->middleware('auth')->name('insumos.reponer');
 Route::post('/insumos/reponer/{insumo}', [InsumoController::class, 'reponerStore'])->middleware('auth')->name('insumos.reponer.store');
-Route::delete('/insumos/deshabilitar/{insumo}', [InsumoController::class, 'deshabilitar'])->middleware('auth')->name('insumos.deshabilitar');
+Route::delete('/insumos/eliminar/{insumo}', [InsumoController::class, 'eliminar'])->middleware('auth')->name('insumos.destroy');
+Route::get('/insumos/eliminados', [InsumoController::class, 'eliminados'])->middleware('auth')->name('insumos.eliminados');
+Route::get('/insumos/restore/{idInsumo}', [InsumoController::class, 'restore'])->middleware('auth')->name('insumos.restore');
 Route::get('/insumos/{idFamilia}', [InsumoController::class, 'porFamilia'])->middleware('auth')->name('insumos.porFamilia');
 
 // FAMILIAS ROUTES
@@ -65,6 +67,8 @@ Route::get('/productos/showFormula/{producto}', [ProductoController::class, 'sho
 Route::get('/productos/reponer/{producto}', [ProductoController::class, 'reponer'])->middleware('auth')->name('productos.reponer');
 Route::post('/productos/reponer/{producto}', [ProductoController::class, 'reponerStore'])->middleware('auth')->name('productos.reponer.store');
 Route::delete('/productos/eliminar/{producto}', [ProductoController::class, 'eliminar'])->middleware('auth')->name('productos.destroy');
+Route::get('/productos/eliminados', [ProductoController::class, 'eliminados'])->middleware('auth')->name('productos.eliminados');
+Route::get('/productos/restore/{idProducto}', [ProductoController::class, 'restore'])->middleware('auth')->name('productos.restore');
 
 // HISTORIAL ROUTES
 Route::get('/historial', [HistorialController::class, 'historial'])->middleware('auth')->name('historial.general');

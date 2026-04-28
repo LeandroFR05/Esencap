@@ -27,6 +27,7 @@ Breadcrumbs::for('vencidos', function (BreadcrumbTrail $trail) {
     $trail->push('Lotes próximos a vencerse', route('lotes.infoVencimientos'));
 });
 
+
 //PRODUCTOS
 //Estante de productos
 Breadcrumbs::for('productos', function (BreadcrumbTrail $trail) {
@@ -58,6 +59,13 @@ Breadcrumbs::for('historialProducto', function (BreadcrumbTrail $trail, $product
     $trail->push('Historial', route('productos.historial', $producto));
 });
 
+//Eliminados
+Breadcrumbs::for('productos.eliminados', function (BreadcrumbTrail $trail) {
+    $trail->parent('productos');
+    $trail->push('Productos eliminados', route('productos.eliminados'));
+});
+
+
 //INSUMOS
 //Estante de insumos
 Breadcrumbs::for('insumos', function (BreadcrumbTrail $trail) {
@@ -83,17 +91,25 @@ Breadcrumbs::for('reponerInsumo', function (BreadcrumbTrail $trail, $insumo) {
     $trail->push('Reponer', route('insumos.reponer', $insumo));
 });
 
+//Eliminados
+Breadcrumbs::for('insumos.eliminados', function (BreadcrumbTrail $trail) {
+    $trail->parent('insumos');
+    $trail->push('Insumos eliminados', route('insumos.eliminados'));
+});
+
 //Lotes
 Breadcrumbs::for('lotes', function (BreadcrumbTrail $trail, $insumo) {
     $trail->parent('insumos');
     $trail->push('Lotes', route('lotes.show', $insumo));
 });
 
+
 //HISTORIAL
 Breadcrumbs::for('historialGeneral', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Historial', route('historial.general'));
 });
+
 
 //VENTA
 Breadcrumbs::for('ventas', function (BreadcrumbTrail $trail) {

@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Familia;
 use App\Models\Formula;
 use App\Models\LoteInsumo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Insumo extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = false;
     protected $primaryKey = 'idInsumo';
 
