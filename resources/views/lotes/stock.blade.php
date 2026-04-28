@@ -6,6 +6,6 @@
 
 @section('content')
 
-    @include('lotes.informacionPrueba')
+    @include('lotes.informacion')
 
 @endsection

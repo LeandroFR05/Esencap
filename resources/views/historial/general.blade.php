@@ -6,27 +6,46 @@
 
 @section('content')
 
+    {{-- Filtros --}}
     @component('components.cards')
-        @slot('titulo', 'Historial de elaboración')
+        @slot('titulo')
+            <i class="bi bi-funnel me-2"></i>Filtros
+        @endslot
         @slot('contenido')
-            <div class="row mb-3">
+            <div class="row g-3 align-items-end">
                 <div class="col-md-4">
-                    <label for="producto">Producto</label>
-                    <input type="text" id="producto" class="form-control">
+                    <label for="producto" class="form-label fw-semibold small">Producto</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+                        <input type="text" id="producto" class="form-control" placeholder="Buscar producto...">
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="fecha">Fecha</label>
-                    <input type="date" id="fecha" class="form-control">
+                    <label for="fecha" class="form-label fw-semibold small">Fecha</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                        <input type="date" id="fecha" class="form-control">
+                    </div>
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
+                <div class="col-md-2">
                     <button type="button" class="btn btn-secondary w-100" onclick="limpiarFiltros()">
-                        Limpiar Filtros
+                        Limpiar
                     </button>
                 </div>
             </div>
+        @endslot
+    @endcomponent
 
+    <br>
+    {{-- Tabla --}}
+    @component('components.cards')
+        @slot('titulo')
+            <i class="bi bi-clock-history me-2"></i>Historial de elaboración
+        @endslot
+        @slot('bodyClass', 'p-0')
+        @slot('contenido')
             <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="tableHistorial">
+                <table class="table table-bordered table-hover align-middle mb-0" id="tableHistorial">
                     <thead class="table-dark">
                         <tr>
                             <th>Fecha</th>
@@ -34,31 +53,30 @@
                             <th>Stock inicial</th>
                             <th>Stock actual</th>
                             <th>Contenido por unidad</th>
-                            <th style="width: 120px;">Acciones</th>
+                            <th class="text-center" style="width: 120px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($historial as $h)
                             <tr>
-                                <td>{{ $h->fechaElaboracion }}</td>
+                                <td>{{ \Carbon\Carbon::parse($h->fechaElaboracion)->format('d/m/Y') }}</td>
                                 <td>{{ $h->producto->nombre }}</td>
                                 <td>{{ $h->stockInicial }}u</td>
                                 <td>{{ $h->stockActual }}u</td>
                                 <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
-                                <td>
-                                    <div class="d-flex gap-2 justify-content-center">
-                                        <button 
-                                            class="btn btn-sm btn-primary"
+                                <td class="p-1">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button
+                                            class="btn btn-sm btn-primary flex-fill"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalHistorial-{{ $h->idHistorial }}">
                                             <i class="bi bi-eye-fill"></i>
                                         </button>
-                                        <form action="{{ route('historial.eliminar', $h->idHistorial) }}" method="POST">
+                                        <form action="{{ route('historial.eliminar', $h->idHistorial) }}" method="POST" class="flex-fill">
                                             @csrf
                                             @method('DELETE')
                                             <input type="hidden" name="idProducto" value="{{ $h->producto->idProducto }}">
-                                            <button type="submit"
-                                                class="btn btn-sm btn-danger delete-btn">
+                                            <button type="submit" class="btn btn-sm btn-danger w-100 delete-btn">
                                                 <i class="bi bi-trash3-fill"></i>
                                             </button>
                                         </form>
@@ -70,18 +88,18 @@
                 </table>
             </div>
         @endslot
-        @slot('footer')
-            <div class="d-flex justify-content-center mt-3">
-                {{ $historial->links() }}
-            </div>
-        @endslot
+        @if($historial->hasPages())
+            @slot('footer')
+                <div class="d-flex justify-content-center">
+                    {{ $historial->links() }}
+                </div>
+            @endslot
+        @endif
     @endcomponent
-
 
     @include('historial.modals.detalle_historial')
 
 @endsection
-
 
 @section('scripts')
     <script src="{{ asset('js/historial/filtros_historial.js') }}"></script>

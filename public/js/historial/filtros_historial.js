@@ -20,7 +20,7 @@ function filterTable() {
         let filtroFechaDMY = "";
         if (filtroFecha) {
             const partes = filtroFecha.split("-"); // [YYYY, MM, DD]
-            filtroFechaDMY = `${partes[2]}-${partes[1]}-${partes[0]}`;
+            filtroFechaDMY = `${partes[2]}/${partes[1]}/${partes[0]}`;
         }
 
         // 3. Lógica de validación (Criterio Cruzado)
@@ -44,8 +44,7 @@ function filterTable() {
             noResultsMsg.id = "no-results";
             noResultsMsg.textContent = "No hay resultados";
             noResultsMsg.style.textAlign = "center";
-            noResultsMsg.style.marginTop = "20px";
-            noResultsMsg.style.fontSize = "18px";
+            noResultsMsg.style.fontSize = "15px";
             noResultsMsg.style.color = "#666";
             document.querySelector("#tableHistorial").parentNode.appendChild(noResultsMsg);
         } else {

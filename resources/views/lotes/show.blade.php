@@ -3,75 +3,139 @@
 @section('title')
     {{ Breadcrumbs::render('lotes', $insumo) }}
 @endsection
+
 @section('content')
 
+    {{-- Tarjetas de resumen --}}
+    <div class="row justify-content-center mb-3">
+        <div class="col-xl-10">
+            <div class="row g-3">
+                <div class="col-sm-6 col-md-4">
+                    <div class="card shadow-sm border-0 bg-primary-subtle">
+                        <div class="card-body d-flex align-items-center gap-3 py-3">
+                            <i class="bi bi-layers fs-2 text-primary"></i>
+                            <div>
+                                <div class="text-muted small text-uppercase fw-semibold">Lotes registrados</div>
+                                <div class="fs-4 fw-bold text-primary">{{ $lote->count() }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="card shadow-sm border-0 bg-success-subtle">
+                        <div class="card-body d-flex align-items-center gap-3 py-3">
+                            <i class="bi bi-box-seam fs-2 text-success"></i>
+                            <div>
+                                <div class="text-muted small text-uppercase fw-semibold">Stock total</div>
+                                <div class="fs-4 fw-bold text-success">
+                                    {{ $lote->sum('stockActual') }} {{ $insumo->unidadDeMedida }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @component('components.cards')
-        @slot('titulo', 'Lotes de ' . $insumo->nombre)
+        @slot('titulo')
+            <i class="bi bi-box-seam me-2"></i>Lotes de {{ $insumo->nombre }}
+        @endslot
 
         @slot('contenido')
+        @slot('bodyClass', 'p-0')
             @if($lote->isNotEmpty())
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle mb-0">
-                        <thead class="table-dark">
-                            <tr class="text-center">
-                                <th scope="col" class="fw-semibold">Número de lote</th>
-                                <th scope="col" class="fw-semibold">Stock Inicial</th>
-                                <th scope="col" class="fw-semibold">Stock Actual</th>
-                                <th scope="col" class="fw-semibold">Fecha de compra</th>
-                                <th scope="col" class="fw-semibold">Fecha de vencimiento</th>
-                                <th scope="col" class="fw-semibold" style="width: 120px;">Acciones</th>
+                        <thead class="table-dark text-center">
+                            <tr>
+                                <th>N° Lote</th>
+                                <th>Stock inicial</th>
+                                <th>Stock actual</th>
+                                <th>F. compra</th>
+                                <th>F. vencimiento</th>
+                                <th class="text-center" style="width: 80px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($lote as $item)
+                                @php
+                                    $vencimiento   = \Carbon\Carbon::parse($item->fechaVencimiento);
+                                    $diasRestantes = now()->diffInDays($vencimiento, false);
+                                    $badgeClass    = match(true) {
+                                        $diasRestantes < 0  => 'danger',
+                                        $diasRestantes < 30 => 'warning',
+                                        default             => 'success',
+                                    };
+                                @endphp
                                 <tr>
-                                    <td class="fw-medium">{{ $item->numeroLote }}</td>
-                                    <td>{{ $item->stockInicial }} {{ $insumo->unidadDeMedida }}</td>
-                                    <td>
-                                        <span class="stock-actual" data-id="{{ $item->idLote }}">
+                                    <td class="text-center">
+                                        <code class="fw-bold">{{ $item->numeroLote }}</code>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $item->stockInicial }} {{ $insumo->unidadDeMedida }}
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success stock-actual" data-id="{{ $item->idLote }}">
                                             {{ $item->stockActual }} {{ $insumo->unidadDeMedida }}
                                         </span>
                                     </td>
-                                    <td>{{ $item->fechaCompra }}</td>
-                                    <td>{{ $item->fechaVencimiento }}</td>
-                                    <td>
-                                        <div class="d-flex gap-2 justify-content-center">
-                                            <form action="{{ route('lotes.eliminar', $item->idLote) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" name="idInsumo" value="{{ $insumo->idInsumo }}">
-                                                <button type="submit"
-                                                    class="btn btn-sm btn-danger delete-btn"
-                                                    data-toggle="tooltip"
-                                                    title="Eliminar lote">
-                                                    <i class="bi bi-trash3-fill"></i>
-                                                </button>
-                                            </form>
-                                        </div>
+                                    <td class="text-center text-muted small">
+                                        {{ \Carbon\Carbon::parse($item->fechaCompra)->format('d/m/Y') }}
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-{{ $badgeClass }}">
+                                            {{ \Carbon\Carbon::parse($item->fechaVencimiento)->format('d/m/Y') }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <form action="{{ route('lotes.eliminar', $item->idLote) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="idInsumo" value="{{ $insumo->idInsumo }}">
+                                            <button type="submit"
+                                                class="btn btn-sm btn-danger delete-btn"
+                                                title="Eliminar lote">
+                                                <i class="bi bi-trash3-fill"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr class="table-secondary fw-bold">
-                                <td colspan="2" class="text-end">Stock Total:</td>
-                                <td>{{ $lote->sum('stockActual') }} {{ $insumo->unidadDeMedida }}</td>
+                                <td colspan="2" class="text-end text-muted small text-uppercase">
+                                    Stock total:
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge bg-success">
+                                        {{ $lote->sum('stockActual') }} {{ $insumo->unidadDeMedida }}
+                                    </span>
+                                </td>
                                 <td colspan="3"></td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             @else
-                <h6 style="display: flex; justify-content: center;">No existen lotes para este insumo actualmente</h6>
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox fs-1 d-block mb-2 opacity-50"></i>
+                    No existen lotes registrados para este insumo.
+                </div>
             @endif
         @endslot
 
         @slot('footer')
-            <div class="d-flex justify-content-end">
-                <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}" 
-                   class="btn btn-outline-success">
-                    <i class="bi bi-plus-lg"></i>
-                    Reponer
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                    <i class="bi bi-info-circle me-1"></i>
+                    {{ $lote->count() }} lote(s) encontrado(s)
+                </small>
+                <a href="{{ route('insumos.reponer', $insumo->idInsumo) }}"
+                   class="btn btn-success btn-sm">
+                    <i class="bi bi-plus-lg me-1"></i>Reponer stock
                 </a>
             </div>
         @endslot

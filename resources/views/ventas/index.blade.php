@@ -12,12 +12,34 @@
                 @csrf
                 <div class="row g-4">
                     <div class="col-md-6">
-                        <label for="cliente">Cliente:</label>
-                        <input type="text" name="cliente" id="cliente" value="{{ old('cliente') }}" class="form-control @error('cliente') is-invalid @enderror" required>
+                        <label for="cliente" class="form-label fw-semibold">Cliente:</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="nav-icon bi bi-person"></i>
+                            </span>
+                            <input type="text" name="cliente" id="cliente" value="{{ old('cliente') }}" 
+                                class="form-control @error('cliente') is-invalid @enderror" required>
+                        </div>
+                        @error('cliente')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                     <div class="col-md-6">
-                        <label for="fecha">Fecha:</label>
-                        <input type="date" name="fecha" id="fecha" value="{{ old('fecha') }}" class="form-control @error('fecha') is-invalid @enderror" required>
+                        <label for="fecha" class="form-label fw-semibold">Fecha:</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-calendar"></i>
+                            </span>
+                            <input type="date" name="fecha" id="fecha" value="{{ old('fecha') }}" 
+                            class="form-control @error('fecha') is-invalid @enderror" required>
+                            @error('fecha')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
@@ -73,8 +95,8 @@
 
         @slot('footer')
             <div class="row g-3">
-                <div class="col-md-12">
-                    <button type="button" id="btn-registrar" class="btn btn-success w-100">
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="button" id="btn-registrar" class="btn btn-success w-25">
                         <i class="bi bi-check-lg"></i> Registrar Venta
                     </button>
                 </div>

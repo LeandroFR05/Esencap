@@ -143,7 +143,7 @@
 
                         <li class="nav-item">
                             <a href="{{ route('profile') }}"
-                            class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}">
+                            class="nav-link ps-4 {{ request()->routeIs('profile') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-person"></i>
                                 <p>Perfil</p>
                             </a>
@@ -151,7 +151,7 @@
 
                         <li class="nav-item">
                             <a href="{{ route('logout') }}"
-                            class="nav-link"
+                            class="nav-link ps-4"
                             onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
 
