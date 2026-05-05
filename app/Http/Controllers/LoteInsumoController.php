@@ -19,10 +19,19 @@ class LoteInsumoController extends Controller
 
     public function vencidos()
     {
+        $insumos = Insumo::where('estado', 1)->get();
+        $lotesAgrupados = collect();
         $hoy = date('Y-m-d');
-        $lotesVencidos = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy.' +10 days')))
-            ->where('stockActual', '>', 0)->get();
-        $lotesAgrupados = $lotesVencidos->groupBy('idInsumo');
+
+        foreach ($insumos as $insumo) {
+            $lotes = LoteInsumo::where('idInsumo', $insumo->idInsumo)
+                ->where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy . ' +10 days')))
+                ->get();
+
+            if ($lotes->isNotEmpty()) {
+                $lotesAgrupados[$insumo->idInsumo] = $lotes;
+            }
+        }
 
         $bandera = 0;
         if ($lotesAgrupados->isEmpty()) {
@@ -34,16 +43,16 @@ class LoteInsumoController extends Controller
 
     public function infoStock()
     {
-        $insumos = Insumo::where('disponible', 1)->get();
+        $insumos = Insumo::where('estado', 1)->get();
         $lotesAgrupados = collect();
 
         foreach ($insumos as $insumo) {
             // Definir el stock mínimo según la unidad de medida
             $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
-                'gramos' => 100,
+                'gramos' => 500,
                 'kilos' => 1,
                 'unidades' => 10,
-                'litros' => 1,
+                'litros' => 2,
             };
 
             // Buscar lotes de ese insumo con stock bajo

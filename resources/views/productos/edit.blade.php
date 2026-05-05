@@ -21,53 +21,29 @@
 
                 @csrf
                 @method('PUT')
-
+                
                 <div class="row g-4">
                     <div class="col-12 col-md-4">
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label fw-semibold">
-                                Nombre
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-tag"></i>
-                                </span>
-
-                                <input type="text"
-                                    name="nombre"
-                                    id="nombre"
-                                    value="{{ $producto->nombre }}"
-                                    class="form-control @error('nombre') is-invalid @enderror"
-                                    required>
-
-                                @error('nombre')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-input-group 
+                            name="nombre" 
+                            label="Nombre" 
+                            type="text" 
+                            icon="bi-tag" 
+                            value="{{ $producto->nombre }}" 
+                            required 
+                        />
                     </div>
 
                     <div class="col-12 col-md-4">
                         <div class="mb-3">
-                            <label for="ultimaElaboracion" class="form-label fw-semibold">
-                                Última elaboración
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-calendar-event"></i>
-                                </span>
-
-                                <input type="text"
-                                       name="ultimaElaboracion"
-                                       id="ultimaElaboracion"
-                                       value="{{ $ultimaElaboracion }}"
-                                       class="form-control bg-light"
-                                       readonly>
-                            </div>
+                            <x-input-group
+                                name="ultimaElaboracion"
+                                label="Última elaboración"
+                                type="text"
+                                icon="bi-calendar-event"
+                                value="{{ $ultimaElaboracion }}"
+                                readonly
+                            />
                         </div>
                     </div>
                 </div>
@@ -139,14 +115,8 @@
                             </div>
 
                             <div class="card-body">
-
-                                <input type="hidden"
-                                       name="remove_foto"
-                                       id="remove-foto"
-                                       value="0">
-
+                                <input type="hidden" name="remove_foto" id="remove-foto" value="0">
                                 @include('_partials.dropzone', ['foto' => $producto->foto])
-
                             </div>
                         </div>
                     </div>

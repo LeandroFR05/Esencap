@@ -13,54 +13,27 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $ventas_data = $this->ventasMensuales();
-        $cantProductosVendidos = $this->cantidadProductosVendidos();
-        $porcentajeStockBajo = $this->calcularPorcentajeStockBajo();
-        $ventasDiarias = $this->ventasDiarias();
+        // Gráficos
+        $ventas_data = $this->ventasRegistradasPorMes();
+        $porcentajeStockBajo = $this->productosConBajoStock();
+        $cantProductosVendidos = $this->productosMasVendidos();
+        $ventasDiarias = $this->cantidadDeProductosVendidosPorDia();
+
+        // Tarjetas
+        $lotesProximosaVencer = $this->lotesProximosAVencer();
+        $lotesBajoStock = $this->lotesConBajoStock();
         $insumosRegistrados = $this->insumosRegistrados();
         $productosRegistrados = $this->productosRegistrados();
-
-        $hoy = date('Y-m-d');
-        $lotesProximosaVencer = LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy.' +10 days')))
-            ->where('stockActual', '>', 0)->count();
-
-        $insumos = Insumo::all();
-        $lotesAgrupados = collect();
-        $lotesBajoStock = 0;
-
-        foreach ($insumos as $insumo) {
-            // Definir el stock mínimo según la unidad de medida
-            $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
-                'gramos' => 500,
-                'kilos' => 1,
-                'unidades' => 10,
-                'litros' => 2,
-                default => 5,
-            };
-
-            // Buscar lotes de ese insumo con stock bajo
-            $lotesBajoStock += LoteInsumo::where('idInsumo', $insumo->idInsumo)
-                ->where('stockActual', '<=', $stockMinimo)
-                ->count();
-        }
-
-        return view('dashboard', compact('ventas_data', 'cantProductosVendidos', 'porcentajeStockBajo', 'lotesProximosaVencer',
-            'lotesBajoStock', 'ventasDiarias', 'insumosRegistrados', 'productosRegistrados'));
+        
+        return view('dashboard', compact('ventas_data', 'porcentajeStockBajo', 'cantProductosVendidos', 'ventasDiarias', 
+            'lotesProximosaVencer', 'lotesBajoStock', 'insumosRegistrados', 'productosRegistrados'));
     }
+
+
 
     // FUNCIONES PRIVADAS DE INDEX
-    private function insumosRegistrados()
-    {
-        return Insumo::count();
-    }
-
-
-    private function productosRegistrados()
-    {
-        return Producto::count();
-    }
-
-    private function ventasMensuales()
+    // Gráficos
+    private function ventasRegistradasPorMes()
     {
         $ventas_mensuales = Venta::select(
             DB::raw('MONTH(fecha) as mes'),
@@ -79,7 +52,37 @@ class DashboardController extends Controller
         return $ventas_data;
     }
 
-    private function ventasDiarias()
+
+    private function productosConBajoStock()
+    {
+        $limiteStockBajo = 5;
+        $totalProductos = Historial::count();
+
+        $stockBajo = Historial::where('stockActual', '<=', $limiteStockBajo)->count();
+        $porcentajeStockBajo = $totalProductos > 0 ? round(($stockBajo / $totalProductos) * 100, 2) : 0;
+
+        return $porcentajeStockBajo;
+    }
+
+
+    private function productosMasVendidos()
+    {
+        return DB::table('ventas as v')
+            ->join('carritos as c', 'c.idVenta', '=', 'v.idVenta')
+            ->join('productos as p', 'p.idProducto', '=', 'c.idProducto')
+            ->select(
+                'p.idProducto',
+                'p.nombre as nombre',
+                DB::raw('SUM(c.cantidad) as total_vendidos')
+            )
+            ->groupBy('p.idProducto', 'p.nombre')
+            ->orderBy('total_vendidos', 'desc')
+            ->get()
+            ->toArray();
+    }
+
+
+    private function cantidadDeProductosVendidosPorDia()
     {
         $ventas_diarias = DB::table('ventas as v')
             ->join('carritos as c', 'c.idVenta', '=', 'v.idVenta')
@@ -96,32 +99,46 @@ class DashboardController extends Controller
         return $ventas_diarias;
     }
 
-    private function cantidadProductosVendidos()
+
+    // Tarjetas
+    public function lotesProximosAVencer()
     {
-        return DB::table('ventas as v')
-            ->join('carritos as c', 'c.idVenta', '=', 'v.idVenta')
-            ->join('productos as p', 'p.idProducto', '=', 'c.idProducto')
-            ->select(
-                DB::raw('DATE(v.fecha) as dia'),
-                'p.idProducto',
-                'p.nombre as nombre',
-                DB::raw('SUM(c.cantidad) as total_vendidos')
-            )
-            ->groupBy('dia', 'p.idProducto', 'p.nombre')
-            ->orderBy('dia', 'desc')
-            ->orderBy('total_vendidos', 'desc')
-            ->get()
-            ->toArray();
+        $hoy = date('Y-m-d');
+        return LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy.' +10 days')))->count();
+    }
+    
+    public function lotesConBajoStock()
+    {
+        $insumos = Insumo::where('estado', 1)->get();
+        $lotesBajoStock = 0;
+
+        foreach ($insumos as $insumo) {
+            // Definir el stock mínimo según la unidad de medida
+            $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
+                'gramos' => 500,
+                'kilos' => 1,
+                'unidades' => 10,
+                'litros' => 2,
+            };
+
+            // Buscar lotes de ese insumo con stock bajo
+            $lotesBajoStock += LoteInsumo::where('idInsumo', $insumo->idInsumo)
+                ->where('stockActual', '<=', $stockMinimo)
+                ->count();
+        }
+
+        return $lotesBajoStock;
     }
 
-    private function calcularPorcentajeStockBajo()
+
+    private function insumosRegistrados()
     {
-        $limiteStockBajo = 5;
-        $totalProductos = Historial::count();
+        return Insumo::count();
+    }
 
-        $stockBajo = Historial::where('stockActual', '<=', $limiteStockBajo)->count();
-        $porcentajeStockBajo = $totalProductos > 0 ? round(($stockBajo / $totalProductos) * 100, 2) : 0;
 
-        return $porcentajeStockBajo;
+    private function productosRegistrados()
+    {
+        return Producto::count();
     }
 }

@@ -35,6 +35,6 @@ class Formula extends Model
 
     public function insumo()
     {
-        return $this->belongsTo(Insumo::class, 'idInsumo', 'idInsumo');
+        return $this->belongsTo(Insumo::class, 'idInsumo', 'idInsumo')->withTrashed();
     }
 }

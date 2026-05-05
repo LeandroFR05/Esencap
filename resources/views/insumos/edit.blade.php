@@ -13,36 +13,18 @@
             <form action="{{ route('insumos.update', $insumo->idInsumo) }}" method="POST" enctype="multipart/form-data" id="updateForm">
                 @csrf
                 @method('PUT')
-                <div class="row g-4">
-                    <div class="col-12 col-md-6">
+                <div class="row g-3">
+                    <div class="col-md-6">
 
                         <!-- Nombre -->
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label fw-semibold">
-                                Nombre
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-tag"></i>
-                                </span>
-
-                                <input
-                                    type="text"
-                                    name="nombre"
-                                    id="nombre"
-                                    value="{{ $insumo->nombre }}"
-                                    class="form-control @error('nombre') is-invalid @enderror"
-                                    required
-                                >
-
-                                @error('nombre')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-input-group 
+                            name="nombre"
+                            label="Nombre"
+                            type="text"
+                            icon="bi-tag"
+                            value="{{ old('nombre', $insumo->nombre) }}"
+                            required
+                        />
 
                         <!-- Stock Total -->
                         <div class="mb-3">
@@ -70,44 +52,22 @@
                                     </span>
                                 </div>
 
-                                <a
-                                    href="{{ route('lotes.show', $insumo->idInsumo) }}"
-                                    class="btn btn-outline-info ms-2"
-                                >
-                                    <i class="bi bi-box-seam me-1"></i>
-                                    Ver Lotes
+                                <a href="{{ route('lotes.show', $insumo->idInsumo) }}" class="btn btn-outline-info ms-2">
+                                    <i class="bi bi-box-seam me-1"></i> Ver Lotes
                                 </a>
                             </div>
                         </div>
 
                         <!-- Fase -->
-                        <div class="mb-3">
-                            <label for="fase" class="form-label fw-semibold">
-                                Fase
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-diagram-3"></i>
-                                </span>
-
-                                <input
-                                    type="text"
-                                    name="fase"
-                                    id="fase"
-                                    value="{{ $insumo->fase }}"
-                                    class="form-control @error('fase') is-invalid @enderror"
-                                    required
-                                >
-
-                                @error('fase')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
+                        <x-input-group 
+                            name="fase"
+                            label="Fase"
+                            type="text"
+                            icon="bi-diagram-3"
+                            value="{{ old('fase', $insumo->fase) }}"
+                            required
+                        />
+                        
                         <!-- Familia -->
                         <div class="mb-3">
                             <label for="idFamilia" class="form-label fw-semibold">
@@ -120,21 +80,15 @@
                                 </span>
 
                                 @if($formula)
-                                    <select
-                                        name="idFamilia"
-                                        id="idFamilia"
-                                        class="form-control"
-                                        style="background-color: #f3f3f3ff;"
-                                        required
+                                    <select name="idFamilia" id="idFamilia" class="form-control"
+                                        style="background-color: #f3f3f3ff;" required
                                     >
                                         <option value="{{ $insumo->idFamilia }}">
                                             {{ $insumo->familia->nombre }}
                                         </option>
                                     </select>
                                 @else
-                                    <select
-                                        name="idFamilia"
-                                        id="idFamilia"
+                                    <select name="idFamilia" id="idFamilia"
                                         class="form-control @error('idFamilia') is-invalid @enderror"
                                         required
                                     >
@@ -148,12 +102,7 @@
                                         @endforeach
                                     </select>
 
-                                    <button
-                                        type="button"
-                                        class="btn btn-primary"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalFamilia"
-                                    >
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFamilia">
                                         <i class="bi bi-plus-lg"></i>
                                     </button>
                                 @endif
@@ -175,14 +124,8 @@
                             </div>
 
                             <div class="card-body">
-
-                                <input type="hidden"
-                                       name="remove_foto"
-                                       id="remove-foto"
-                                       value="0">
-
+                                <input type="hidden" name="remove_foto" id="remove-foto" value="0">
                                 @include('_partials.dropzone', ['foto' => $insumo->foto])
-
                             </div>
                         </div>
                     </div>

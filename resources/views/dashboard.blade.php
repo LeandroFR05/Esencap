@@ -7,8 +7,8 @@
 
 @section('content')
     <div class="row">
+        {{-- Lotes próximos a vencer --}}
         <div class="col-lg-3 col-6">
-            <!--begin::Small Box Widget 1-->
             <div class="small-box text-bg-primary">
                 <div class="inner">
                     <h3>{{ $lotesProximosaVencer }}</h3>
@@ -23,7 +23,6 @@
                     <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
-            <!--end::Small Box Widget 1-->
         </div>
 
         {{-- Lotes con bajo stock --}}
@@ -83,6 +82,7 @@
         </div>
     </div>
 
+    <!-- Gráficos -->
     <div class="row">
         <div class="col-md-8 mb-4">
             <div class="card">
@@ -135,7 +135,7 @@
                     <h5>Cantidad de productos vendidos por día</h5>
                 </div>
                 <div class="card-body">
-                    @if(empty($cantProductosVendidos))
+                    @if(empty($ventasDiarias))
                         <p class="text-center text-muted">No hay datos disponibles para mostrar este gráfico.</p>
                     @else
                         <div id="chart4"></div>

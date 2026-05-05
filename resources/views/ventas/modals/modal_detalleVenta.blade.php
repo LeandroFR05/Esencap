@@ -3,11 +3,11 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
 
-                <div class="modal-header bg-success text-white">
+                <div class="modal-header text-black" style="background-color: #b3f9b6;">
                     <h5 class="modal-title">
                         <i class="bi bi-receipt me-2"></i>Detalle de Venta #{{ $v->idVenta }}
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body p-0">

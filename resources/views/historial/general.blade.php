@@ -53,7 +53,8 @@
                             <th>Stock inicial</th>
                             <th>Stock actual</th>
                             <th>Contenido por unidad</th>
-                            <th class="text-center" style="width: 120px;">Acciones</th>
+                            <th>Estado</th>
+                            <th class="text-center" style="width: 100px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,6 +65,17 @@
                                 <td>{{ $h->stockInicial }}u</td>
                                 <td>{{ $h->stockActual }}u</td>
                                 <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
+                                <td>
+                                    @php
+                                        if ($h->producto->estado == 1) {
+                                            echo '<span class="badge bg-success w-100">Activo</span>';
+                                        } elseif ($h->producto->estado == 0) {
+                                            echo '<span class="badge bg-danger w-100">Eliminado</span>';
+                                        } else {
+                                            echo $h->producto->estado;
+                                        }
+                                    @endphp
+                                </td>
                                 <td class="p-1">
                                     <div class="d-flex gap-1 justify-content-center">
                                         <button
@@ -72,14 +84,6 @@
                                             data-bs-target="#modalHistorial-{{ $h->idHistorial }}">
                                             <i class="bi bi-eye-fill"></i>
                                         </button>
-                                        <form action="{{ route('historial.eliminar', $h->idHistorial) }}" method="POST" class="flex-fill">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="idProducto" value="{{ $h->producto->idProducto }}">
-                                            <button type="submit" class="btn btn-sm btn-danger w-100 delete-btn">
-                                                <i class="bi bi-trash3-fill"></i>
-                                            </button>
-                                        </form>
                                     </div>
                                 </td>
                             </tr>

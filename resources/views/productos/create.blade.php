@@ -12,30 +12,18 @@
         @slot('contenido')
             <form id="formProductos" method="POST" action="{{ route('productos.store') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="row g-4">
-                    <div class="col-12 col-md-6">
+                <div class="row g-3">
+                    <div class="col-md-6">
 
                         <!-- Nombre -->
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label fw-semibold">
-                                Nombre
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-tag"></i>
-                                </span>
-
-                                <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}"
-                                    class="form-control @error('nombre') is-invalid @enderror" required>
-
-                                @error('nombre')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-input-group 
+                            name="nombre"
+                            label="Nombre"
+                            type="text"
+                            icon="bi-tag"
+                            value="{{ old('nombre') }}"
+                            required
+                        />
 
                         <!-- Stock inicial -->
                         <div class="mb-3">
@@ -88,29 +76,17 @@
                         </div>
 
                         <!-- Fecha de Elaboración -->
-                        <div class="mb-3">
-                            <label for="fechaElaboracion" class="form-label fw-semibold">
-                                Fecha de Elaboración
-                            </label>
-
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-calendar-date"></i>
-                                </span>
-
-                                <input type="date" name="fechaElaboracion" id="fechaElaboracion" value="{{ old('fechaElaboracion') }}"
-                                    class="form-control @error('fechaElaboracion') is-invalid @enderror" required>
-
-                                @error('fechaElaboracion')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
+                        <x-input-group
+                            name="fechaElaboracion"
+                            label="Fecha de Elaboración"
+                            type="date"
+                            icon="bi-calendar-date"
+                            value="{{ old('fechaElaboracion') }}"
+                            required
+                        />
                     </div>
 
-                    <div class="col-12 col-md-6">
+                    <div class="col-md-6">
                         <div class="card border">
                             <div class="card-header bg-body-secondary">
                                 <i class="bi bi-image me-2"></i>

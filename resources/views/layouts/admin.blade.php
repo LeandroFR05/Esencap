@@ -141,7 +141,6 @@
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
           <a href="/dashboard" class="brand-link">
-            <!--begin::Brand Text-->
             <span class="brand-text fw-light">ESENCAP</span>
             <!--end::Brand Text-->
           </a>
