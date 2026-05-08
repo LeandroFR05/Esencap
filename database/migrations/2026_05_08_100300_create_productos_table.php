@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('foto', 200)->nullable();
             $table->string('nombre', 50);
             $table->decimal('contenidoPorUnidad');
-            $table->smallInteger('idBase')->unsigned();
-            $table->smallInteger('idRecalculada')->unsigned();
+            $table->boolean('estado')->default(true);
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+        Schema::dropIfExists('productos');
     }
 };

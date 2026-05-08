@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Historial;
 use App\Models\Carrito;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Producto extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     public $timestamps = false;
     protected $primaryKey = 'idProducto';

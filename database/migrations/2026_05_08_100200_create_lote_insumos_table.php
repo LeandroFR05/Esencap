@@ -11,30 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('insumos', function (Blueprint $table) {
-            $table->smallIncrements('idInsumo');
-            $table->string('foto', 200)->nullable();
-            $table->tinyInteger('idFamilia')->unsigned();
-            $table->string('nombre', 50);
-            $table->char('fase', 10);
-            $table->decimal('contenidoPorUnidad');
-            $table->boolean('disponible')->default(true);
-        });
-
         Schema::create('loteInsumos', function (Blueprint $table) {
             $table->mediumIncrements('idLote');
             $table->smallInteger('numeroLote')->unsigned();
             $table->smallInteger('idInsumo')->unsigned();
-            $table->smallInteger('stock')->unsigned();
+            $table->decimal('stockInicial', 10, 2);
+            $table->decimal('stockActual', 10, 2);
             $table->date('fechaVencimiento');
-                
-            //Clave foranea
-            $table->foreign('idInsumo')->references('idInsumo')->on('insumos')->onDelete('cascade');
+            $table->date('fechaCompra');
+
+            // Foreign key
+            $table->foreign('idInsumo')->references('idInsumo')->on('insumos')->cascadeOnDelete();
         });
     }
-
-        
-    
 
     /**
      * Reverse the migrations.
@@ -42,7 +31,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('loteInsumos');
-        Schema::dropIfExists('insumos');
-       
     }
 };

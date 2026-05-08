@@ -17,16 +17,11 @@ return new class extends Migration
             $table->unsignedSmallInteger('idProducto');
             $table->unsignedSmallInteger('cantidad');
 
-            $table->foreign('idVenta')
-                ->references('idVenta')
-                ->on('ventas')
-                ->cascadeOnDelete();
-            
-            $table->foreign('idProducto')
-                ->references('idProducto')
-                ->on('productos')
-                ->cascadeOnDelete();
+            // Foreign keys
+            $table->foreign('idVenta')->references('idVenta')->on('ventas')->cascadeOnDelete();
+            $table->foreign('idProducto')->references('idProducto')->on('productos')->cascadeOnDelete();
 
+            // Unique constraint
             $table->unique(['idVenta', 'idProducto']);
         });
     }

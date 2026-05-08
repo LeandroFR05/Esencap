@@ -7,6 +7,7 @@ use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\HistorialController;
 use App\Http\Controllers\InsumoController;
 use App\Http\Controllers\LoteInsumoController;
+use App\Http\Controllers\ManualController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Auth;
@@ -80,6 +81,9 @@ Route::get('/ventas', [VentaController::class, 'ventas'])->middleware('auth')->n
 Route::get('/productos/buscar', [VentaController::class, 'buscar']);
 Route::post('/ventas/store', [VentaController::class, 'store'])->middleware('auth')->name('ventas.store');
 Route::get('/ventas/historial', [VentaController::class, 'historial'])->middleware('auth')->name('ventas.historial');
+
+// MANUAL ROUTES
+Route::get('/manual/descargar', [ManualController::class, 'descargar'])->middleware('auth')->name('manual.descargar');
 
 // USER PROFILE ROUTES
 Route::get('/profile', [App\Http\Controllers\UserController::class, 'show'])->middleware('auth')->name('profile');

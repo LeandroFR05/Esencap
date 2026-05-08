@@ -43,38 +43,44 @@
         @slot('titulo')
             <i class="bi bi-bag-check me-2"></i>Historial de ventas
         @endslot
-        @slot('bodyClass', 'p-0')
-        @slot('contenido')
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0"
-                       style="table-layout: fixed; width: 100%;"
-                       id="tableHistorial">
-                    <thead class="table-dark">
-                        <tr>
-                            <th style="width: 180px;">Fecha</th>
-                            <th>Cliente</th>
-                            <th class="text-center" style="width: 120px;">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($ventas as $v)
+        @if($ventas->hasPages())
+            @slot('bodyClass', 'p-0')
+            @slot('contenido')
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle mb-0"
+                        style="table-layout: fixed; width: 100%;"
+                        id="tableHistorial">
+                        <thead class="table-dark">
                             <tr>
-                                <td>{{ \Carbon\Carbon::parse($v->fecha)->format('d/m/Y') }}</td>
-                                <td>{{ $v->cliente }}</td>
-                                <td class="p-1">
-                                    <button type="button"
-                                        class="btn btn-info btn-sm w-100"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalVenta{{ $v->idVenta }}">
-                                        <i class="bi bi-eye me-1"></i>Ver
-                                    </button>
-                                </td>
+                                <th style="width: 180px;">Fecha</th>
+                                <th>Cliente</th>
+                                <th class="text-center" style="width: 120px;">Acción</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endslot
+                        </thead>
+                        <tbody>
+                            @foreach ($ventas as $v)
+                                <tr>
+                                    <td>{{ \Carbon\Carbon::parse($v->fecha)->format('d/m/Y') }}</td>
+                                    <td>{{ $v->cliente }}</td>
+                                    <td class="p-1">
+                                        <button type="button"
+                                            class="btn btn-info btn-sm w-100"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalVenta{{ $v->idVenta }}">
+                                            <i class="bi bi-eye me-1"></i>Ver
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endslot
+        @else
+            @slot('contenido')
+                <p class="text-center">No se encontraron resultados.</p>
+            @endslot
+        @endif
     @endcomponent
 
     @include('ventas.modals.modal_detalleVenta')

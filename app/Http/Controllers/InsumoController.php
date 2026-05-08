@@ -16,7 +16,7 @@ use Illuminate\Http\JsonResponse;
 class InsumoController extends Controller
 {
     public function insumos(): View {
-        $insumos = Insumo::withSum('lotes', 'stockActual')->get();
+        $insumos = Insumo::withSum('lotes', 'stockActual')->paginate(10);
         return view('insumos.estante', compact('insumos'));
     }
 

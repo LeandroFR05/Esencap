@@ -19,7 +19,7 @@ class ProductoController extends Controller
 {
     public function productos(): View
     {
-        $productos = Producto::withSum('historiales', 'stockActual')->get();
+        $productos = Producto::withSum('historiales', 'stockActual')->paginate(10);
 
         return view('productos.estante', compact('productos'));
     }

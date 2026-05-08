@@ -18,6 +18,10 @@ return new class extends Migration
             $table->decimal('porcentaje');
             $table->smallInteger('idInsumo')->unsigned();
             $table->decimal('contenido');
+
+            // Foreign keys
+            $table->foreign('idHistorial')->references('idHistorial')->on('historial')->cascadeOnDelete();
+            $table->foreign('idInsumo')->references('idInsumo')->on('insumos')->restrictOnDelete();
         });
     }
 

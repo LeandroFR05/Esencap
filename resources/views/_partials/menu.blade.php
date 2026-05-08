@@ -179,6 +179,13 @@
                 </li>
                 @endauth
 
+                <li class="nav-item">
+                    <a href="{{ route('manual.descargar') }}" class="nav-link" download>
+                        <i class="nav-icon bi bi-file-pdf"></i>
+                        <p>Manual de usuario</p>
+                    </a>
+                </li>
+
         </ul>
     </div>
 

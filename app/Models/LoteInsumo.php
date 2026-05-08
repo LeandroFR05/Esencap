@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
 use App\Models\Insumo;
 
 class LoteInsumo extends Model
 {
+    use HasFactory;
+
     protected $table = 'loteinsumos';
     protected $primaryKey = 'idLote';
     public $timestamps = false;

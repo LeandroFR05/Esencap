@@ -18,7 +18,7 @@
                 <i class="bi bi-clock-history small-box-icon"></i>
 
                 <a href="{{ route('lotes.infoVencimientos') }}"
-                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                class="small-box-footer link-light link-underline-opacity-0">
                     Ver más 
                     <i class="bi bi-arrow-right"></i>
                 </a>

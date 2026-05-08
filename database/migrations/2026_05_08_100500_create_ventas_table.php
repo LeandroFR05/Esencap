@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('loteInsumos', function (Blueprint $table) {
-        $table->dropColumn('fechaCompra');
-        });
-
-        Schema::table('loteInsumos', function (Blueprint $table) {
-            $table->date('fechaCompra');
+        Schema::create('ventas', function (Blueprint $table) {
+            $table->mediumIncrements('idVenta');
+            $table->date('fecha');
+            $table->string('cliente', 50)->nullable();
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('ventas');
     }
 };

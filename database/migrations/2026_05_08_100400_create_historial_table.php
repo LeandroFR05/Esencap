@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('historial', function (Blueprint $table) {
             $table->mediumIncrements('idHistorial');
             $table->smallInteger('idProducto')->unsigned();
-            $table->smallInteger('stock')->unsigned();
+            $table->smallInteger('stockInicial')->unsigned();
+            $table->smallInteger('stockActual')->nullable();
             $table->date('fechaElaboracion');
+
+            // Foreign key
+            $table->foreign('idProducto')->references('idProducto')->on('productos')->cascadeOnDelete();
         });
     }
 
