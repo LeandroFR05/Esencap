@@ -105,7 +105,7 @@
                 <!-- FÓRMULA -->
                 <div class="formula-card">
                     <div class="card-body p-4">
-                        @include('productos.partials.estrFormula')
+                        @include('_partials.productos.estrFormula')
                         <div id="contenedor-formulas">
                             <div class="row formula-item mb-2 align-items-center">
                                 <div class="col">
@@ -166,7 +166,7 @@
 @endsection
 
 @section('scripts')
-    @include('productos.partials.scripts')
+    @include('_partials.productos.scripts')
     <script src="{{ asset('js/dropzone.js') }}"></script>
 @endsection
 

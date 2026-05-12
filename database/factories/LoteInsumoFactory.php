@@ -22,7 +22,7 @@ class LoteInsumoFactory extends Factory
         $fechaCompra = fake()->dateTimeBetween('-1 year', 'now');
 
         return [
-            'numeroLote' => LoteInsumo::count() + 1,
+            // numeroLote se asigna automáticamente por el trigger
             'stockInicial' => $stockInicial,
             'stockActual' => $stockInicial, // Inicialmente igual al stock inicial
             'fechaCompra' => $fechaCompra->format('Y-m-d'),

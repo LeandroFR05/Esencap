@@ -85,6 +85,7 @@
                     </ul>
                 </li>
 
+
                 {{-- VENTAS --}}
                 <li class="nav-item {{ request()->routeIs('ventas.*') ? 'menu-open' : '' }}">
                     <a href="#"
@@ -117,14 +118,24 @@
                     </ul>
                 </li>
 
+
                 {{-- HISTORIAL --}}
                 <li class="nav-item">
-                    <a href="{{ route('historial.general') }}"
-                    class="nav-link {{ request()->routeIs('historial.general') ? 'active' : '' }}">
+                    <a href="{{ route('historial.productos') }}"
+                    class="nav-link {{ request()->routeIs('historial.productos') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-list-task"></i>
-                        <p>Historial de elaboración</p>
+                        <p>Historial de productos</p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('insumos.historial') }}"
+                    class="nav-link {{ request()->routeIs('insumos.historial') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-list-task"></i>
+                        <p>Historial de insumos</p>
+                    </a>
+                </li>
+
 
                 {{-- AJUSTES --}}
                 <li class="nav-header">AJUSTES</li>

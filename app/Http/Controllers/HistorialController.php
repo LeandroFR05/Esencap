@@ -15,7 +15,7 @@ class HistorialController extends Controller
             'formulas.familia',
         ])->paginate(10);
 
-        return view('historial.general', compact('historial'));
+        return view('historial.productos', compact('historial'));
     }
 
     public function eliminar(Request $request, Historial $historial)

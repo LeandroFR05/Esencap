@@ -1,15 +1,15 @@
 @extends('layouts.admin')
-@section('page', 'Historial del Producto')
+@section('page', 'Lotes de ' . $producto->nombre)
 
 @section('title')
-    {{ Breadcrumbs::render('historialProducto', $producto) }}
+    {{ Breadcrumbs::render('lotesProducto', $producto) }}
 @endsection
 
 @section('content')
     @component('components.cards')
         @slot('titulo')
             <i class="bi bi-clock-history me-2"></i>
-            Historial de elaboración de {{ $producto->nombre }}
+            Lotes de {{ $producto->nombre }}
         @endslot
 
         @slot('contenido')
@@ -17,7 +17,7 @@
             @if ($producto->historiales->isEmpty())
                 <div class="alert alert-info mb-0">
                     <i class="bi bi-info-circle me-2"></i>
-                    No hay historial de elaboraciones para este producto.
+                    No hay lotes para este producto.
                 </div>
             @else
                 <div class="table-responsive">
@@ -26,7 +26,9 @@
                         id="tableHistorial">
                         <thead class="table-dark">
                             <tr class="text-center">
-
+                                <th class="fw-semibold">
+                                    N° de Lote
+                                </th>
                                 <th class="fw-semibold">
                                     Fecha de Elaboración
                                 </th>
@@ -48,6 +50,9 @@
                         <tbody>
                             @foreach ($producto->historiales as $historial)
                                 <tr>
+                                    <td class="text-center">
+                                        <code class="fw-bold">{{ $historial->numeroLote }}</code>
+                                    </td>
                                     <td>
                                         {{ \Carbon\Carbon::parse($historial->fechaElaboracion)->format('d/m/Y') }}
                                     </td>
@@ -92,6 +97,7 @@
                                 </td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -109,7 +115,7 @@
         @endslot
     @endcomponent
 
-    @include('productos.modals.detalle_historial')
+    @include('_modals.productos.detalleLotes')
 
 @endsection
 

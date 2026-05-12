@@ -15,112 +15,118 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
 });
 
 //LOTES
-//Bajo stock
-Breadcrumbs::for('bajoStock', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Lotes con bajo stock', route('lotes.infoStock'));
-});
+    //Bajo stock
+    Breadcrumbs::for('bajoStock', function (BreadcrumbTrail $trail) {
+        $trail->parent('home');
+        $trail->push('Lotes con bajo stock', route('lotes.infoStock'));
+    });
 
-//Vencidos
-Breadcrumbs::for('vencidos', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Lotes próximos a vencerse', route('lotes.infoVencimientos'));
-});
+    //Vencidos
+    Breadcrumbs::for('vencidos', function (BreadcrumbTrail $trail) {
+        $trail->parent('home');
+        $trail->push('Lotes próximos a vencerse', route('lotes.infoVencimientos'));
+    });
 
 
 //PRODUCTOS
-//Estante de productos
-Breadcrumbs::for('productos', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Estante de Productos', route('productos.estante'));
-});
+    //Estante de productos
+    Breadcrumbs::for('productos', function (BreadcrumbTrail $trail) {
+        $trail->parent('home');
+        $trail->push('Estante de Productos', route('productos.estante'));
+    });
 
-//Editar
-Breadcrumbs::for('editar', function (BreadcrumbTrail $trail, $producto) {
-    $trail->parent('productos');
-    $trail->push('Editar', route('productos.edit', $producto));
-});
+    //Editar
+    Breadcrumbs::for('editar', function (BreadcrumbTrail $trail, $producto) {
+        $trail->parent('productos');
+        $trail->push('Editar', route('productos.edit', $producto));
+    });
 
-//Nuevo
-Breadcrumbs::for('nuevo', function (BreadcrumbTrail $trail) {
-    $trail->parent('productos');
-    $trail->push('Nuevo', route('productos.create'));
-});
+    //Nuevo
+    Breadcrumbs::for('nuevo', function (BreadcrumbTrail $trail) {
+        $trail->parent('productos');
+        $trail->push('Nuevo', route('productos.create'));
+    });
 
-//Reponer
-Breadcrumbs::for('reponerProducto', function (BreadcrumbTrail $trail, $producto) {
-    $trail->parent('productos');
-    $trail->push('Reponer', route('productos.reponer', $producto));
-});
+    //Reponer
+    Breadcrumbs::for('reponerProducto', function (BreadcrumbTrail $trail, $producto) {
+        $trail->parent('productos');
+        $trail->push('Reponer', route('productos.reponer', $producto));
+    });
 
-//Historial
-Breadcrumbs::for('historialProducto', function (BreadcrumbTrail $trail, $producto) {
-    $trail->parent('productos');
-    $trail->push('Historial', route('productos.historial', $producto));
-});
+    //Lotes
+    Breadcrumbs::for('lotesProducto', function (BreadcrumbTrail $trail, $producto) {
+        $trail->parent('productos');
+        $trail->push('Lotes', route('productos.lotes', $producto));
+    });
 
-//Eliminados
-Breadcrumbs::for('productos.eliminados', function (BreadcrumbTrail $trail) {
-    $trail->parent('productos');
-    $trail->push('Productos eliminados', route('productos.eliminados'));
-});
+    //Eliminados
+    Breadcrumbs::for('productos.eliminados', function (BreadcrumbTrail $trail) {
+        $trail->parent('productos');
+        $trail->push('Productos eliminados', route('productos.eliminados'));
+    });
 
 
 //INSUMOS
-//Estante de insumos
-Breadcrumbs::for('insumos', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Estante de Insumos', route('insumos.estante'));
-});
+    //Estante de insumos
+    Breadcrumbs::for('insumos', function (BreadcrumbTrail $trail) {
+        $trail->parent('home');
+        $trail->push('Estante de Insumos', route('insumos.estante'));
+    });
 
-//Editar
-Breadcrumbs::for('editarInsumo', function (BreadcrumbTrail $trail, $insumo) {
-    $trail->parent('insumos');
-    $trail->push('Editar', route('insumos.edit', $insumo));
-});
+    //Editar
+    Breadcrumbs::for('editarInsumo', function (BreadcrumbTrail $trail, $insumo) {
+        $trail->parent('insumos');
+        $trail->push('Editar', route('insumos.edit', $insumo));
+    });
 
-//Nuevo
-Breadcrumbs::for('nuevoInsumo', function (BreadcrumbTrail $trail) {
-    $trail->parent('insumos');
-    $trail->push('Nuevo', route('insumos.create'));
-});
+    //Nuevo
+    Breadcrumbs::for('nuevoInsumo', function (BreadcrumbTrail $trail) {
+        $trail->parent('insumos');
+        $trail->push('Nuevo', route('insumos.create'));
+    });
 
-//Reponer
-Breadcrumbs::for('reponerInsumo', function (BreadcrumbTrail $trail, $insumo) {
-    $trail->parent('insumos');
-    $trail->push('Reponer', route('insumos.reponer', $insumo));
-});
+    //Reponer
+    Breadcrumbs::for('reponerInsumo', function (BreadcrumbTrail $trail, $insumo) {
+        $trail->parent('insumos');
+        $trail->push('Reponer', route('insumos.reponer', $insumo));
+    });
 
-//Eliminados
-Breadcrumbs::for('insumos.eliminados', function (BreadcrumbTrail $trail) {
-    $trail->parent('insumos');
-    $trail->push('Insumos eliminados', route('insumos.eliminados'));
-});
+    //Eliminados
+    Breadcrumbs::for('insumos.eliminados', function (BreadcrumbTrail $trail) {
+        $trail->parent('insumos');
+        $trail->push('Insumos eliminados', route('insumos.eliminados'));
+    });
 
-//Lotes
-Breadcrumbs::for('lotes', function (BreadcrumbTrail $trail, $insumo) {
-    $trail->parent('insumos');
-    $trail->push('Lotes', route('lotes.show', $insumo));
-});
+    //Lotes
+    Breadcrumbs::for('lotes', function (BreadcrumbTrail $trail, $insumo) {
+        $trail->parent('insumos');
+        $trail->push('Lotes', route('insumos.lotes', $insumo));
+    });
+
+    //Historial
+    Breadcrumbs::for('historialInsumos', function (BreadcrumbTrail $trail) {
+        $trail->parent('home');
+        $trail->push('Historial', route('insumos.historial'));
+    });
 
 
 //HISTORIAL
 Breadcrumbs::for('historialGeneral', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Historial', route('historial.general'));
+    $trail->push('Historial', route('historial.productos'));
 });
 
 
 //VENTA
-Breadcrumbs::for('ventas', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Ventas', route('ventas.index'));
-});
+    Breadcrumbs::for('ventas', function (BreadcrumbTrail $trail) {
+        $trail->parent('home');
+        $trail->push('Ventas', route('ventas.index'));
+    });
 
-Breadcrumbs::for('ventasHistorial', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Historial de Ventas', route('ventas.index'));
-});
+    Breadcrumbs::for('ventasHistorial', function (BreadcrumbTrail $trail) {
+        $trail->parent('home');
+        $trail->push('Historial de Ventas', route('ventas.index'));
+    });
 
 // Home > Blog
 // Breadcrumbs::for('blog', function (BreadcrumbTrail $trail) {

@@ -21,7 +21,7 @@ class Insumo extends Model
         'foto', 
         'fase',
         'idFamilia',
-        'disponible',
+        'estado',
         'unidadDeMedida'
     ];
 

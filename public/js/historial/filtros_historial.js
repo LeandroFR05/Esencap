@@ -1,7 +1,7 @@
-document.getElementById("producto").addEventListener("input", filterTable);
-document.getElementById("fecha").addEventListener("change", filterTable);
+document.getElementById("producto").addEventListener("input", filtrarTabla);
+document.getElementById("fecha").addEventListener("change", filtrarTabla);
 
-function filterTable() {
+function filtrarTabla() {
     // 1. Obtener los valores de ambos filtros
     const filtroProducto = document.getElementById("producto").value.trim().toLowerCase();
     const filtroFecha = document.getElementById("fecha").value; // Formato YYYY-MM-DD
@@ -64,6 +64,6 @@ function limpiarFiltros() {
 
     // 2. Ejecutamos la función de filtrado para que, 
     // al estar vacíos los inputs, se muestren todas las filas de nuevo.
-    filterTable();
+    filtrarTabla();
 }
 

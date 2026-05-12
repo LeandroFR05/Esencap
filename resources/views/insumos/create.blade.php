@@ -112,7 +112,7 @@
         @endslot
     @endcomponent
 
-    @include('_modals.modalFamilia')
+    @include('_modals.insumos.modalFamilia')
 @endsection
 
 @section('scripts')

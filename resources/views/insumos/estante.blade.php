@@ -49,7 +49,7 @@
                                 <i class="bi bi-pencil"></i>
                             </a>
 
-                            <a href="{{ route('lotes.show', $insumo->idInsumo) }}" 
+                            <a href="{{ route('insumos.lotes', $insumo->idInsumo) }}" 
                                 class="btn btn-outline-info" 
                                 data-bs-toggle="tooltip" 
                                 title="Ver Lotes">

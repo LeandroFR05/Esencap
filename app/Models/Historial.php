@@ -14,6 +14,7 @@ class Historial extends Model
     protected $table = 'historial';
     protected $primaryKey = 'idHistorial';
     protected $fillable = [
+        'numeroLote',
         'idProducto',
         'stockInicial',
         'stockActual',

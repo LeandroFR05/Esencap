@@ -9,14 +9,6 @@ use Illuminate\Http\Request;
 
 class LoteInsumoController extends Controller
 {
-    public function showLotes($insumoId): View
-    {
-        $lote = LoteInsumo::where('idInsumo', $insumoId)->get();
-        $insumo = Insumo::where('idInsumo', $insumoId)->first();
-
-        return view('lotes.show', compact('lote', 'insumo'));
-    }
-
     public function vencidos()
     {
         $insumos = Insumo::where('estado', 1)->get();

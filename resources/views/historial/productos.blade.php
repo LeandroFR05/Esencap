@@ -42,13 +42,14 @@
         @slot('titulo')
             <i class="bi bi-clock-history me-2"></i>Historial de elaboración
         @endslot
-        @if($historial->hasPages())
+        @if(!$historial->isEmpty())
             @slot('bodyClass', 'p-0')
             @slot('contenido')
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle mb-0" id="tableHistorial">
                         <thead class="table-dark">
                             <tr>
+                                <th>Lote</th>
                                 <th>Fecha</th>
                                 <th>Producto</th>
                                 <th>Stock inicial</th>
@@ -61,7 +62,8 @@
                         <tbody>
                             @foreach ($historial as $h)
                                 <tr>
-                                    <td>{{ \Carbon\Carbon::parse($h->fechaElaboracion)->format('d/m/Y') }}</td>
+                                    <td class="text-center fw-bold"><code>{{ $h->numeroLote }}</code></td>
+                                    <td>{{ $h->fechaElaboracion }}</td>
                                     <td>{{ $h->producto->nombre }}</td>
                                     <td>{{ $h->stockInicial }}u</td>
                                     <td>{{ $h->stockActual }}u</td>
@@ -107,7 +109,7 @@
         @endif
     @endcomponent
 
-    @include('historial.modals.detalle_historial')
+    @include('historial.modals.detalleHistorial')
 
 @endsection
 

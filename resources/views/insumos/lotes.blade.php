@@ -50,12 +50,12 @@
                     <table class="table table-bordered table-hover align-middle mb-0">
                         <thead class="table-dark text-center">
                             <tr>
-                                <th>N° Lote</th>
+                                <th>N° de Lote</th>
                                 <th>Stock inicial</th>
                                 <th>Stock actual</th>
                                 <th>F. compra</th>
                                 <th>F. vencimiento</th>
-                                <th class="text-center" style="width: 80px;">Acciones</th>
+                                <th class="text-center" style="width: 50px;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,13 +89,13 @@
                                             {{ \Carbon\Carbon::parse($item->fechaVencimiento)->format('d/m/Y') }}
                                         </span>
                                     </td>
-                                    <td class="text-center">
-                                        <form action="{{ route('lotes.eliminar', $item->idLote) }}" method="POST">
+                                    <td class="p-1">
+                                        <form action="{{ route('lotes.eliminar', $item->idLote) }}" method="POST" class="w-100">
                                             @csrf
                                             @method('DELETE')
                                             <input type="hidden" name="idInsumo" value="{{ $insumo->idInsumo }}">
                                             <button type="submit"
-                                                class="btn btn-sm btn-danger delete-btn"
+                                                class="btn btn-sm btn-danger delete-btn w-100"
                                                 title="Eliminar lote">
                                                 <i class="bi bi-trash3-fill"></i>
                                             </button>

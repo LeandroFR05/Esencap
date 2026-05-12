@@ -27,6 +27,15 @@ class InsumoController extends Controller
     }
 
 
+    public function lotes($insumoId): View
+    {
+        $lote = LoteInsumo::where('idInsumo', $insumoId)->get();
+        $insumo = Insumo::where('idInsumo', $insumoId)->first();
+
+        return view('insumos.lotes', compact('lote', 'insumo'));
+    }
+
+
     public function store(InsumoRequest $request): RedirectResponse {
         if ($request->hasFile('foto'))
             // Si se subió una imagen, la guardamos
@@ -45,7 +54,7 @@ class InsumoController extends Controller
 
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
-            'numeroLote' => 1,
+            // 'numeroLote' => 1,
             'stockInicial' => $request->input('stockInicial'),
             'stockActual' => $request->input('stockInicial'),
             'fechaCompra' => $request->input('fechaCompra'),
@@ -101,7 +110,7 @@ class InsumoController extends Controller
 
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
-            'numeroLote' => $request->input('numeroLote'),
+            // numeroLote se asigna automáticamente por el trigger
             'stockInicial' => $request->input('stockInicial'),
             'stockActual' => $request->input('stockInicial'),
             'fechaCompra' => $request->input('fechaCompra'),
@@ -138,5 +147,10 @@ class InsumoController extends Controller
     public function porFamilia($idFamilia): JsonResponse {
         $insumos = Insumo::where('idFamilia', $idFamilia)->get();
         return response()->json($insumos);
+    }
+
+    public function historial(): View {
+        $lotes = LoteInsumo::with('insumo')->paginate(10);
+        return view('insumos.historial', compact('lotes'));
     }
 }

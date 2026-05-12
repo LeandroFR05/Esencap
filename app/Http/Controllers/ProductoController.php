@@ -274,7 +274,7 @@ class ProductoController extends Controller
     }
 
 
-    public function historial(Producto $producto): View
+    public function lotes(Producto $producto): View
     {
 
         $producto = Producto::with([
@@ -282,7 +282,7 @@ class ProductoController extends Controller
             'historiales.formulas.insumo',
         ])->find($producto->idProducto);
 
-        return view('productos.historial', compact('producto'));
+        return view('productos.lotes', compact('producto'));
     }
 
 

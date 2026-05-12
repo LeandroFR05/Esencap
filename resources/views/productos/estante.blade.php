@@ -46,10 +46,10 @@
                                 title="Editar Producto">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="{{ route('productos.historial', $producto->idProducto) }}" 
+                            <a href="{{ route('productos.lotes', $producto->idProducto) }}" 
                                 class="btn btn-outline-info" 
                                 data-bs-toggle="tooltip" 
-                                title="Ver Historial">
+                                title="Ver Lotes">
                                 <i class="bi bi-clock-history"></i>
                             </a>
                             
