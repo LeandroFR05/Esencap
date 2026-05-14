@@ -12,8 +12,6 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Mail\EsencapMail;
-use Illuminate\Support\Facades\Mail;
 
 
 // LOGIN ROUTES
@@ -31,8 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/register', [RegisterController::class, 'register']);
 });
 
+
 // DASHBOARD
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+
 
 // INSUMOS ROUTES
 Route::get('/insumos', [InsumoController::class, 'insumos'])->middleware('auth')->name('insumos.estante');
@@ -49,14 +49,16 @@ Route::get('/insumos/restore/{idInsumo}', [InsumoController::class, 'restore'])-
 Route::get('/insumos/{idFamilia}', [InsumoController::class, 'porFamilia'])->middleware('auth')->name('insumos.porFamilia');
 Route::get('/insumos/lotes/{insumo}', [InsumoController::class, 'lotes'])->middleware('auth')->name('insumos.lotes');
 
+
 // FAMILIAS ROUTES
 Route::post('/familias/store', [FamiliaController::class, 'store'])->middleware('auth')->name('familias.store');
+
 
 // LOTES ROUTES
 Route::get('/lotes/infoStock', [LoteInsumoController::class, 'infoStock'])->middleware('auth')->name('lotes.infoStock');
 Route::get('/lotes/vencidos', [LoteInsumoController::class, 'vencidos'])->middleware('auth')->name('lotes.infoVencimientos');
 Route::put('/lotes/actualizar/{lote}', [LoteInsumoController::class, 'actualizar'])->middleware('auth')->name('lotes.actualizar');
-Route::delete('/lotes/eliminar/{lote}', [LoteInsumoController::class, 'eliminar'])->middleware('auth')->name('lotes.eliminar');
+Route::delete('/lotes/eliminar/{lote}', [LoteInsumoController::class, 'eliminar'])->middleware('auth')->name('lotes.destroy');
 
 
 // PRODUCTOS ROUTES
@@ -73,10 +75,11 @@ Route::delete('/productos/eliminar/{producto}', [ProductoController::class, 'eli
 Route::get('/productos/eliminados', [ProductoController::class, 'eliminados'])->middleware('auth')->name('productos.eliminados');
 Route::get('/productos/restore/{idProducto}', [ProductoController::class, 'restore'])->middleware('auth')->name('productos.restore');
 
+
 // HISTORIAL ROUTES
-Route::get('/historial/productos', [HistorialController::class, 'historial'])->middleware('auth')->name('historial.productos');
-Route::put('/historial/actualizar/{historial}', [HistorialController::class, 'actualizar'])->middleware('auth')->name('historial.actualizar');
-Route::delete('/historial/eliminar/{historial}', [HistorialController::class, 'eliminar'])->middleware('auth')->name('historial.eliminar');
+Route::get('/productos/historial', [HistorialController::class, 'historial'])->middleware('auth')->name('productos.historial');
+Route::delete('/historial/eliminar/{historial}', [HistorialController::class, 'eliminar'])->middleware('auth')->name('historial.destroy');
+
 
 // VENTAS ROUTES
 Route::get('/ventas', [VentaController::class, 'ventas'])->middleware('auth')->name('ventas.index');
@@ -84,12 +87,15 @@ Route::get('/productos/buscar', [VentaController::class, 'buscar']);
 Route::post('/ventas/store', [VentaController::class, 'store'])->middleware('auth')->name('ventas.store');
 Route::get('/ventas/historial', [VentaController::class, 'historial'])->middleware('auth')->name('ventas.historial');
 
+
 // MANUAL ROUTES
 Route::get('/manual/descargar', [ManualController::class, 'descargar'])->middleware('auth')->name('manual.descargar');
+
 
 // USER PROFILE ROUTES
 Route::get('/profile', [App\Http\Controllers\UserController::class, 'show'])->middleware('auth')->name('profile');
 Route::put('/profile', [App\Http\Controllers\UserController::class, 'update'])->middleware('auth')->name('profile.update');
+
 
 // disable public registration and provide auth-only routes
 Auth::routes(['register' => false]);

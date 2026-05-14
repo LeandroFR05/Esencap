@@ -113,7 +113,7 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
 //HISTORIAL
 Breadcrumbs::for('historialGeneral', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Historial', route('historial.productos'));
+    $trail->push('Historial', route('productos.historial'));
 });
 
 

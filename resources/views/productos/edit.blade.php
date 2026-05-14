@@ -98,10 +98,10 @@
                         </div>
 
                         <div class="mb-3" style="margin-top: 40px;">
-                            <a href="{{ route('productos.historial', $producto->idProducto) }}"
+                            <a href="{{ route('productos.lotes', $producto->idProducto) }}"
                                class="btn btn-outline-info w-100">
                                 <i class="bi bi-clock-history me-1"></i>
-                                Ver historial
+                                Ver lotes
                             </a>
                         </div>
 

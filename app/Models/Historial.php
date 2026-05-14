@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Producto;
 use App\Models\Formula;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Historial extends Model
 {
+    use HasFactory, SoftDeletes;
+
     public $timestamps = false;
 
     protected $table = 'historial';

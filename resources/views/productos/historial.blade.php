@@ -12,27 +12,36 @@
             <i class="bi bi-funnel me-2"></i>Filtros
         @endslot
         @slot('contenido')
-            <div class="row g-3 align-items-end">
-                <div class="col-md-4">
-                    <label for="producto" class="form-label fw-semibold small">Producto</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
-                        <input type="text" id="producto" class="form-control" placeholder="Buscar producto...">
+            <form method="GET" action="{{ route('productos.historial') }}" id="formFiltros">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label for="producto" class="form-label fw-semibold small">Producto</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+                            <input type="text" id="producto" name="producto" class="form-control" 
+                                placeholder="Buscar producto..." value="{{ request('producto', '') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fecha" class="form-label fw-semibold small">Fecha</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                            <input type="date" id="fecha" name="fecha" class="form-control"
+                                value="{{ request('fecha', '') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-search"></i> Buscar
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-secondary w-100" onclick="limpiarFiltros()">
+                            Limpiar
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="fecha" class="form-label fw-semibold small">Fecha</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
-                        <input type="date" id="fecha" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-secondary w-100" onclick="limpiarFiltros()">
-                        Limpiar
-                    </button>
-                </div>
-            </div>
+            </form>
         @endslot
     @endcomponent
 
@@ -40,7 +49,7 @@
     {{-- Tabla --}}
     @component('components.cards')
         @slot('titulo')
-            <i class="bi bi-clock-history me-2"></i>Historial de elaboración
+            <i class="bi bi-clock-history me-2"></i>Historial de productos
         @endslot
         @if(!$historial->isEmpty())
             @slot('bodyClass', 'p-0')
@@ -50,7 +59,7 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Lote</th>
-                                <th>Fecha</th>
+                                <th>Fecha de elaboración</th>
                                 <th>Producto</th>
                                 <th>Stock inicial</th>
                                 <th>Stock actual</th>
@@ -69,15 +78,13 @@
                                     <td>{{ $h->stockActual }}u</td>
                                     <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
                                     <td>
-                                        @php
-                                            if ($h->producto->estado == 1) {
-                                                echo '<span class="badge bg-success w-100">Activo</span>';
-                                            } elseif ($h->producto->estado == 0) {
-                                                echo '<span class="badge bg-danger w-100">Eliminado</span>';
-                                            } else {
-                                                echo $h->producto->estado;
-                                            }
-                                        @endphp
+                                        @if ($h->estado == 1 && $h->producto->estado == 1)
+                                            <span class="badge bg-success w-100">Activo</span>
+                                        @elseif ($h->estado == 0 || $h->producto->estado == 0)
+                                            <span class="badge bg-danger w-100">Eliminado</span>
+                                        @else
+                                            <span class="badge bg-secondary w-100">{{ $h->producto->estado }}</span>
+                                        @endif
                                     </td>
                                     <td class="p-1">
                                         <div class="d-flex gap-1 justify-content-center">
@@ -109,11 +116,11 @@
         @endif
     @endcomponent
 
-    @include('historial.modals.detalleHistorial')
+    @include('_modals.productos.detalleHistorial')
 
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/historial/filtros_historial.js') }}"></script>
+    <script src="{{ asset('js/historial/filtrosHistorial.js') }}"></script>
     <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
 @endsection

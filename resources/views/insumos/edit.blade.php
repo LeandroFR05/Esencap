@@ -52,7 +52,7 @@
                                     </span>
                                 </div>
 
-                                <a href="{{ route('lotes.show', $insumo->idInsumo) }}" class="btn btn-outline-info ms-2">
+                                <a href="{{ route('insumos.lotes', $insumo->idInsumo) }}" class="btn btn-outline-info ms-2">
                                     <i class="bi bi-box-seam me-1"></i> Ver Lotes
                                 </a>
                             </div>
@@ -154,7 +154,7 @@
     @endcomponent
 
     <!--Llamamos a las ventanas modales-->
-    @include('_modals.modalFamilia')
+    @include('_modals.insumos.modalFamilia')
 @endsection
 
 

@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
 use App\Models\Insumo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LoteInsumo extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'loteinsumos';
     protected $primaryKey = 'idLote';
@@ -39,6 +40,6 @@ class LoteInsumo extends Model
     //Relaciones
     public function insumo()
     {
-        return $this->belongsTo(Insumo::class, 'idInsumo');
+        return $this->belongsTo(Insumo::class, 'idInsumo')->withTrashed();
     }
 }

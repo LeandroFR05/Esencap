@@ -149,8 +149,27 @@ class InsumoController extends Controller
         return response()->json($insumos);
     }
 
-    public function historial(): View {
-        $lotes = LoteInsumo::with('insumo')->paginate(10);
+    public function historial(Request $request): View {
+        $query = LoteInsumo::with('insumo')->withTrashed();
+
+        // Filtro por insumo
+        if ($request->filled('insumo')) {
+            $query->whereHas('insumo', function ($q) use ($request) {
+                $q->where('nombre', 'like', '%' . $request->insumo . '%');
+            });
+        }
+
+        // Filtro por fecha de compra
+        if ($request->filled('fechaCompra')) {
+            $query->whereDate('fechaCompra', $request->fechaCompra);
+        }
+
+        // Filtro por fecha de vencimiento
+        if ($request->filled('fechaVencimiento')) {
+            $query->whereDate('fechaVencimiento', $request->fechaVencimiento);
+        }
+
+        $lotes = $query->paginate(10)->appends($request->query());
         return view('insumos.historial', compact('lotes'));
     }
 }

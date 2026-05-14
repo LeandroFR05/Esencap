@@ -105,7 +105,7 @@
                                                             </span>
                                                         </td>
                                                         <td>
-                                                            <form action="{{ route('lotes.eliminar', $detalleLote->idLote) }}" method="POST">
+                                                            <form action="{{ route('lotes.destroy', $detalleLote->idLote) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <input type="hidden" name="idInsumo" value="{{ $lotes->first()->insumo->idInsumo }}">

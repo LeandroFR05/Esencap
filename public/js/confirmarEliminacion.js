@@ -5,8 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const form = this.closest('form');
             Swal.fire({
-                title: '¿Está seguro de eliminar este registro?',
-                text: "Esta acción no se puede deshacer",
+                title: '¿Está seguro que desea eliminar este registro?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',

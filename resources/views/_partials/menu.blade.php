@@ -121,8 +121,8 @@
 
                 {{-- HISTORIAL --}}
                 <li class="nav-item">
-                    <a href="{{ route('historial.productos') }}"
-                    class="nav-link {{ request()->routeIs('historial.productos') ? 'active' : '' }}">
+                    <a href="{{ route('productos.historial') }}"
+                    class="nav-link {{ request()->routeIs('productos.historial') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-list-task"></i>
                         <p>Historial de productos</p>
                     </a>

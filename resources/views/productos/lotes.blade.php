@@ -79,6 +79,17 @@
                                             >
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
+
+                                            <form action="{{ route('historial.destroy', $historial->idHistorial) }}" method="POST" class="flex-fill">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="idProducto" value="{{ $producto->idProducto }}">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-danger delete-btn w-100"
+                                                    title="Eliminar lote">
+                                                    <i class="bi bi-trash3-fill"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
