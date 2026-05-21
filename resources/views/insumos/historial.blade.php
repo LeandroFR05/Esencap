@@ -81,7 +81,9 @@
                                 <th class="sortable" data-col="1" data-dir="asc">
                                     Fecha de compra <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
                                 </th>
-                                <th>Insumo</th>
+                                <th class="sortable" data-col="2" data-dir="asc">
+                                    Insumo <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
+                                </th>
                                 <th class="sortable" data-col="3" data-dir="asc">
                                     Stock inicial <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
                                 </th>
@@ -135,52 +137,5 @@
 
 @section('scripts')
     <script src="{{ asset('js/insumos/filtrosHistorial.js') }}"></script>
-    <script>
-        document.querySelectorAll('#tableHistorial .sortable').forEach(th => {
-            th.style.cursor = 'pointer';
-
-            th.addEventListener('click', () => {
-                const table = document.getElementById('tableHistorial');
-                const tbody = table.querySelector('tbody');
-                const col   = parseInt(th.dataset.col); // Columna a ordenar
-                const dir   = th.dataset.dir; // Dirección actual (asc o desc)
-                const rows  = Array.from(tbody.querySelectorAll('tr')); // Filas
-
-                rows.sort((a, b) => {
-                    const aText = a.cells[col].innerText.trim();
-                    const bText = b.cells[col].innerText.trim();
-
-                    // Detecta si es número (ej: "10u" → 10)
-                    const aNum = parseFloat(aText);
-                    const bNum = parseFloat(bText);
-                    const isNum = !isNaN(aNum) && !isNaN(bNum);
-
-                    if (isNum) {
-                        return dir === 'asc' ? aNum - bNum : bNum - aNum;
-                    } else {
-                        return dir === 'asc'
-                            ? aText.localeCompare(bText)
-                            : bText.localeCompare(aText);
-                    }
-                });
-
-                // Reinsertar filas ordenadas
-                rows.forEach(row => tbody.appendChild(row));
-
-                // Actualizar ícono y dirección
-                document.querySelectorAll('#tableHistorial .sortable i').forEach(icon => {
-                    icon.className = 'bi bi-arrow-down-up text-secondary ms-1';
-                });
-
-                const icon = th.querySelector('i');
-                if (dir === 'asc') {
-                    icon.className = 'bi bi-arrow-up text-white ms-1';
-                    th.dataset.dir = 'desc';
-                } else {
-                    icon.className = 'bi bi-arrow-down text-white ms-1';
-                    th.dataset.dir = 'asc';
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('js/ordenarHistorial.js') }}"></script>
 @endsection

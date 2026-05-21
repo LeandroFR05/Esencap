@@ -13,10 +13,29 @@ document.getElementById("fecha").addEventListener("change", function() {
     document.getElementById("formFiltros").submit();
 });
 
+document.getElementById('estado').addEventListener('change', function() {
+    const estado = document.getElementById('estado').value;
+    const filas = document.querySelectorAll("#tableHistorial tbody tr");
+
+    filas.forEach(fila => {
+        const celda = fila.getElementsByTagName("td");
+        const estadoTabla = celda[6].textContent.trim();
+
+        const coincideEstado = (estado === "" || estadoTabla === estado);
+
+        if (coincideEstado) {
+            fila.style.display = "";
+        } else {
+            fila.style.display = "none";
+        }
+    });
+});
+
 function limpiarFiltros() {
     // 1. Limpiar los inputs
     document.getElementById("producto").value = "";
     document.getElementById("fecha").value = "";
+    document.getElementById("estado").value = "";
 
     // 2. Enviar el formulario vacío (para resetear a todos los registros)
     document.getElementById("formFiltros").submit();

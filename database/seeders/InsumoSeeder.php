@@ -13,6 +13,6 @@ class InsumoSeeder extends Seeder
      */
     public function run(): void
     {
-        Insumo::factory(5)->withLotes(2)->create();
+        Insumo::factory(20)->withLotes(2)->create();
     }
 }

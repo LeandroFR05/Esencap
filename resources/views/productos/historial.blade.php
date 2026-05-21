@@ -30,6 +30,17 @@
                                 value="{{ request('fecha', '') }}">
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <label for="estado" class="form-label fw-semibold small">Estado</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-flag"></i></span>
+                            <select id="estado" name="estado" class="form-select">
+                                <option value="">Todos</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Eliminado">Eliminado</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-search"></i> Buscar
@@ -59,11 +70,21 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Lote</th>
-                                <th>Fecha de elaboración</th>
-                                <th>Producto</th>
-                                <th>Stock inicial</th>
-                                <th>Stock actual</th>
-                                <th>Contenido por unidad</th>
+                                <th class="sortable" data-col="1" data-dir="asc">
+                                    Fecha de elaboración <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
+                                </th>
+                                <th class="sortable" data-col="2" data-dir="asc">
+                                    Producto <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
+                                </th>
+                                <th class="sortable" data-col="3" data-dir="asc">
+                                    Stock inicial <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
+                                </th>
+                                <th class="sortable" data-col="4" data-dir="asc">
+                                    Stock actual <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
+                                </th>
+                                <th class="sortable" data-col="5" data-dir="asc">
+                                    Contenido por unidad <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
+                                </th>
                                 <th>Estado</th>
                                 <th class="text-center" style="width: 100px;">Acciones</th>
                             </tr>
@@ -122,5 +143,5 @@
 
 @section('scripts')
     <script src="{{ asset('js/historial/filtrosHistorial.js') }}"></script>
-    <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
+    <script src="{{ asset('js/ordenarHistorial.js') }}"></script>
 @endsection

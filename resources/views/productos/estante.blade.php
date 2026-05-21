@@ -50,7 +50,7 @@
                                 class="btn btn-outline-info" 
                                 data-bs-toggle="tooltip" 
                                 title="Ver Lotes">
-                                <i class="bi bi-clock-history"></i>
+                                <i class="bi bi-box-seam"></i>
                             </a>
                             
                         </div>

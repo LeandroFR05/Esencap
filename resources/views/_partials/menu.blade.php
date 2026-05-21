@@ -41,7 +41,6 @@
                                 <p>Estante</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('productos.create') }}"
                             class="nav-link ps-4 {{ request()->routeIs('productos.create') ? 'active' : '' }}">
@@ -49,7 +48,13 @@
                                 <p>Nuevo producto</p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a href="{{ route('productos.historial') }}"
+                            class="nav-link ps-4 {{ request()->routeIs('productos.historial') ? 'active' : '' }}">
+                                <i class="bi bi-clock-history"></i>
+                                <p>Historial</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -65,7 +70,6 @@
                     </a>
 
                     <ul class="nav nav-treeview">
-
                         <li class="nav-item">
                             <a href="{{ route('insumos.estante') }}"
                             class="nav-link ps-4 {{ request()->routeIs('insumos.estante') ? 'active' : '' }}">
@@ -73,7 +77,6 @@
                                 <p>Estante</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('insumos.create') }}"
                             class="nav-link ps-4 {{ request()->routeIs('insumos.create') ? 'active' : '' }}">
@@ -81,7 +84,13 @@
                                 <p>Nuevo insumo</p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a href="{{ route('insumos.historial') }}"
+                            class="nav-link ps-4 {{ request()->routeIs('insumos.historial') ? 'active' : '' }}">
+                                <i class="bi bi-clock-history"></i>
+                                <p>Historial</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -116,24 +125,6 @@
                         </li>
 
                     </ul>
-                </li>
-
-
-                {{-- HISTORIAL --}}
-                <li class="nav-item">
-                    <a href="{{ route('productos.historial') }}"
-                    class="nav-link {{ request()->routeIs('productos.historial') ? 'active' : '' }}">
-                        <i class="nav-icon bi bi-list-task"></i>
-                        <p>Historial de productos</p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('insumos.historial') }}"
-                    class="nav-link {{ request()->routeIs('insumos.historial') ? 'active' : '' }}">
-                        <i class="nav-icon bi bi-list-task"></i>
-                        <p>Historial de insumos</p>
-                    </a>
                 </li>
 
 

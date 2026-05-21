@@ -48,15 +48,15 @@
                                 <!-- Lista de lotes -->
                                 <div class="col-md-10">
                                     <div class="lotes-scroll">
-                                        <table class="table table-sm table-striped">
+                                        <table class="table table-sm table-striped" style="table-layout: fixed; width: 100%;">
                                             <thead>
                                                 <tr>
-                                                    <th>Lote</th>
-                                                    <th>Stock inicial</th>
-                                                    <th>Stock actual</th>
-                                                    <th>Fecha de compra</th>
+                                                    <th style="width: 7%;">Lote</th>
+                                                    <th style="width: 20%;">Stock inicial</th>
+                                                    <th style="width: 20%;">Stock actual</th>
+                                                    <th style="width: 20%;">Fecha de compra</th>
                                                     <th>Fecha de vencimiento</th>
-                                                    <th>Acción</th>
+                                                    <th style="width: 7%;">Acción</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -66,7 +66,7 @@
                                                         $isStockRoute        = request()->routeIs('lotes.infoStock');
                                                     @endphp
                                                     <tr>
-                                                        <td><code class="fw-bold">{{ $detalleLote->numeroLote }}</code></td>
+                                                        <td class="text-center"><code class="fw-bold">{{ $detalleLote->numeroLote }}</code></td>
                                                         <td>{{ $detalleLote->stockInicial }} {{ $lotes->first()->insumo->unidadDeMedida }}</td>
                                                         <td>
                                                             @php
@@ -85,7 +85,7 @@
                                                             </span>
                                                         </td>
                                                         <td class="text-muted small">
-                                                            {{ \Carbon\Carbon::parse($detalleLote->fechaCompra)->format('d/m/Y') }}
+                                                            {{ $detalleLote->fechaCompra }}
                                                         </td>
                                                         <td>
                                                             @php
@@ -101,10 +101,10 @@
                                                                 }
                                                             @endphp
                                                             <span class="badge bg-{{ $badgeVenc }}">
-                                                                {{ \Carbon\Carbon::parse($detalleLote->fechaVencimiento)->format('d/m/Y') }}
+                                                                {{ $detalleLote->fechaVencimiento }}
                                                             </span>
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <form action="{{ route('lotes.destroy', $detalleLote->idLote) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -127,6 +127,10 @@
             @endif
         @endslot
     @endcomponent
+    <br>
+    <div class="d-flex justify-content-center">
+        {{ $insumos->links() }}
+    </div>
 @endsection
 
 <!--Filtros-->

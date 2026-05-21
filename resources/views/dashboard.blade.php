@@ -12,7 +12,7 @@
             <div class="small-box text-bg-primary">
                 <div class="inner">
                     <h3>{{ $lotesProximosaVencer }}</h3>
-                    <p>Lotes próximos a vencerse</p>
+                    <p>Insumos próximos a vencerse</p>
                 </div>
 
                 <i class="bi bi-clock-history small-box-icon"></i>
@@ -30,7 +30,7 @@
             <div class="small-box text-bg-danger">
                 <div class="inner">
                     <h3>{{ $lotesBajoStock }}</h3>
-                    <p>Lotes con bajo stock</p>
+                    <p>Insumos con bajo stock</p>
                 </div>
 
                 <i class="bi bi-exclamation-circle small-box-icon"></i>
@@ -102,7 +102,7 @@
         <div class="col-md-4">
             <div class="card" style="height: 94.7%; width: 100%;">
                 <div class="card-header">
-                    <h5>Productos con bajo stock</h5>
+                    <h5>Insumos con bajo stock</h5>
                 </div>
                 <div class="card-body">
                     @if(empty($porcentajeStockBajo))
@@ -214,7 +214,7 @@
         }
 
 
-        //Productos con bajo stock
+        //Insumos con bajo stock
         var options = {
             series: [porcentajeStockBajo],
             chart: {

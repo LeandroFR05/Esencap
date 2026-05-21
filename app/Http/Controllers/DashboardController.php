@@ -15,7 +15,7 @@ class DashboardController extends Controller
     {
         // Gráficos
         $ventas_data = $this->ventasRegistradasPorMes();
-        $porcentajeStockBajo = $this->productosConBajoStock();
+        $porcentajeStockBajo = $this->insumosConBajoStock();
         $cantProductosVendidos = $this->productosMasVendidos();
         $ventasDiarias = $this->cantidadDeProductosVendidosPorDia();
 
@@ -53,13 +53,25 @@ class DashboardController extends Controller
     }
 
 
-    private function productosConBajoStock()
+    private function insumosConBajoStock()
     {
-        $limiteStockBajo = 5;
-        $totalProductos = Historial::count();
+        $insumos = Insumo::where('estado', 1)->get();
+        $totalInsumos = LoteInsumo::count();
+        $stockBajo = 0;
 
-        $stockBajo = Historial::where('stockActual', '<=', $limiteStockBajo)->count();
-        $porcentajeStockBajo = $totalProductos > 0 ? round(($stockBajo / $totalProductos) * 100, 2) : 0;
+        // Vamos a contar cuántos lotes tienen bajo stock según la unidad de medida del insumo
+        foreach ($insumos as $insumo) {
+            $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
+                'gramos'   => 500,
+                'kilos'    => 1,
+                'unidades' => 10,
+                'litros'   => 2,
+            };
+
+            $stockBajo += LoteInsumo::where('idInsumo', $insumo->idInsumo)->where('stockActual', '<=', $stockMinimo)->count();
+        }
+
+        $porcentajeStockBajo = $totalInsumos > 0 ? round(($stockBajo / $totalInsumos) * 100, 2) : 0;
 
         return $porcentajeStockBajo;
     }

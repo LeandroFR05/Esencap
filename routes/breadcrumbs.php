@@ -18,13 +18,13 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
     //Bajo stock
     Breadcrumbs::for('bajoStock', function (BreadcrumbTrail $trail) {
         $trail->parent('home');
-        $trail->push('Lotes con bajo stock', route('lotes.infoStock'));
+        $trail->push('Insumos con bajo stock', route('lotes.infoStock'));
     });
 
     //Vencidos
     Breadcrumbs::for('vencidos', function (BreadcrumbTrail $trail) {
         $trail->parent('home');
-        $trail->push('Lotes próximos a vencerse', route('lotes.infoVencimientos'));
+        $trail->push('Insumos próximos a vencerse', route('lotes.infoVencimientos'));
     });
 
 
