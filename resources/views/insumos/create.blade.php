@@ -28,7 +28,7 @@
                         />
                          
                         <!-- Stock inicial -->
-                        <x-input-group name="stockInicial" label="Stock inicial" icon="bi-boxes" value="{{ old('stockInicial') }}" type="number">
+                        <x-input-group name="stockInicial" label="Stock inicial" icon="bi-boxes" value="{{ old('stockInicial') }}" type="number" step="0.01" required>
                             <x-slot:select>
                                 <select name="unidadDeMedida" id="unidadDeMedida" class="form-select">
                                     <option value="gramos">gramos</option>
@@ -62,9 +62,9 @@
                         <x-input-group name="fase" label="Fase" icon="bi-layers">
                             <x-slot:select>
                                 <select name="fase" id="fase" class="form-select" required>
-                                    <option value="primera">Acuosa</option>
-                                    <option value="segunda">Oleosa</option>
-                                    <option value="tercera">Activos</option>
+                                    <option value="Acuosa">Acuosa</option>
+                                    <option value="Oleosa">Oleosa</option>
+                                    <option value="Activos">Activos</option>
                                 </select>
                             </x-slot:select>
                         </x-input-group>

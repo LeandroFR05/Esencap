@@ -10,6 +10,7 @@ use App\Http\Controllers\LoteInsumoController;
 use App\Http\Controllers\ManualController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -49,16 +50,14 @@ Route::get('/insumos/restore/{idInsumo}', [InsumoController::class, 'restore'])-
 Route::get('/insumos/{idFamilia}', [InsumoController::class, 'porFamilia'])->middleware('auth')->name('insumos.porFamilia');
 Route::get('/insumos/lotes/{insumo}', [InsumoController::class, 'lotes'])->middleware('auth')->name('insumos.lotes');
 
-
-// FAMILIAS ROUTES
-Route::post('/familias/store', [FamiliaController::class, 'store'])->middleware('auth')->name('familias.store');
-
-
 // LOTES ROUTES
 Route::get('/lotes/infoStock', [LoteInsumoController::class, 'infoStock'])->middleware('auth')->name('lotes.infoStock');
 Route::get('/lotes/vencidos', [LoteInsumoController::class, 'vencidos'])->middleware('auth')->name('lotes.infoVencimientos');
 Route::put('/lotes/actualizar/{lote}', [LoteInsumoController::class, 'actualizar'])->middleware('auth')->name('lotes.actualizar');
 Route::delete('/lotes/eliminar/{lote}', [LoteInsumoController::class, 'eliminar'])->middleware('auth')->name('lotes.destroy');
+
+// FAMILIAS ROUTES
+Route::post('/familias/store', [FamiliaController::class, 'store'])->middleware('auth')->name('familias.store');
 
 
 // PRODUCTOS ROUTES
@@ -74,7 +73,6 @@ Route::post('/productos/reponer/{producto}', [ProductoController::class, 'repone
 Route::delete('/productos/eliminar/{producto}', [ProductoController::class, 'eliminar'])->middleware('auth')->name('productos.destroy');
 Route::get('/productos/eliminados', [ProductoController::class, 'eliminados'])->middleware('auth')->name('productos.eliminados');
 Route::get('/productos/restore/{idProducto}', [ProductoController::class, 'restore'])->middleware('auth')->name('productos.restore');
-
 
 // HISTORIAL ROUTES
 Route::get('/productos/historial', [HistorialController::class, 'historial'])->middleware('auth')->name('productos.historial');
@@ -93,8 +91,8 @@ Route::get('/manual/descargar', [ManualController::class, 'descargar'])->middlew
 
 
 // USER PROFILE ROUTES
-Route::get('/profile', [App\Http\Controllers\UserController::class, 'show'])->middleware('auth')->name('profile');
-Route::put('/profile', [App\Http\Controllers\UserController::class, 'update'])->middleware('auth')->name('profile.update');
+Route::get('/profile', [UserController::class, 'show'])->middleware('auth')->name('profile');
+Route::put('/profile', [UserController::class, 'update'])->middleware('auth')->name('profile.update');
 
 
 // disable public registration and provide auth-only routes

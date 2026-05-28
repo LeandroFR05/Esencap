@@ -50,7 +50,8 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('productos.historial') }}"
-                            class="nav-link ps-4 {{ request()->routeIs('productos.historial') ? 'active' : '' }}">
+                            class="nav-link ps-4 d-flex align-items-center gap-1 {{ request()->routeIs('productos.historial') ? 'active' : '' }}"
+                            style="margin-left: 5px;">
                                 <i class="bi bi-clock-history"></i>
                                 <p>Historial</p>
                             </a>
@@ -86,7 +87,8 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('insumos.historial') }}"
-                            class="nav-link ps-4 {{ request()->routeIs('insumos.historial') ? 'active' : '' }}">
+                            class="nav-link ps-4 d-flex align-items-center gap-1 {{ request()->routeIs('insumos.historial') ? 'active' : '' }}"
+                            style="margin-left: 5px;">
                                 <i class="bi bi-clock-history"></i>
                                 <p>Historial</p>
                             </a>

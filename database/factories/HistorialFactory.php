@@ -21,7 +21,7 @@ class HistorialFactory extends Factory
      */
     public function definition(): array
     {
-        $stockInicial = fake()->randomFloat(2, 10, 500);
+        $stockInicial = fake()->randomFloat(2, 10, 70);
 
         return [
             'stockInicial' => $stockInicial,

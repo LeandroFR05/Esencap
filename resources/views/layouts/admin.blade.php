@@ -201,8 +201,7 @@
         }
       });
     </script>
-    <!--end::OverlayScrollbars Configure-->
-  
+
     @yield('scripts')
     @include('_partials.alerts')
 

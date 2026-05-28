@@ -15,8 +15,15 @@ use Illuminate\Http\JsonResponse;
 
 class InsumoController extends Controller
 {
-    public function insumos(): View {
-        $insumos = Insumo::withSum('lotes', 'stockActual')->paginate(10);
+    public function insumos(Request $request): View {
+        $insumos = Insumo::withSum('lotes', 'stockActual')
+            ->withMax('lotes', 'fechaCompra')
+            ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
+                $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
+                $query->orderBy('lotes_max_fechaCompra', $direccion);
+            })
+            ->paginate(10)
+            ->appends($request->query());
         return view('insumos.estante', compact('insumos'));
     }
 
@@ -54,7 +61,6 @@ class InsumoController extends Controller
 
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
-            // 'numeroLote' => 1,
             'stockInicial' => $request->input('stockInicial'),
             'stockActual' => $request->input('stockInicial'),
             'fechaCompra' => $request->input('fechaCompra'),

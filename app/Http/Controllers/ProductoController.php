@@ -17,9 +17,16 @@ use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
-    public function productos(): View
+    public function productos(Request $request): View
     {
-        $productos = Producto::withSum('historiales', 'stockActual')->paginate(10);
+        $productos = Producto::withSum('historiales', 'stockActual')
+            ->withMax('historiales', 'fechaElaboracion')
+            ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
+                $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
+                $query->orderBy('historiales_max_fechaElaboracion', $direccion);
+            })
+            ->paginate(10)
+            ->appends($request->query());
 
         return view('productos.estante', compact('productos'));
     }

@@ -113,7 +113,7 @@
                 <div class="formula-card">
                     <div class="card-body p-4">
                         <p>Última Elaboración</p>
-                        @include('productos.partials.estrFormula')
+                        @include('_partials.productos.estrFormula')
                         <div id="contenedor-formulas">
                             @foreach($historial->formulas as $fila)
                                 <div class="row formula-item mb-2 align-items-center">
@@ -185,5 +185,5 @@
 
 
 @section('scripts')
-    @include('productos.partials.scripts')
+    @include('_partials.productos.scripts')
 @endsection

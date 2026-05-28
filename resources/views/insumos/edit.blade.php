@@ -59,15 +59,24 @@
                         </div>
 
                         <!-- Fase -->
-                        <x-input-group 
-                            name="fase"
-                            label="Fase"
-                            type="text"
-                            icon="bi-diagram-3"
-                            value="{{ old('fase', $insumo->fase) }}"
-                            required
-                        />
-                        
+                        <!-- Quiero que además de que me aparezca la fase que elegí, que me aparezcan las demás opciones de fase -->
+                        <div class="mb-3">
+                            <label for="fase" class="form-label fw-semibold">
+                                Fase
+                            </label>
+                            <select name="fase" id="fase" class="form-control" required>
+                                <option value="Acuosa" {{ $insumo->fase == 'Acuosa' ? 'selected' : '' }}>
+                                    Acuosa
+                                </option>
+                                <option value="Oleosa" {{ $insumo->fase == 'Oleosa' ? 'selected' : '' }}>
+                                    Oleosa
+                                </option>
+                                <option value="Activos" {{ $insumo->fase == 'Activos' ? 'selected' : '' }}>
+                                    Activos
+                                </option>
+                            </select>
+                        </div>
+
                         <!-- Familia -->
                         <div class="mb-3">
                             <label for="idFamilia" class="form-label fw-semibold">

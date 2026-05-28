@@ -41,6 +41,8 @@
         "admin-lte": "^4.0.0-rc7",
         "apexcharts": "^5.10.6",
         "convert-units": "^2.3.4",
+        "docx": "^9.7.0",
+        "puppeteer": "^25.1.0",
         "sweetalert2": "^11.26.22"
     }
 }

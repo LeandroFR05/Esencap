@@ -15,6 +15,21 @@
 @endsection
 
 @section('content')
+    <div class="d-flex align-items-start gap-3 mb-3">
+        <div class="card shadow-sm" style="width: 280px;">
+            <div class="card-body p-2">
+                <form method="GET" action="{{ route('insumos.estante') }}" id="formFiltros">
+                    <label for="ordenarFecha" class="form-label fw-semibold small mb-1">Ordenar por fecha de compra</label>
+                    <select id="ordenarFecha" name="ordenarFecha" class="form-select form-select-sm">
+                        <option value="">Sin orden</option>
+                        <option value="reciente" {{ request('ordenarFecha') === 'reciente' ? 'selected' : '' }}>Más reciente</option>
+                        <option value="antigua" {{ request('ordenarFecha') === 'antigua' ? 'selected' : '' }}>Más antigua</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-4">
         @forelse($insumos as $insumo)
             <div class="col mb-1">
@@ -78,5 +93,6 @@
 
 @section('scripts')
     <script src="{{ asset('js/tooltips/tooltips.js') }}"></script>
+    <script src="{{ asset('js/insumos/filtrosEstante.js') }}"></script>
 @endsection
 
