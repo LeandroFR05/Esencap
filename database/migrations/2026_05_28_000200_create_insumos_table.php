@@ -22,7 +22,7 @@ return new class extends Migration
             $table->softDeletes();
 
             // Foreign key
-            $table->foreign('idFamilia')->references('idFamilia')->on('familias')->cascadeOnDelete();
+            $table->foreign('idFamilia')->references('idFamilia')->on('familias')->restrictOnDelete();
         });
     }
 

@@ -42,7 +42,7 @@
                             <!-- Product name-->
                             <h5 class="fw-bolder">{{ $producto->nombre }}</h5>
                             <!-- Product price-->
-                            Stock: {{ $producto->historiales->sum('stockActual') }}u.
+                            Stock: {{ $producto->lotes->sum('stockActual') }}u.
                         </div>
                     </div>
                     <!-- Product actions-->

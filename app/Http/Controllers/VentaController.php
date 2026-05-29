@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VentaRequest;
-use App\Models\Historial;
+use App\Models\LoteProducto;
 use App\Models\Producto;
 use App\Models\Venta;
 use Illuminate\Contracts\View\View;
@@ -61,11 +61,11 @@ class VentaController extends Controller
                 $producto = Producto::find($idProducto);
                 $nombreProducto = $producto->nombre;
 
-                $historial = Historial::where('idProducto', $idProducto)
+                $lotes = LoteProducto::where('idProducto', $idProducto)
                     ->orderBy('fechaElaboracion', 'asc')
                     ->get();
 
-                foreach ($historial as $lote) {
+                foreach ($lotes as $lote) {
                     if ($cantidad <= 0) {
                         break;
                     }

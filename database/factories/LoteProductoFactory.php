@@ -3,16 +3,16 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Historial;
+use App\Models\LoteProducto;
 use App\Models\Producto;
 use Carbon\Carbon;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Historial>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LoteProducto>
  */
-class HistorialFactory extends Factory
+class LoteProductoFactory extends Factory
 {
-    protected $model = Historial::class;
+    protected $model = LoteProducto::class;
 
     /**
      * Define the model's default state.

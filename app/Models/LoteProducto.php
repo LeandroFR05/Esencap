@@ -9,14 +9,14 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Historial extends Model
+class LoteProducto extends Model
 {
     use HasFactory, SoftDeletes;
 
     public $timestamps = false;
 
-    protected $table = 'historial';
-    protected $primaryKey = 'idHistorial';
+    protected $table = 'loteproductos';
+    protected $primaryKey = 'idLote';
     protected $fillable = [
         'numeroLote',
         'idProducto',
@@ -34,7 +34,7 @@ class Historial extends Model
     //Relaciones
     public function formulas()
     {
-        return $this->hasMany(Formula::class, 'idHistorial', 'idHistorial');
+        return $this->hasMany(Formula::class, 'idLote', 'idLote');
     }
 
     public function producto()

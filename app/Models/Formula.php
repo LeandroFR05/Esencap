@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Historial;
+use App\Models\LoteProducto;
 use App\Models\Familia;
 use App\Models\Insumo;
 
@@ -14,7 +14,7 @@ class Formula extends Model
     protected $table = 'formulas';
 
     protected $fillable = [
-        'idHistorial',
+        'idLote',
         'idFamilia',
         'porcentaje',
         'idInsumo',
@@ -23,9 +23,9 @@ class Formula extends Model
 
 
     //Relaciones
-    public function historial()
+    public function lote()
     {
-        return $this->belongsTo(Historial::class, 'idHistorial', 'idHistorial');
+        return $this->belongsTo(LoteProducto::class, 'idLote', 'idLote');
     }
 
     public function familia()

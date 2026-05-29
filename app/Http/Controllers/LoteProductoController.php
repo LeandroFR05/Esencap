@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Historial;
 use Illuminate\Http\Request;
+use App\Models\LoteProducto;
 
-class HistorialController extends Controller
+class LoteProductoController extends Controller
 {
     public function historial(Request $request)
     {
-        $query = Historial::with([
+        $query = LoteProducto::with([
             'producto',
             'formulas.insumo',
             'formulas.familia',
@@ -33,11 +33,11 @@ class HistorialController extends Controller
     }
 
 
-    public function eliminar(Historial $historial, Request $request)
+    public function eliminar(LoteProducto $loteProducto, Request $request)
     {
-        $historial->estado = false; 
-        $historial->save(); 
-        $historial->delete();
+        $loteProducto->estado = false; 
+        $loteProducto->save(); 
+        $loteProducto->delete();
 
         $redirectTo = url()->previous() ?: route('productos.lotes', $request->input('idProducto'));
 

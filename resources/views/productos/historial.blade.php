@@ -112,7 +112,7 @@
                                             <button
                                                 class="btn btn-sm btn-primary flex-fill"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#modalHistorial-{{ $h->idHistorial }}">
+                                                data-bs-target="#modalHistorial-{{ $h->idLote }}">
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
                                         </div>

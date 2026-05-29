@@ -17,6 +17,6 @@ class ProductoSeeder extends Seeder
     public function run(): void
     {
         // Crear 50 productos de prueba
-        Producto::factory(40)->withHistorial(2)->create();
+        Producto::factory(40)->withLotes(2)->create();
     }
 }

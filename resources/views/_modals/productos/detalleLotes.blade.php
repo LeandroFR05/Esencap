@@ -1,11 +1,11 @@
-@foreach ($producto->historiales as $historial)
+@foreach ($producto->lotes as $lote)
     <x-historialInfo 
-        :id="'modalHistorialProd-' . $historial->idHistorial" 
-        :titulo="$historial->producto->nombre"
-        :contenidoPorUnidad="$historial->producto->contenidoPorUnidad"
-        :stockInicial="$historial->stockInicial">
+        :id="'modalLoteProd-' . $lote->idLote" 
+        :titulo="$lote->producto->nombre"
+        :contenidoPorUnidad="$lote->producto->contenidoPorUnidad"
+        :stockInicial="$lote->stockInicial">
         
-        @foreach ($historial->formulas as $f)
+        @foreach ($lote->formulas as $f)
             <tr>
                 <td>{{ $f->porcentaje }}%</td>
                 <td>{{ $f->familia->nombre }}</td>

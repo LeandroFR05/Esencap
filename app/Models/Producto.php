@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Historial;
+use App\Models\LoteProducto;
 use App\Models\Carrito;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,9 +25,9 @@ class Producto extends Model
 
 
     //Relaciones
-    public function historiales()
+    public function lotes()
     {
-        return $this->hasMany(Historial::class, 'idProducto', 'idProducto');
+        return $this->hasMany(LoteProducto::class, 'idProducto', 'idProducto');
     }
 
     public function carritos()

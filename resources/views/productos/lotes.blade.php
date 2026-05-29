@@ -14,7 +14,7 @@
 
         @slot('contenido')
         @slot('bodyClass', 'p-0')
-            @if ($producto->historiales->isEmpty())
+            @if ($producto->lotes->isEmpty())
                 <div class="alert alert-info mb-0">
                     <i class="bi bi-info-circle me-2"></i>
                     No hay lotes para este producto.
@@ -48,20 +48,20 @@
                         </thead>
 
                         <tbody>
-                            @foreach ($producto->historiales as $historial)
+                            @foreach ($producto->lotes as $lote)
                                 <tr>
                                     <td class="text-center">
-                                        <code class="fw-bold">{{ $historial->numeroLote }}</code>
+                                        <code class="fw-bold">{{ $lote->numeroLote }}</code>
                                     </td>
                                     <td>
-                                        {{ \Carbon\Carbon::parse($historial->fechaElaboracion)->format('d/m/Y') }}
+                                        {{ \Carbon\Carbon::parse($lote->fechaElaboracion)->format('d/m/Y') }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $historial->stockInicial }}u
+                                        {{ $lote->stockInicial }}u
                                     </td>
                                     <td class="text-center">
                                         <span class="badge bg-success">
-                                            {{ $historial->stockActual }}u
+                                            {{ $lote->stockActual }}u
                                         </span>
                                     </td>
                                     <td class="text-center">
@@ -73,14 +73,14 @@
                                             <button
                                                 class="btn btn-sm btn-primary flex-fill"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#modalHistorialProd-{{ $historial->idHistorial }}"
+                                                data-bs-target="#modalLoteProd-{{ $lote->idLote }}"
                                                 data-toggle="tooltip"
                                                 title="Ver detalle"
                                             >
                                                 <i class="bi bi-eye-fill"></i>
                                             </button>
 
-                                            <form action="{{ route('historial.destroy', $historial->idHistorial) }}" method="POST" class="flex-fill">
+                                            <form action="{{ route('loteProducto.destroy', $lote->idLote) }}" method="POST" class="flex-fill">
                                                 @csrf
                                                 @method('DELETE')
                                                 <input type="hidden" name="idProducto" value="{{ $producto->idProducto }}">
@@ -103,7 +103,7 @@
                                 </td>
                                 <td class="text-center">
                                     <span class="badge bg-primary">
-                                        {{ $producto->historiales->sum('stockActual') }}u
+                                        {{ $producto->lotes->sum('stockActual') }}u
                                     </span>
                                 </td>
                                 <td></td>

@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FamiliaController;
-use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\LoteProductoController;
 use App\Http\Controllers\InsumoController;
 use App\Http\Controllers\LoteInsumoController;
 use App\Http\Controllers\ManualController;
@@ -19,13 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/login');
 });
-// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // REGISTRATION ROUTES
 Route::middleware('auth')->group(function () {
-    // allow authenticated users to create other users
+    // Solo los usuarios autenticados pueden crear otros usuarios
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
 });
@@ -50,7 +49,7 @@ Route::get('/insumos/restore/{idInsumo}', [InsumoController::class, 'restore'])-
 Route::get('/insumos/{idFamilia}', [InsumoController::class, 'porFamilia'])->middleware('auth')->name('insumos.porFamilia');
 Route::get('/insumos/lotes/{insumo}', [InsumoController::class, 'lotes'])->middleware('auth')->name('insumos.lotes');
 
-// LOTES ROUTES
+// LOTES DE INSUMOS ROUTES
 Route::get('/lotes/infoStock', [LoteInsumoController::class, 'infoStock'])->middleware('auth')->name('lotes.infoStock');
 Route::get('/lotes/vencidos', [LoteInsumoController::class, 'vencidos'])->middleware('auth')->name('lotes.infoVencimientos');
 Route::put('/lotes/actualizar/{lote}', [LoteInsumoController::class, 'actualizar'])->middleware('auth')->name('lotes.actualizar');
@@ -74,9 +73,9 @@ Route::delete('/productos/eliminar/{producto}', [ProductoController::class, 'eli
 Route::get('/productos/eliminados', [ProductoController::class, 'eliminados'])->middleware('auth')->name('productos.eliminados');
 Route::get('/productos/restore/{idProducto}', [ProductoController::class, 'restore'])->middleware('auth')->name('productos.restore');
 
-// HISTORIAL ROUTES
-Route::get('/productos/historial', [HistorialController::class, 'historial'])->middleware('auth')->name('productos.historial');
-Route::delete('/historial/eliminar/{historial}', [HistorialController::class, 'eliminar'])->middleware('auth')->name('historial.destroy');
+// LOTES DE PRODUCTOS ROUTES
+Route::get('/productos/historial', [LoteProductoController::class, 'historial'])->middleware('auth')->name('productos.historial');
+Route::delete('/lotes/eliminar/{lote}', [LoteProductoController::class, 'eliminar'])->middleware('auth')->name('loteProducto.destroy');
 
 
 // VENTAS ROUTES

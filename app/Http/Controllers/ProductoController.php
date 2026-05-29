@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductoRequest;
 use App\Models\Familia;
 use App\Models\Formula;
-use App\Models\Historial;
+use App\Models\LoteProducto;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
 use App\Models\Producto;
@@ -19,11 +19,11 @@ class ProductoController extends Controller
 {
     public function productos(Request $request): View
     {
-        $productos = Producto::withSum('historiales', 'stockActual')
-            ->withMax('historiales', 'fechaElaboracion')
+        $productos = Producto::withSum('lotes', 'stockActual')
+            ->withMax('lotes', 'fechaElaboracion')
             ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
                 $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
-                $query->orderBy('historiales_max_fechaElaboracion', $direccion);
+                $query->orderBy('lotes_max_fechaElaboracion', $direccion);
             })
             ->paginate(10)
             ->appends($request->query());
@@ -52,8 +52,8 @@ class ProductoController extends Controller
             // Si está todo correcto, procedemos a crear el producto y sus relaciones
             $fotoPath = $this->guardarFoto($request);
             $producto = $this->crearProducto($request, $fotoPath);
-            $historial = $this->crearHistorial($producto, $request);
-            $this->crearFormulas($historial, $request);
+            $lote = $this->crearLote($producto, $request);
+            $this->crearFormulas($lote, $request);
 
             DB::commit();
 
@@ -182,9 +182,9 @@ class ProductoController extends Controller
         ]);
     }
 
-    private function crearHistorial(Producto $producto, Request $request): Historial
+    private function crearHistorial(Producto $producto, Request $request): LoteProducto
     {
-        return Historial::create([
+        return LoteProducto::create([
             'idProducto' => $producto->idProducto,
             'stockInicial' => $request->stockInicial,
             'stockActual' => $request->stockInicial,
@@ -192,14 +192,14 @@ class ProductoController extends Controller
         ]);
     }
 
-    private function crearFormulas(Historial $historial, Request $request): void
+    private function crearFormulas(LoteProducto $lote, Request $request): void
     {
         $cantidad = count($request->porcentaje);
 
         // Recorremos los arrays para crear las fórmulas
         for ($i = 0; $i < $cantidad; $i++) {
             Formula::create([
-                'idHistorial' => $historial->idHistorial,
+                'idLote' => $lote->idLote,
                 'idFamilia' => $request->familia[$i],
                 'porcentaje' => $request->porcentaje[$i],
                 'idInsumo' => $request->insumo[$i],
@@ -214,8 +214,8 @@ class ProductoController extends Controller
 
     public function edit(Producto $producto): View
     {
-        $stockTotal = Historial::where('idProducto', $producto->idProducto)->sum('stockActual');
-        $ultimaElaboracion = Historial::where('idProducto', $producto->idProducto)
+        $stockTotal = LoteProducto::where('idProducto', $producto->idProducto)->sum('stockActual');
+        $ultimaElaboracion = LoteProducto::where('idProducto', $producto->idProducto)
         ->latest('fechaElaboracion')
         ->value('fechaElaboracion');
 
@@ -252,12 +252,12 @@ class ProductoController extends Controller
     public function reponer(Producto $producto): View
     {
         $familias = Familia::all();
-        $historial = Historial::with([
+        $lote = LoteProducto::with([
             'formulas.familia',
             'formulas.insumo',
         ])->where('idProducto', $producto->idProducto)->orderBy('fechaElaboracion', 'desc')->first();
 
-        return view('productos.reponer', compact('producto', 'historial', 'familias'));
+        return view('productos.reponer', compact('producto', 'lote', 'familias'));
     }
 
 
@@ -285,8 +285,8 @@ class ProductoController extends Controller
     {
 
         $producto = Producto::with([
-            'historiales.formulas.familia',
-            'historiales.formulas.insumo',
+            'lotes.formulas.familia',
+            'lotes.formulas.insumo',
         ])->find($producto->idProducto);
 
         return view('productos.lotes', compact('producto'));

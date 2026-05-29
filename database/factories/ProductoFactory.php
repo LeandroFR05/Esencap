@@ -26,15 +26,15 @@ class ProductoFactory extends Factory
     }
 
     /**
-     * Crea el producto con historial y fórmulas.
-     * Uso: Producto::factory()->withHistorial()->create()
-     * O con múltiples fórmulas: Producto::factory()->withHistorial(2)->create()
+     * Crea el producto con lotes y fórmulas.
+     * Uso: Producto::factory()->withLotes()->create()
+     * O con múltiples fórmulas: Producto::factory()->withLotes(2)->create()
      */
-    public function withHistorial(int $formulasCount = 1): static
+    public function withLotes(int $formulasCount = 1): static
     {
         return $this->has(
-            HistorialFactory::new()->withFormulas($formulasCount),
-            'historiales'
+            LoteProductoFactory::new()->withFormulas($formulasCount),
+            'lotes'
         );
     }
 }

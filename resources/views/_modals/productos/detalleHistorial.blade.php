@@ -1,6 +1,6 @@
 @foreach ($historial as $h)
     <x-historialInfo 
-        :id="'modalHistorial-' . $h->idHistorial" 
+        :id="'modalHistorial-' . $h->idLote" 
         :titulo="$h->producto->nombre"
         :contenidoPorUnidad="$h->producto->contenidoPorUnidad"
         :stockInicial="$h->stockInicial">
