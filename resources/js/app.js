@@ -1,9 +1,3 @@
-// import './bootstrap';
-
-// ApexCharts
-// import ApexCharts from 'apexcharts';
-// window.ApexCharts = ApexCharts;
-
 // AdminLTE
 import 'admin-lte/dist/js/adminlte.js';
 
