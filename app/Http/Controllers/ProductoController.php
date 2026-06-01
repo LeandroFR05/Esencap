@@ -33,10 +33,11 @@ class ProductoController extends Controller
 
     public function create(): View
     {
-        // Consultamos las familias, porque vamos a necesitar para la fórmula base del producto
+        // Consultamos las familias y los insumos por familia para repoblar la fórmula cuando hay errores.
         $familias = Familia::all();
+        $insumos = Insumo::all()->groupBy('idFamilia');
 
-        return view('productos.create', compact('familias'));
+        return view('productos.create', compact('familias', 'insumos'));
     }
 
     public function store(ProductoRequest $request): RedirectResponse
@@ -44,26 +45,27 @@ class ProductoController extends Controller
         try {
             DB::beginTransaction();
 
-            // Con estas funciones comprobamos de que haya suficiente stock de los insumos, y los descontamos en los lotes
             $items = $this->mapearInsumos($request);
+            $error = $this->descontarStockLotes($items);
 
-            $this->descontarStockLotes($items);
+            if ($error !== null) {
+                DB::rollBack();
+                return redirect()->route('productos.create')
+                    ->with('stock_error', json_encode($error))
+                    ->withInput();
+            }
 
-            // Si está todo correcto, procedemos a crear el producto y sus relaciones
             $fotoPath = $this->guardarFoto($request);
             $producto = $this->crearProducto($request, $fotoPath);
             $lote = $this->crearLote($producto, $request);
             $this->crearFormulas($lote, $request);
 
             DB::commit();
-
-            $resultado = redirect()->route('productos.estante')->with('success', 'Producto creado exitosamente.');
+            return redirect()->route('productos.estante')->with('success', 'Producto creado exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();
-            $resultado = redirect()->route('productos.create')->with(['error' => $e->getMessage()])->withInput();
+            return redirect()->route('productos.create')->with(['error' => $e->getMessage()])->withInput();
         }
-
-        return $resultado;
     }
 
     /* =============================
@@ -85,79 +87,77 @@ class ProductoController extends Controller
         return $items;
     }
 
-    // Descuenta el stock de los lotes con el array que armamos anteriormente, si no hay suficiente stock lanza una excepción
-    private function descontarStockLotes(array $items): void
+    // Descuenta el stock de los lotes con el array que armamos anteriormente, si no hay suficiente stock retorna un array con la info del error
+    private function descontarStockLotes(array $items): ?array
     {
         foreach ($items as $item) {
             $idInsumo = $item['idInsumo'];
             $contenidoNecesario = $item['contenido'];
 
-            // Traemos el insumo para conocer su unidad de medida
             $insumo = Insumo::find($idInsumo);
             $unidad = $insumo->unidadDeMedida;
 
-            // Convertimos el contenidoNecesario a la unidad base según el insumo
-            $contenidoNecesario = $this->convertirUnidad($contenidoNecesario, $unidad);
-
-            // Buscamos lotes que coincidan con el insumo y que tengan stock disponible con fecha de vencimiento más cercana
             $lotes = LoteInsumo::where('idInsumo', $idInsumo)
-                ->where('stockActual', '>', 0)
                 ->orderBy('fechaVencimiento', 'asc')
                 ->get();
 
-            // Recorremos los lotes para descontar el stock necesario
+            $lotesDetalle = $lotes->map(function ($lote) use ($unidad) {
+                return [
+                    'numeroLote' => $lote->numeroLote,
+                    'fechaCompra' => $lote->fechaCompra,
+                    'stockActual' => $lote->stockActual,
+                    'fechaVencimiento' => $lote->fechaVencimiento,
+                    'unidadMedida' => $unidad,
+                ];
+            })->toArray();
+
             foreach ($lotes as $lote) {
-                // Si el contenidoNecesario es <= 0, significa que ya se usó para restar el stock, entonces termina el bucle
                 if ($contenidoNecesario <= 0) {
                     break;
                 }
-
-                // Verificar si la fecha de vencimiento ya pasó, si es así, saltar este lote
-                if (\Carbon\Carbon::parse($lote->fechaVencimiento)->isPast()) {
-                    continue;
+                if ($lote->stockActual <= 0 || $lote->fechaVencimiento < now()) {
+                    continue; // Saltar lotes vencidos o sin stock
                 }
 
-                if ($lote->stockActual >= $contenidoNecesario) {
-                    $lote->stockActual -= $contenidoNecesario;
+                $contenidoDisponible = $this->convertirUnidad($lote->stockActual, $unidad);
+
+                if ($contenidoDisponible >= $contenidoNecesario) {
+                    $contenidoDisponible -= $contenidoNecesario;
+                    $lote->stockActual = ($contenidoDisponible * $lote->stockActual) / $this->convertirUnidad($lote->stockActual, $unidad);
                     $lote->save();
                     $contenidoNecesario = 0;
                 } else {
-                    $contenidoNecesario -= $lote->stockActual;
+                    $contenidoNecesario -= $contenidoDisponible;
                     $lote->stockActual = 0;
                     $lote->save();
                 }
             }
-            
-            // Si aún falta contenido después de recorrer todos los lotes
+
             if ($contenidoNecesario > 0) {
-                $nombreInsumo = Insumo::find($idInsumo)->nombre;
-                
-                // Recolectamos información de lotes vencidos y disponibles
-                $loteVencidos = $lotes->filter(function ($lote) {
-                    return \Carbon\Carbon::parse($lote->fechaVencimiento)->isPast();
-                })->pluck('numeroLote')->toArray();
-                
-                if (!empty($loteVencidos)) {
-                    $mensaje = "El insumo {$nombreInsumo} tiene los siguientes lotes vencidos: " . implode(', ', $loteVencidos) . ".";
-                }
-                else{
-                    $mensaje = "El insumo {$nombreInsumo} no tiene stock suficiente.";
-                }
-                
-                throw new \Exception($mensaje);
+                $nombreInsumo = $insumo->nombre;
+                $stockFaltante = $contenidoNecesario;
+
+                return [
+                    'insumo' => $nombreInsumo,
+                    'unidad' => $unidad,
+                    'necesario' => round($stockFaltante, 2),
+                    'lotes' => $lotesDetalle,
+                ];
             }
         }
+
+        return null;
     }
 
     private function convertirUnidad(float $valor, string $unidad): float
     {
         switch (strtolower($unidad)) {
             case 'kilos':
-                return $valor / 1000; // convertir a gramos
+                return $valor * 1000; // convertir a gramos
             case 'gramos':
                 return $valor; // ya está en gramos
             case 'litros':
-                return $valor / 1000;
+                return $valor * 1000;
             default:
                 return $valor; // fallback
         }
@@ -182,7 +182,7 @@ class ProductoController extends Controller
         ]);
     }
 
-    private function crearHistorial(Producto $producto, Request $request): LoteProducto
+    private function crearLote(Producto $producto, Request $request): LoteProducto
     {
         return LoteProducto::create([
             'idProducto' => $producto->idProducto,
@@ -264,16 +264,26 @@ class ProductoController extends Controller
     public function reponerStore(ProductoRequest $request, Producto $producto): RedirectResponse
     {
         try {
-            // Con estas funciones comprobamos de que haya suficiente stock de los insumos, y los descontamos en los lotes
-            $items = $this->mapearInsumos($request);
-            $this->descontarStockLotes($items);
+            DB::beginTransaction();
 
-            // Si está todo correcto, procedemos a crear el historial y sus relaciones
-            $historial = $this->crearHistorial($producto, $request);
-            $this->crearFormulas($historial, $request);
+            $items = $this->mapearInsumos($request);
+            $resultado = $this->descontarStockLotes($items);
+
+            if ($resultado !== null) {
+                DB::rollBack();
+                return redirect()->route('productos.reponer', $producto->idProducto)
+                    ->with('stock_error', json_encode($resultado))
+                    ->withInput();
+            }
+
+            $lote = $this->crearLote($producto, $request);
+            $this->crearFormulas($lote, $request);
+
+            DB::commit();
 
             $resultado = redirect()->route('productos.reponer', $producto->idProducto)->with('success', 'Producto repuesto exitosamente.');
         } catch (\Exception $e) {
+            DB::rollBack();
             $resultado = redirect()->route('productos.reponer', $producto->idProducto)->with(['error' => $e->getMessage()])->withInput();
         }
 
@@ -283,13 +293,14 @@ class ProductoController extends Controller
 
     public function lotes(Producto $producto): View
     {
-
         $producto = Producto::with([
             'lotes.formulas.familia',
             'lotes.formulas.insumo',
         ])->find($producto->idProducto);
 
-        return view('productos.lotes', compact('producto'));
+        $lote = $producto->lotes;
+
+        return view('productos.lotes', compact('producto', 'lote'));
     }
 
 

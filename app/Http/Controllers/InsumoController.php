@@ -34,12 +34,12 @@ class InsumoController extends Controller
     }
 
 
-    public function lotes($insumoId): View
+    public function lotes($insumo): View
     {
-        $lote = LoteInsumo::where('idInsumo', $insumoId)->get();
-        $insumo = Insumo::where('idInsumo', $insumoId)->first();
+        $insumo = Insumo::where('idInsumo', $insumo)->first();
+        $lote = $insumo->lotes;
 
-        return view('insumos.lotes', compact('lote', 'insumo'));
+        return view('insumos.lotes', compact('insumo', 'lote'));
     }
 
 

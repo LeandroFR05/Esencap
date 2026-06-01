@@ -115,7 +115,7 @@
                         <p>Última Elaboración</p>
                         @include('_partials.productos.estrFormula')
                         <div id="contenedor-formulas">
-                            @foreach($historial->formulas as $fila)
+                            @foreach($lote->formulas as $fila)
                                 <div class="row formula-item mb-2 align-items-center">
                                     <!-- Porcentaje -->
                                     <div class="col">

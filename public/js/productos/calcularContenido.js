@@ -1,6 +1,6 @@
 document.addEventListener('input', function(e) {
 
-    if (e.target.classList.contains('porcentaje') || e.target.classList.contains('stockInicial')) {
+    if (e.target.classList.contains('porcentaje') || e.target.classList.contains('stockInicial') || e.target.classList.contains('contenidoPorUnidad')) {
 
         let contenidoPorUnidad = parseFloat(document.querySelector('.contenidoPorUnidad').value) || 0;
         let stockInicial = parseFloat(document.querySelector('.stockInicial').value) || 0;
@@ -13,13 +13,13 @@ document.addEventListener('input', function(e) {
 
             let porcentaje = parseFloat(e.target.value) || 0;
 
-            let resultado = ((porcentaje * contenidoPorUnidad) / 100) *stockInicial;
+            let resultado = ((porcentaje * contenidoPorUnidad) / 100) * stockInicial;
 
             inputContenido.value = resultado;
         }
 
-        // Si cambia stockInicial recalcula TODOS
-        if (e.target.classList.contains('stockInicial')) {
+        // Si cambia stockInicial o contenidoPorUnidad recalcula TODOS
+        if (e.target.classList.contains('stockInicial') || e.target.classList.contains('contenidoPorUnidad')) {
 
             document.querySelectorAll('.formula-item')
                 .forEach(bloque => {

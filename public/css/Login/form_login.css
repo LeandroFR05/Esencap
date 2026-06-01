@@ -1,4 +1,19 @@
+.register-page {
+    align-items: start !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+.register-page .text-center img {
+    transform: translateY(-30px);
+}
+
+.register-page .row {
+    align-items: start !important;
+}
+
 .register-card {
+    transform: translateY(-80px);
     display: flex;
     justify-content: center;
     border: 0;

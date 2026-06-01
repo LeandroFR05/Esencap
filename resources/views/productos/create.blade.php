@@ -106,39 +106,90 @@
                 <div class="formula-card">
                     <div class="card-body p-4">
                         @include('_partials.productos.estrFormula')
+                        @php
+                            $oldPorcentajes = old('porcentaje', []);
+                            $oldFamilias = old('familia', []);
+                            $oldInsumos = old('insumo', []);
+                            $oldContenidos = old('contenido', []);
+                        @endphp
                         <div id="contenedor-formulas">
-                            <div class="row formula-item mb-2 align-items-center">
-                                <div class="col">
-                                    <div class="input-group">
-                                        <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" required>
-                                        <span class="input-group-text input-group-text-sm">%</span>
+                            @if(count($oldPorcentajes) > 0)
+                                @foreach($oldPorcentajes as $index => $porcentaje)
+                                    @php
+                                        $selectedFamilia = $oldFamilias[$index] ?? null;
+                                        $selectedInsumo = $oldInsumos[$index] ?? null;
+                                        $insumosPorFamilia = $selectedFamilia && isset($insumos[$selectedFamilia]) ? $insumos[$selectedFamilia] : collect();
+                                    @endphp
+                                    <div class="row formula-item mb-2 align-items-center">
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" value="{{ $porcentaje }}" required>
+                                                <span class="input-group-text input-group-text-sm">%</span>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <select name="familia[]" class="form-select form-select-sm select-familia" required>
+                                                <option value="">Seleccione una familia</option>
+                                                @foreach($familias as $familia)
+                                                    <option value="{{ $familia->idFamilia }}" {{ $selectedFamilia == $familia->idFamilia ? 'selected' : '' }}>{{ $familia->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="number" name="contenido[]" class="form-control form-control-sm contenido" readonly value="{{ $oldContenidos[$index] ?? '' }}">
+                                                <span class="input-group-text input-group-text-sm">gr</span>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
+                                                <option value="">Insumo</option>
+                                                @foreach($insumosPorFamilia as $insumo)
+                                                    <option value="{{ $insumo->idInsumo }}" {{ $selectedInsumo == $insumo->idInsumo ? 'selected' : '' }}>{{ $insumo->nombre }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="row formula-item mb-2 align-items-center">
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" required>
+                                            <span class="input-group-text input-group-text-sm">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select name="familia[]" class="form-select form-select-sm select-familia" required>
+                                            <option value="">Seleccione una familia</option>
+                                            @foreach($familias as $familia)
+                                                <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <input type="number" name="contenido[]" class="form-control form-control-sm contenido" readonly>
+                                            <span class="input-group-text input-group-text-sm">gr</span>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
+                                            <option value="">Insumo</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <select name="familia[]" class="form-select form-select-sm select-familia" required>
-                                        <option value="">Seleccione una familia</option>
-                                        @foreach($familias as $familia)
-                                            <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <div class="input-group">
-                                        <input type="number" name="contenido[]" class="form-control form-control-sm contenido" readonly>
-                                        <span class="input-group-text input-group-text-sm">gr</span>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
-                                        <option value="">Insumo</option>
-                                    </select>
-                                </div>
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            @endif
                         </div>
 
                         <div class="mt-4">

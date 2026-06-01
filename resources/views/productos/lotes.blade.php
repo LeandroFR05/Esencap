@@ -6,6 +6,39 @@
 @endsection
 
 @section('content')
+    {{-- Tarjetas de resumen --}}
+    <div class="row justify-content-center mb-3">
+        <div class="col-xl-10">
+            <div class="row g-3">
+                <div class="col-sm-6 col-md-4">
+                    <div class="card shadow-sm border-0 bg-primary-subtle">
+                        <div class="card-body d-flex align-items-center gap-3 py-3">
+                            <i class="bi bi-layers fs-2 text-primary"></i>
+                            <div>
+                                <div class="text-muted small text-uppercase fw-semibold">Lotes registrados</div>
+                                <div class="fs-4 fw-bold text-primary">{{ $lote->count() }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="card shadow-sm border-0 bg-success-subtle">
+                        <div class="card-body d-flex align-items-center gap-3 py-3">
+                            <i class="bi bi-box-seam fs-2 text-success"></i>
+                            <div>
+                                <div class="text-muted small text-uppercase fw-semibold">Stock total</div>
+                                <div class="fs-4 fw-bold text-success">
+                                    {{ $lote->sum('stockActual') }} unidades
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @component('components.cards')
         @slot('titulo')
             <i class="bi bi-clock-history me-2"></i>

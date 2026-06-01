@@ -11,6 +11,9 @@
 <div class="container register-page">
     <div class="row justify-content-center w-100">
         <div class="col-md-8 col-lg-6">
+            <div class="text-center">
+                <img src="{{ asset('storage/uploads/logoEsencap.png') }}" alt="ESENCAP Logo" style="height: 150px;">
+            </div>
             <div class="card register-card">
                 <div class="card-header">{{ __('Registro') }}</div>
 

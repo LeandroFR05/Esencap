@@ -36,6 +36,11 @@ Auth::routes(['register' => false]);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
 
+// LOTES DE INSUMOS ROUTES
+Route::get('/insumos/lotes/infoStock', [LoteInsumoController::class, 'infoStock'])->middleware('auth')->name('lotes.infoStock');
+Route::get('/insumos/lotes/vencidos', [LoteInsumoController::class, 'vencidos'])->middleware('auth')->name('lotes.infoVencimientos');
+Route::delete('/insumos/lotes/eliminar/{lote}', [LoteInsumoController::class, 'eliminar'])->middleware('auth')->name('lotes.destroy');
+
 // INSUMOS ROUTES
 Route::get('/insumos', [InsumoController::class, 'insumos'])->middleware('auth')->name('insumos.estante');
 Route::get('/insumos/create', [InsumoController::class, 'create'])->middleware('auth')->name('insumos.create');
@@ -50,11 +55,6 @@ Route::delete('/insumos/eliminar/{insumo}', [InsumoController::class, 'eliminar'
 Route::get('/insumos/eliminados', [InsumoController::class, 'eliminados'])->middleware('auth')->name('insumos.eliminados');
 Route::get('/insumos/restore/{idInsumo}', [InsumoController::class, 'restore'])->middleware('auth')->name('insumos.restore');
 Route::get('/insumos/{idFamilia}', [InsumoController::class, 'porFamilia'])->middleware('auth')->name('insumos.porFamilia');
-
-// LOTES DE INSUMOS ROUTES
-Route::get('/insumos/lotes/infoStock', [LoteInsumoController::class, 'infoStock'])->middleware('auth')->name('lotes.infoStock');
-Route::get('/insumos/lotes/vencidos', [LoteInsumoController::class, 'vencidos'])->middleware('auth')->name('lotes.infoVencimientos');
-Route::delete('/insumos/lotes/eliminar/{lote}', [LoteInsumoController::class, 'eliminar'])->middleware('auth')->name('lotes.destroy');
 
 // FAMILIAS ROUTES
 Route::post('/familias/store', [FamiliaController::class, 'store'])->middleware('auth')->name('familias.store');
