@@ -31,9 +31,19 @@ class VentaController extends Controller
         return response()->json($productos);
     }
 
-    public function historial(): View
+    public function historial(Request $request): View
     {
-        $ventas = Venta::with('carritos.producto')->paginate();
+        $query = Venta::with('carritos.producto');
+
+        if ($request->filled('cliente')) {
+            $query->where('cliente', 'like', '%' . $request->cliente . '%');
+        }
+
+        if ($request->filled('fecha')) {
+            $query->whereDate('fecha', $request->fecha);
+        }
+
+        $ventas = $query->paginate(10)->appends($request->query());
 
         return view('ventas.historial', compact('ventas'));
     }

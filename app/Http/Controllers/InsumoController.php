@@ -7,6 +7,7 @@ use App\Models\Familia;
 use App\Models\Formula;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
+use App\Services\ImageService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,15 +17,19 @@ use Illuminate\Http\JsonResponse;
 class InsumoController extends Controller
 {
     public function insumos(Request $request): View {
+        $familias = Familia::all();
         $insumos = Insumo::withSum('lotes', 'stockActual')
             ->withMax('lotes', 'fechaCompra')
+            ->when($request->filled('familia'), function ($query) use ($request) {
+                $query->where('idFamilia', $request->familia);
+            })
             ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
                 $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
                 $query->orderBy('lotes_max_fechaCompra', $direccion);
             })
             ->paginate(10)
             ->appends($request->query());
-        return view('insumos.estante', compact('insumos'));
+        return view('insumos.estante', compact('insumos', 'familias'));
     }
 
 
@@ -43,13 +48,10 @@ class InsumoController extends Controller
     }
 
 
-    public function store(InsumoRequest $request): RedirectResponse {
-        if ($request->hasFile('foto'))
-            // Si se subió una imagen, la guardamos
-            $fotoPath = $request->file('foto')->store('uploads', 'public');
-        else 
-            // Si no se subió nada, dejamos el valor en null
-            $fotoPath = null;
+    public function store(InsumoRequest $request, ImageService $images): RedirectResponse {
+        $fotoPath = $request->hasFile('foto')
+            ? $images->storeAsWebp($request->file('foto'))
+            : null;
 
         $insumo = Insumo::create([
             'nombre' => $request->input('nombre'),
@@ -79,7 +81,7 @@ class InsumoController extends Controller
     }
 
 
-    public function update(InsumoRequest $request, Insumo $insumo): RedirectResponse {
+    public function update(InsumoRequest $request, Insumo $insumo, ImageService $images): RedirectResponse {
         $validated = $request->validated();
 
         // Para verificar si se eliminó la foto en el formulario, y no se volvió a cargar otra
@@ -94,8 +96,7 @@ class InsumoController extends Controller
             if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {
                 Storage::disk('public')->delete($insumo->foto); // Eliminar la foto antigua
             }
-            $fotoPath = $request->file('foto')->store('uploads', 'public');
-            $validated['foto'] = $fotoPath; // Actualizar con la nueva foto
+            $validated['foto'] = $images->storeAsWebp($request->file('foto'));
         }
 
         $insumo->update($validated);

@@ -34,6 +34,8 @@ Auth::routes(['register' => false]);
 
 // DASHBOARD
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/dashboard/ventas-por-anio', [DashboardController::class, 'ventasPorAnio'])->middleware('auth')->name('dashboard.ventasPorAnio');
+Route::get('/dashboard/productos-mas-vendidos', [DashboardController::class, 'productosMasVendidosFiltrados'])->middleware('auth')->name('dashboard.productosMasVendidosFiltrados');
 
 
 // LOTES DE INSUMOS ROUTES

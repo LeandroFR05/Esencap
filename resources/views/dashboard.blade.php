@@ -86,8 +86,17 @@
     <div class="row">
         <div class="col-md-8 mb-4">
             <div class="card">
-                <div class="card-header">
-                    <h5>Ventas registradas por mes</h5>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Ventas registradas por mes</h5>
+                    <div>
+                        <label for="anioSelect" class="form-label mb-0 me-2">Año:</label>
+                        <!-- Cuando selecciono un año, se llama al Listener de más abajo -->
+                        <select id="anioSelect" class="form-select form-select-sm d-inline-block w-auto">
+                            @foreach($aniosDisponibles as $anio)
+                                <option value="{{ $anio }}" {{ $anio == date('Y') ? 'selected' : '' }}>{{ $anio }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if(empty($ventas_data))
@@ -117,14 +126,40 @@
     <div class="row">
         <div class="col-md-5">
             <div class="card">
-                <div class="card-header">
-                    <h5>Productos más vendidos</h5>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Productos más vendidos</h5>
+                    <div class="d-flex align-items-center">
+                        <label for="mesSelect" class="form-label mb-0 me-2">Mes:</label>
+                        <select id="mesSelect" class="form-select form-select-sm d-inline-block w-auto me-2">
+                            <option value="">Todos</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                        <label for="anioSelect2" class="form-label mb-0 me-2">Año:</label>
+                        <select id="anioSelect2" class="form-select form-select-sm d-inline-block w-auto">
+                            <option value="">Todos</option>
+                            @foreach($aniosDisponibles as $anio)
+                                <option value="{{ $anio }}">{{ $anio }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if(empty($cantProductosVendidos))
                         <p class="text-center text-muted">No hay datos disponibles para mostrar este gráfico.</p>
                     @else
                         <div id="chart2"></div>
+                        <p id="chart2-empty" class="text-center text-muted" style="display: none;">No se registraron ventas en este período.</p>
                     @endif
                 </div>
             </div>
@@ -181,9 +216,36 @@
             }
         }
         const chartEl = document.querySelector("#chart");
+        let chart;
         if (chartEl) {
-            const chart = new ApexCharts(chartEl, options);
+            chart = new ApexCharts(chartEl, options);
             chart.render();
+        }
+
+        // Filtro por año
+        const anioSelect = document.getElementById('anioSelect');
+        if (anioSelect) {
+            anioSelect.addEventListener('change', async function () {
+                const anio = this.value;
+                try {
+                    // Se llama a la ruta que nos dirige al método ventasPorAnio del DashboardController, el cual devuelve un JSON con las ventas por mes para el año seleccionado
+                    const response = await fetch(`{{ route('dashboard.ventasPorAnio') }}?anio=${anio}`, {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    const data = await response.json();
+
+                    if (chart) {
+                        chart.updateOptions({
+                            series: [{ name: 'Ventas', data: Object.values(data) }],
+                            xaxis: {
+                                categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error al obtener las ventas por año:', error);
+                }
+            });
         }
 
 
@@ -208,9 +270,54 @@
             }]
         };
         const chartEl2 = document.querySelector("#chart2");
+        const chart2Empty = document.getElementById('chart2-empty');
+        let chart2;
         if (chartEl2) {
-            const chart = new ApexCharts(chartEl2, options);
-            chart.render();
+            chart2 = new ApexCharts(chartEl2, options);
+            chart2.render();
+        }
+
+        // Filtro de mes y año para Productos más vendidos
+        const mesSelect = document.getElementById('mesSelect');
+        const anioSelect2 = document.getElementById('anioSelect2');
+
+        async function actualizarProductosMasVendidos() {
+            if (!chart2) return;
+
+            const mes = mesSelect ? mesSelect.value : '';
+            const anio = anioSelect2 ? anioSelect2.value : '';
+
+            try {
+                const params = new URLSearchParams();
+                if (mes) params.append('mes', mes);
+                if (anio) params.append('anio', anio);
+
+                const response = await fetch(`{{ route('dashboard.productosMasVendidosFiltrados') }}?${params.toString()}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    chartEl2.style.display = 'none';
+                    if (chart2Empty) chart2Empty.style.display = 'block';
+                } else {
+                    chartEl2.style.display = 'block';
+                    if (chart2Empty) chart2Empty.style.display = 'none';
+                    chart2.updateOptions({
+                        series: data.map(item => Number(item.total_vendidos)),
+                        labels: data.map(item => item.nombre)
+                    });
+                }
+            } catch (error) {
+                console.error('Error al obtener los productos más vendidos:', error);
+            }
+        }
+
+        if (mesSelect) {
+            mesSelect.addEventListener('change', actualizarProductosMasVendidos);
+        }
+        if (anioSelect2) {
+            anioSelect2.addEventListener('change', actualizarProductosMasVendidos);
         }
 
 

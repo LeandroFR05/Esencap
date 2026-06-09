@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             FamiliaSeeder::class,
             InsumoSeeder::class,
             ProductoSeeder::class,
+            VentaSeeder::class,
         ]);
     }
 }

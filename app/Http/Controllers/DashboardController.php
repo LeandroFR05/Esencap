@@ -7,6 +7,7 @@ use App\Models\Insumo;
 use App\Models\LoteInsumo;
 use App\Models\Producto;
 use App\Models\Venta;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -15,6 +16,7 @@ class DashboardController extends Controller
     {
         // Gráficos
         $ventas_data = $this->ventasRegistradasPorMes();
+        $aniosDisponibles = $this->aniosDisponibles();
         $porcentajeStockBajo = $this->insumosConBajoStock();
         $cantProductosVendidos = $this->productosMasVendidos();
         $ventasDiarias = $this->cantidadDeProductosVendidosPorDia();
@@ -25,24 +27,43 @@ class DashboardController extends Controller
         $insumosRegistrados = $this->insumosRegistrados();
         $productosRegistrados = $this->productosRegistrados();
         
-        return view('dashboard', compact('ventas_data', 'porcentajeStockBajo', 'cantProductosVendidos', 'ventasDiarias', 
+        return view('dashboard', compact('ventas_data', 'aniosDisponibles', 'porcentajeStockBajo', 'cantProductosVendidos', 'ventasDiarias', 
             'lotesProximosaVencer', 'lotesBajoStock', 'insumosRegistrados', 'productosRegistrados'));
+    }
+
+
+    public function ventasPorAnio(Request $request)
+    {
+        $anio = $request->input('anio');
+        return response()->json($this->ventasRegistradasPorMes($anio));
+    }
+
+
+    public function productosMasVendidosFiltrados(Request $request)
+    {
+        $anio = $request->input('anio');
+        $mes = $request->input('mes');
+        return response()->json($this->productosMasVendidos($anio, $mes));
     }
 
 
 
     // FUNCIONES PRIVADAS DE INDEX
     // Gráficos
-    private function ventasRegistradasPorMes()
+    private function ventasRegistradasPorMes($anio = null)
     {
-        $ventas_mensuales = Venta::select(
+        $query = Venta::select(
             DB::raw('MONTH(fecha) as mes'),
             DB::raw('COUNT(*) as total')
         )
             ->groupBy('mes')
-            ->orderBy('mes')
-            ->get()
-            ->toArray();
+            ->orderBy('mes');
+
+        if (!is_null($anio)) {
+            $query->whereYear('fecha', $anio);
+        }
+
+        $ventas_mensuales = $query->get()->toArray();
 
         $ventas_data = array_fill(1, 12, 0);
         foreach ($ventas_mensuales as $venta) {
@@ -50,6 +71,21 @@ class DashboardController extends Controller
         }
 
         return $ventas_data;
+    }
+
+
+    private function aniosDisponibles()
+    {
+        $anios = Venta::select(DB::raw('DISTINCT YEAR(fecha) as anio'))
+            ->orderBy('anio', 'desc')
+            ->pluck('anio')
+            ->toArray();
+
+        if (empty($anios)) {
+            $anios = [date('Y')];
+        }
+
+        return $anios;
     }
 
 
@@ -77,9 +113,9 @@ class DashboardController extends Controller
     }
 
 
-    private function productosMasVendidos()
+    private function productosMasVendidos($anio = null, $mes = null)
     {
-        return DB::table('ventas as v')
+        $query = DB::table('ventas as v')
             ->join('carritos as c', 'c.idVenta', '=', 'v.idVenta')
             ->join('productos as p', 'p.idProducto', '=', 'c.idProducto')
             ->select(
@@ -88,9 +124,17 @@ class DashboardController extends Controller
                 DB::raw('SUM(c.cantidad) as total_vendidos')
             )
             ->groupBy('p.idProducto', 'p.nombre')
-            ->orderBy('total_vendidos', 'desc')
-            ->get()
-            ->toArray();
+            ->orderBy('total_vendidos', 'desc');
+
+        if (!is_null($anio)) {
+            $query->whereYear('v.fecha', $anio);
+        }
+
+        if (!is_null($mes)) {
+            $query->whereMonth('v.fecha', $mes);
+        }
+
+        return $query->get()->toArray();
     }
 
 
@@ -102,7 +146,6 @@ class DashboardController extends Controller
                 DB::raw('DATE(v.fecha) as dia'),
                 DB::raw('SUM(c.cantidad) as total')
             )
-            ->where('v.fecha', '>=', now()->subDays(30))
             ->groupBy('dia')
             ->orderBy('dia')
             ->get()

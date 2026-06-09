@@ -19,22 +19,41 @@
         <div class="card-body p-3">
             <div class="row g-3">
                 <!-- Búsqueda de insumos -->
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="buscarInsumo" class="form-label fw-semibold small">Buscar por nombre</label>
                     <input type="text" id="buscarInsumo" class="form-control form-control-sm">
                 </div>
                 
-                <!-- Ordenar por fecha -->
-                <div class="col-md-6">
-                    <form method="GET" action="{{ route('insumos.estante') }}" id="formFiltros">
-                        <label for="ordenarFecha" class="form-label fw-semibold small">Ordenar por fecha de compra</label>
-                        <select id="ordenarFecha" name="ordenarFecha" class="form-select form-select-sm">
-                            <option value="">Sin orden</option>
-                            <option value="reciente" {{ request('ordenarFecha') === 'reciente' ? 'selected' : '' }}>Más reciente</option>
-                            <option value="antigua" {{ request('ordenarFecha') === 'antigua' ? 'selected' : '' }}>Más antigua</option>
-                        </select>
-                    </form>
-                </div>
+                <form method="GET" action="{{ route('insumos.estante') }}" id="formFiltros" class="col-md-8">
+                    <div class="row g-3">
+                        <!-- Filtro por familia -->
+                        <div class="col-md-4">
+                            <label for="familia" class="form-label fw-semibold small">Familia</label>
+                            <select id="familia" name="familia" class="form-select form-select-sm">
+                                <option value="">Todas</option>
+                                @foreach($familias as $familia)
+                                    <option value="{{ $familia->idFamilia }}" {{ request('familia') == $familia->idFamilia ? 'selected' : '' }}>{{ $familia->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <!-- Ordenar por fecha -->
+                        <div class="col-md-4">
+                            <label for="ordenarFecha" class="form-label fw-semibold small">Ordenar por fecha de compra</label>
+                            <select id="ordenarFecha" name="ordenarFecha" class="form-select form-select-sm">
+                                <option value="">Sin orden</option>
+                                <option value="reciente" {{ request('ordenarFecha') === 'reciente' ? 'selected' : '' }}>Más reciente</option>
+                                <option value="antigua" {{ request('ordenarFecha') === 'antigua' ? 'selected' : '' }}>Más antigua</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="button" id="limpiarFiltros" data-clear-url="{{ route('insumos.estante') }}" class="btn btn-sm btn-secondary w-100">
+                                <i class="bi bi-x-circle"></i> Limpiar filtros
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

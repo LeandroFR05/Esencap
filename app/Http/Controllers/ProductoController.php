@@ -9,6 +9,7 @@ use App\Models\LoteProducto;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
 use App\Models\Producto;
+use App\Services\ImageService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ class ProductoController extends Controller
         return view('productos.create', compact('familias', 'insumos'));
     }
 
-    public function store(ProductoRequest $request): RedirectResponse
+    public function store(ProductoRequest $request, ImageService $images): RedirectResponse
     {
         try {
             DB::beginTransaction();
@@ -55,7 +56,7 @@ class ProductoController extends Controller
                     ->withInput();
             }
 
-            $fotoPath = $this->guardarFoto($request);
+            $fotoPath = $this->guardarFoto($request, $images);
             $producto = $this->crearProducto($request, $fotoPath);
             $lote = $this->crearLote($producto, $request);
             $this->crearFormulas($lote, $request);
@@ -164,10 +165,10 @@ class ProductoController extends Controller
     }
 
     // Con las siguientes funciones guardamos el nuevo producto y sus relaciones
-    private function guardarFoto(Request $request): ?string
+    private function guardarFoto(Request $request, ImageService $images): ?string
     {
         if ($request->hasFile('foto')) {
-            return $request->file('foto')->store('uploads', 'public');
+            return $images->storeAsWebp($request->file('foto'));
         }
 
         return null;
@@ -223,7 +224,7 @@ class ProductoController extends Controller
     }
 
 
-    public function update(ProductoRequest $request, Producto $producto)
+    public function update(ProductoRequest $request, Producto $producto, ImageService $images)
     {
         $validated = $request->validated();
 
@@ -239,8 +240,7 @@ class ProductoController extends Controller
             if ($producto->foto && Storage::disk('public')->exists($producto->foto)) {
                 Storage::disk('public')->delete($producto->foto); // Eliminar la foto antigua
             }
-            $fotoPath = $request->file('foto')->store('uploads', 'public');
-            $validated['foto'] = $fotoPath; // Actualizar con la nueva foto
+            $validated['foto'] = $images->storeAsWebp($request->file('foto')); // Actualizar con la nueva foto en webp
         }
 
         $producto->update($validated);

@@ -19,13 +19,13 @@
         <div class="card-body p-3">
             <div class="row g-3">
                 <!-- Búsqueda de productos -->
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <label for="buscarProducto" class="form-label fw-semibold small">Buscar por nombre</label>
                     <input type="text" id="buscarProducto" class="form-control form-control-sm">
                 </div>
                 
                 <!-- Ordenar por fecha -->
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <form method="GET" action="{{ route('productos.estante') }}" id="formFiltros">
                         <label for="ordenarFecha" class="form-label fw-semibold small">Ordenar por fecha de elaboración</label>
                         <select id="ordenarFecha" name="ordenarFecha" class="form-select form-select-sm">
@@ -34,6 +34,12 @@
                             <option value="antigua" {{ request('ordenarFecha') === 'antigua' ? 'selected' : '' }}>Más antigua</option>
                         </select>
                     </form>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button" id="limpiarFiltros" data-clear-url="{{ route('productos.estante') }}" class="btn btn-sm btn-secondary w-100">
+                        <i class="bi bi-x-circle"></i> Limpiar filtros
+                    </button>
                 </div>
             </div>
         </div>
