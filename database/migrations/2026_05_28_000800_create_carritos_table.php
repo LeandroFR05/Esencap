@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carritos', function (Blueprint $table) {
-            $table->mediumIncrements('idCarrito');
+        Schema::create('detalleVentas', function (Blueprint $table) {
+            $table->mediumIncrements('idDetalle');
             $table->unsignedMediumInteger('idVenta');
             $table->unsignedSmallInteger('idProducto');
             $table->unsignedSmallInteger('cantidad');
+            $table->decimal('precioUnitario', 10, 2);
 
             // Foreign keys
             $table->foreign('idVenta')->references('idVenta')->on('ventas')->cascadeOnDelete();
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carritos');
+        Schema::dropIfExists('detalleVentas');
     }
 };

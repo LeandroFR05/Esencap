@@ -63,6 +63,9 @@
                                     N° de Lote
                                 </th>
                                 <th class="fw-semibold">
+                                    Usuario
+                                </th>
+                                <th class="fw-semibold">
                                     Fecha de Elaboración
                                 </th>
                                 <th class="fw-semibold">
@@ -85,6 +88,9 @@
                                 <tr>
                                     <td class="text-center">
                                         <code class="fw-bold">{{ $lote->numeroLote }}</code>
+                                    </td>
+                                    <td>
+                                        {{ optional($lote->usuario)->name }}
                                     </td>
                                     <td>
                                         {{ \Carbon\Carbon::parse($lote->fechaElaboracion)->format('d/m/Y') }}

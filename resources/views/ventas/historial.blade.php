@@ -59,6 +59,9 @@
                                 <th class="sortable" data-col="0" data-dir="asc" style="width: 180px;">
                                     Fecha <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
                                 </th>
+                                <th style="width: 180px;">
+                                    Usuario
+                                </th>
                                 <th class="sortable" data-col="1" data-dir="asc">
                                     Cliente <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
                                 </th>
@@ -69,6 +72,7 @@
                             @foreach ($ventas as $v)
                                 <tr>
                                     <td>{{ $v->fecha }}</td>
+                                    <td>{{ optional($v->usuario)->name }}</td>
                                     <td>{{ $v->cliente }}</td>
                                     <td class="p-1">
                                         <button type="button"

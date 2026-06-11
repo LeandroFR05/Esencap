@@ -41,14 +41,15 @@
                                 <tr>
                                     <th class="small text-uppercase text-start">Nombre</th>
                                     <th class="small text-uppercase" style="width: 160px;">Cantidad</th>
+                                    <th class="small text-uppercase" style="width: 160px;">Precio Unitario</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($v->carritos as $carrito)
+                                @forelse ($v->detalleVentas as $detalle)
                                     <tr>
                                         <td class="text-start">
-                                            @if($carrito->producto)
-                                                <span class="fw-medium">{{ $carrito->producto->nombre }}</span>
+                                            @if($detalle->producto)
+                                                <span class="fw-medium">{{ $detalle->producto->nombre }}</span>
                                             @else
                                                 <span class="text-muted fst-italic">
                                                     <i class="bi bi-slash-circle me-1"></i>Producto eliminado
@@ -56,12 +57,15 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <span class="badge bg-primary">{{ $carrito->cantidad }}</span>
+                                            <span>{{ $detalle->cantidad }}</span>
+                                        </td>
+                                        <td>
+                                            <span>${{ number_format($detalle->precioUnitario, 2) }}</span>
                                         </td>
                                     </tr>
-                                @empty
+                                @empty      
                                     <tr>
-                                        <td colspan="2" class="text-center text-muted py-4">
+                                        <td colspan="3" class="text-center text-muted py-4">
                                             <i class="bi bi-inbox fs-4 d-block mb-1 opacity-50"></i>
                                             No hay productos en esta venta
                                         </td>
@@ -70,10 +74,17 @@
                             </tbody>
                             <tfoot>
                                 <tr class="table-secondary fw-bold">
-                                    <td class="text-end small text-uppercase text-muted">Total unidades:</td>
+                                    <td class="text-end small text-uppercase text-muted">Total:</td>
                                     <td>
                                         <span class="badge bg-success">
-                                            {{ $v->carritos->sum('cantidad') }}
+                                            {{ $v->detalleVentas->sum('cantidad') }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">
+                                            ${{ number_format($v->detalleVentas->sum(function($d) {
+                                                return $d->cantidad * $d->precioUnitario;
+                                            }), 2) }}
                                         </span>
                                     </td>
                                 </tr>
@@ -86,7 +97,7 @@
                 <div class="modal-footer bg-light border-top">
                     <small class="text-muted me-auto">
                         <i class="bi bi-bag me-1"></i>
-                        {{ $v->carritos->count() }} producto(s) en esta venta
+                        {{ $v->detalleVentas->count() }} producto(s) en esta venta
                     </small>
                     <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">
                         <i class="bi bi-x-lg me-1"></i>Cerrar

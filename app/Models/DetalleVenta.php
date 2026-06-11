@@ -5,16 +5,17 @@ namespace App\Models;
 use App\Models\Venta;
 use Illuminate\Database\Eloquent\Model;
 
-class Carrito extends Model
+class DetalleVenta extends Model
 {
     public $timestamps = false;
-    protected $table = 'carritos';
+    protected $table = 'detalleVentas';
     
-    protected $primaryKey = 'idCarrito';
+    protected $primaryKey = 'idDetalle';
     protected $fillable = [
         'idVenta',
         'idProducto',
-        'cantidad'
+        'cantidad',
+        'precioUnitario'
     ];
 
 

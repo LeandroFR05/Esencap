@@ -24,6 +24,7 @@ class LoteProductoFactory extends Factory
         $stockInicial = fake()->randomFloat(2, 10, 70);
 
         return [
+            'idUsuario' => 1,
             'stockInicial' => $stockInicial,
             'stockActual' => $stockInicial, // Inicialmente igual al stock inicial
             'fechaElaboracion' => fake()->dateTimeBetween('-6 months', 'now')->format('Y-m-d'),

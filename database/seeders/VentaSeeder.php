@@ -12,6 +12,6 @@ class VentaSeeder extends Seeder
      */
     public function run(): void
     {
-        Venta::factory(20)->withCarritos()->create();
+        Venta::factory(20)->withDetalleVentas()->create();
     }
 }

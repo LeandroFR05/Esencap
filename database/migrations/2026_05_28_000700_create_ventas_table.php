@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->mediumIncrements('idVenta');
+            $table->foreignId('idUsuario')->constrained('users')->cascadeOnDelete();
             $table->date('fecha');
             $table->string('cliente', 50)->nullable();
         });

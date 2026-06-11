@@ -18,16 +18,17 @@ class VentaFactory extends Factory
     public function definition(): array
     {
         return [
+            'idUsuario' => 1, 
             'fecha' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'cliente' => $this->faker->name(),
         ];
     }
 
-    public function withCarritos(): static
+    public function withDetalleVentas(): static
     {
         return $this->has(
-            CarritoFactory::new(),
-            'carritos'
+            DetalleVentaFactory::new(),
+            'detalleVentas'
         );
     }
 }

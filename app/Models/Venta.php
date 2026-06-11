@@ -17,6 +17,7 @@ class Venta extends Model
     protected $primaryKey = 'idVenta';
 
     protected $fillable = [
+        'idUsuario',
         'fecha',
         'cliente',
     ];
@@ -27,8 +28,13 @@ class Venta extends Model
     }
 
     // Relaciones
-    public function carritos()
+    public function detalleVentas()
     {
-        return $this->hasMany(Carrito::class, 'idVenta', 'idVenta');
+        return $this->hasMany(DetalleVenta::class, 'idVenta', 'idVenta');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'idUsuario', 'id');
     }
 }

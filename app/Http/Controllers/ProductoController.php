@@ -187,6 +187,7 @@ class ProductoController extends Controller
     {
         return LoteProducto::create([
             'idProducto' => $producto->idProducto,
+            'idUsuario' => auth()->id(),
             'stockInicial' => $request->stockInicial,
             'stockActual' => $request->stockInicial,
             'fechaElaboracion' => $request->fechaElaboracion,

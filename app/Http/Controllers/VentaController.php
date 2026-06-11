@@ -33,7 +33,7 @@ class VentaController extends Controller
 
     public function historial(Request $request): View
     {
-        $query = Venta::with('carritos.producto');
+        $query = Venta::with('detalleVentas.producto');
 
         if ($request->filled('cliente')) {
             $query->where('cliente', 'like', '%' . $request->cliente . '%');
@@ -61,6 +61,7 @@ class VentaController extends Controller
             $venta = Venta::create([
                 'cliente' => $cliente,
                 'fecha' => $fecha,
+                'idUsuario' => auth()->id(),
             ]);
 
             // Procesar cada producto del carrito
@@ -93,11 +94,12 @@ class VentaController extends Controller
                     throw new \Exception("No hay suficiente stock de " . $nombreProducto . " para completar la venta.");
                 }
 
-                // Guardar en carritos
-                DB::table('carritos')->insert([
+                // Guardar en detalleVentas
+                DB::table('detalleVentas')->insert([
                     'idVenta' => $venta->idVenta,
                     'idProducto' => $idProducto,
                     'cantidad' => $item['cantidad'],
+                    'precioUnitario' => $item['precioUnitario'],
                 ]);
             }
 

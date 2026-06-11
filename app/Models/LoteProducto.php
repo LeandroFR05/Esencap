@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Producto;
 use App\Models\Formula;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,7 @@ class LoteProducto extends Model
     protected $primaryKey = 'idLote';
     protected $fillable = [
         'numeroLote',
+        'idUsuario',
         'idProducto',
         'stockInicial',
         'stockActual',
@@ -40,5 +42,10 @@ class LoteProducto extends Model
     public function producto()
     {
         return $this->belongsTo(Producto::class, 'idProducto', 'idProducto')->withTrashed();
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'idUsuario', 'id');
     }
 }

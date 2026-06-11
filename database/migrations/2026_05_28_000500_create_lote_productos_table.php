@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('loteproductos', function (Blueprint $table) {
             $table->mediumIncrements('idLote');
             $table->unsignedSmallInteger('numeroLote');
+            $table->foreignId('idUsuario')->constrained('users')->cascadeOnDelete();
             $table->unsignedSmallInteger('idProducto');
             $table->unsignedSmallInteger('stockInicial');
             $table->unsignedSmallInteger('stockActual');

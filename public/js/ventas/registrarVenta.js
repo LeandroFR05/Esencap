@@ -3,9 +3,11 @@ const producto = document.getElementById('producto');
 const idProducto = document.getElementById('idProducto');
 const lista = document.getElementById('lista-productos');
 const cantidad = document.getElementById('cantidad');
+const precioUnitario = document.getElementById('precioUnitario');
 const btnAgregar = document.getElementById('btn-agregar');
 const carritoBody = document.getElementById('carrito-body');
 const carritoInput = document.getElementById('carrito-input');
+const totalGeneral = document.getElementById('total-general');
 const btnRegistrar = document.getElementById('btn-registrar');
 const formVenta = document.getElementById('form-venta');
 
@@ -97,6 +99,7 @@ btnAgregar.addEventListener('click', function() {
     const id = idProducto.value;
     const nombre = producto.value.trim();
     const cant = parseInt(cantidad.value);
+    const precio = parseFloat(precioUnitario.value);
 
     if (!nombre) {
         producto.setCustomValidity('Complete este campo');
@@ -118,36 +121,58 @@ btnAgregar.addEventListener('click', function() {
         return;
     }
 
+    if (isNaN(precio) || precio < 0) {
+        precioUnitario.setCustomValidity('Ingrese un precio válido');
+        precioUnitario.reportValidity();
+        precioUnitario.focus();
+        return;
+    }
+
     const existente = carrito.findIndex(item => item.idProducto == id);
     if (existente !== -1) {
         carrito[existente].cantidad += cant;
+        carrito[existente].precioUnitario = precio;
     } else {
-        carrito.push({ idProducto: id, nombre: nombre, cantidad: cant });
+        carrito.push({ idProducto: id, nombre: nombre, cantidad: cant, precioUnitario: precio });
     }
 
     renderizarCarrito();
     producto.value = '';
     idProducto.value = '';
     cantidad.value = '1';
+    precioUnitario.value = '0.00';
     producto.focus();
 });
 
 // Renderizar carrito
 function renderizarCarrito() {
     if (carrito.length === 0) {
-        carritoBody.innerHTML = '<tr id="fila-vacia"><td colspan="3" class="text-center text-muted py-4">No hay productos agregados</td></tr>';
+        carritoBody.innerHTML = '<tr id="fila-vacia"><td colspan="5" class="text-center text-muted py-4">No hay productos agregados</td></tr>';
+        if (totalGeneral) totalGeneral.textContent = '$ 0.00';
         carritoInput.value = '';
         return;
     }
 
     carritoBody.innerHTML = '';
+    let total = 0;
+
     carrito.forEach((item, index) => {
+        const subtotal = item.cantidad * item.precioUnitario;
+        total += subtotal;
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${item.nombre}</td>
             <td>
-                <input type="number" class="form-control form-control-sm" value="${item.cantidad}" min="1" data-index="${index}" style="width: 80px;">
+                <input type="number" class="form-control form-control-sm input-cantidad" value="${item.cantidad}" min="1" data-index="${index}" style="width: 80px;">
             </td>
+            <td>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control input-precio" value="${item.precioUnitario.toFixed(2)}" min="0" step="0.01" data-index="${index}">
+                </div>
+            </td>
+            <td class="fw-semibold subtotal">$ ${subtotal.toFixed(2)}</td>
             <td>
                 <button type="button" class="btn btn-danger btn-sm" data-index="${index}">
                     <i class="bi bi-trash"></i>
@@ -157,6 +182,7 @@ function renderizarCarrito() {
         carritoBody.appendChild(tr);
     });
 
+    if (totalGeneral) totalGeneral.textContent = `$ ${total.toFixed(2)}`;
     carritoInput.value = JSON.stringify(carrito);
 
     // Event listeners para botones de eliminar
@@ -169,7 +195,7 @@ function renderizarCarrito() {
     });
 
     // Event listeners para inputs de cantidad
-    carritoBody.querySelectorAll('input[type="number"][data-index]').forEach(input => {
+    carritoBody.querySelectorAll('.input-cantidad').forEach(input => {
         input.addEventListener('change', function() {
             const index = parseInt(this.getAttribute('data-index'));
             const nuevaCantidad = parseInt(this.value);
@@ -178,7 +204,21 @@ function renderizarCarrito() {
                 return;
             }
             carrito[index].cantidad = nuevaCantidad;
-            carritoInput.value = JSON.stringify(carrito);
+            renderizarCarrito();
+        });
+    });
+
+    // Event listeners para inputs de precio unitario
+    carritoBody.querySelectorAll('.input-precio').forEach(input => {
+        input.addEventListener('change', function() {
+            const index = parseInt(this.getAttribute('data-index'));
+            const nuevoPrecio = parseFloat(this.value);
+            if (isNaN(nuevoPrecio) || nuevoPrecio < 0) {
+                this.value = carrito[index].precioUnitario.toFixed(2);
+                return;
+            }
+            carrito[index].precioUnitario = nuevoPrecio;
+            renderizarCarrito();
         });
     });
 }

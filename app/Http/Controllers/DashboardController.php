@@ -116,12 +116,12 @@ class DashboardController extends Controller
     private function productosMasVendidos($anio = null, $mes = null)
     {
         $query = DB::table('ventas as v')
-            ->join('carritos as c', 'c.idVenta', '=', 'v.idVenta')
-            ->join('productos as p', 'p.idProducto', '=', 'c.idProducto')
+            ->join('detalleVentas as d', 'd.idVenta', '=', 'v.idVenta')
+            ->join('productos as p', 'p.idProducto', '=', 'd.idProducto')
             ->select(
                 'p.idProducto',
                 'p.nombre as nombre',
-                DB::raw('SUM(c.cantidad) as total_vendidos')
+                DB::raw('SUM(d.cantidad) as total_vendidos')
             )
             ->groupBy('p.idProducto', 'p.nombre')
             ->orderBy('total_vendidos', 'desc');
@@ -141,10 +141,10 @@ class DashboardController extends Controller
     private function cantidadDeProductosVendidosPorDia()
     {
         $ventas_diarias = DB::table('ventas as v')
-            ->join('carritos as c', 'c.idVenta', '=', 'v.idVenta')
+            ->join('detalleVentas as d', 'd.idVenta', '=', 'v.idVenta')
             ->select(
                 DB::raw('DATE(v.fecha) as dia'),
-                DB::raw('SUM(c.cantidad) as total')
+                DB::raw('SUM(d.cantidad) as total')
             )
             ->groupBy('dia')
             ->orderBy('dia')
