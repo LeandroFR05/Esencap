@@ -61,11 +61,17 @@
                         <tbody>
                             @foreach($lote as $item)
                                 @php
-                                    $vencimiento   = \Carbon\Carbon::parse($item->fechaVencimiento);
+                                    $vencimiento   = $item->fechaVencimiento;
                                     $diasRestantes = now()->diffInDays($vencimiento, false);
-                                    $badgeClass    = match(true) {
+                                    $badgeClass1    = match(true) {
                                         $diasRestantes < 0  => 'danger',
                                         $diasRestantes < 30 => 'warning',
+                                        default             => 'success',
+                                    };
+                                    $stockActual = $item->stockActual;
+                                    $badgeClass2 = match(true) {
+                                        $stockActual <= 0 => 'danger',
+                                        $stockActual < 500  => 'warning',
                                         default             => 'success',
                                     };
                                 @endphp
@@ -77,16 +83,16 @@
                                         {{ $item->stockInicial }} {{ $insumo->unidadDeMedida }}
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge bg-success stock-actual" data-id="{{ $item->idLote }}">
+                                        <span class="badge bg-{{ $badgeClass2 }} stock-actual" data-id="{{ $item->idLote }}">
                                             {{ $item->stockActual }} {{ $insumo->unidadDeMedida }}
                                         </span>
                                     </td>
                                     <td class="text-center text-muted small">
-                                        {{ \Carbon\Carbon::parse($item->fechaCompra)->format('d/m/Y') }}
+                                        {{ ($item->fechaCompra) }}
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge bg-{{ $badgeClass }}">
-                                            {{ \Carbon\Carbon::parse($item->fechaVencimiento)->format('d/m/Y') }}
+                                        <span class="badge bg-{{ $badgeClass1 }}">
+                                            {{ ($item->fechaVencimiento) }}
                                         </span>
                                     </td>
                                     <td class="p-1">
@@ -110,7 +116,7 @@
                                     Stock total:
                                 </td>
                                 <td class="text-center">
-                                    <span class="badge bg-success">
+                                    <span class="badge bg-{{ $badgeClass2 }}">
                                         {{ $lote->sum('stockActual') }} {{ $insumo->unidadDeMedida }}
                                     </span>
                                 </td>

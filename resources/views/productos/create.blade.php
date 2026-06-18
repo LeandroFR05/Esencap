@@ -121,12 +121,14 @@
                                         $insumosPorFamilia = $selectedFamilia && isset($insumos[$selectedFamilia]) ? $insumos[$selectedFamilia] : collect();
                                     @endphp
                                     <div class="row formula-item mb-2 align-items-center">
+                                        <!-- Porcentaje -->
                                         <div class="col">
                                             <div class="input-group">
                                                 <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" value="{{ $porcentaje }}" required>
                                                 <span class="input-group-text input-group-text-sm">%</span>
                                             </div>
                                         </div>
+                                        <!-- Familia -->
                                         <div class="col">
                                             <select name="familia[]" class="form-select form-select-sm select-familia" required>
                                                 <option value="">Seleccione una familia</option>
@@ -135,12 +137,14 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <!-- Contenido -->
                                         <div class="col">
                                             <div class="input-group">
                                                 <input type="number" name="contenido[]" class="form-control form-control-sm contenido" readonly value="{{ $oldContenidos[$index] ?? '' }}">
                                                 <span class="input-group-text input-group-text-sm">gr</span>
                                             </div>
                                         </div>
+                                        <!-- Insumo -->
                                         <div class="col">
                                             <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
                                                 <option value="">Insumo</option>
@@ -149,6 +153,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <!-- Eliminar -->
                                         <div class="col-auto">
                                             <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar">
                                                 <i class="bi bi-trash3"></i>
@@ -158,12 +163,14 @@
                                 @endforeach
                             @else
                                 <div class="row formula-item mb-2 align-items-center">
+                                    <!-- Porcentaje -->
                                     <div class="col">
                                         <div class="input-group">
                                             <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" required>
                                             <span class="input-group-text input-group-text-sm">%</span>
                                         </div>
                                     </div>
+                                    <!-- Familia -->
                                     <div class="col">
                                         <select name="familia[]" class="form-select form-select-sm select-familia" required>
                                             <option value="">Seleccione una familia</option>
@@ -172,17 +179,20 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <!-- Contenido -->
                                     <div class="col">
                                         <div class="input-group">
                                             <input type="number" name="contenido[]" class="form-control form-control-sm contenido" readonly>
                                             <span class="input-group-text input-group-text-sm">gr</span>
                                         </div>
                                     </div>
+                                    <!-- Insumo -->
                                     <div class="col">
                                         <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
                                             <option value="">Insumo</option>
                                         </select>
                                     </div>
+                                    <!-- Eliminar -->
                                     <div class="col-auto">
                                         <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar">
                                             <i class="bi bi-trash3"></i>

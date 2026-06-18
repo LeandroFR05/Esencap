@@ -14,14 +14,12 @@ return new class extends Migration
         Schema::create('formulas', function (Blueprint $table) {
             $table->mediumIncrements('idFormula');
             $table->mediumInteger('idLote')->unsigned();
-            $table->tinyInteger('idFamilia')->unsigned();
             $table->decimal('porcentaje', 10, 2);
             $table->smallInteger('idInsumo')->unsigned();
             $table->decimal('contenido', 10, 2);
 
             // Foreign keys
             $table->foreign('idLote')->references('idLote')->on('loteproductos')->cascadeOnDelete();
-            $table->foreign('idFamilia')->references('idFamilia')->on('familias')->restrictOnDelete();
             $table->foreign('idInsumo')->references('idInsumo')->on('insumos')->restrictOnDelete();
         });
     }
