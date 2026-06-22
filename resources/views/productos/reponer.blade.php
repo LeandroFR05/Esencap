@@ -130,7 +130,7 @@
                                             <option value="">Seleccione una familia</option>
                                             @foreach($familias as $familia)
                                                 <option value="{{ $familia->idFamilia }}"
-                                                    @selected($familia->idFamilia == $fila->familia->idFamilia)>
+                                                    @selected($familia->idFamilia == $fila->insumo->familia->idFamilia)>
                                                     {{ $familia->nombre }}
                                                 </option>
                                             @endforeach

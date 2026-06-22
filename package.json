@@ -36,7 +36,7 @@
         "vite": "^7.0.7",
         "vite-plugin-compression": "^0.5.1"
     },
-    "packageManager": "pnpm@11.4.0",
+    "packageManager": "pnpm@11.7.0",
     "$schema": "https://json.schemastore.org/package.json",
     "dependencies": {
         "admin-lte": "^4.0.0-rc7",

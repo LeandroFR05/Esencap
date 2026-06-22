@@ -137,7 +137,7 @@
 
                         <tfoot>
                             <tr class="table-secondary fw-bold">
-                                <td colspan="2" class="text-end">
+                                <td colspan="4" class="text-end">
                                     Stock Total:
                                 </td>
                                 <td class="text-center">
@@ -145,9 +145,7 @@
                                         {{ $producto->lotes->sum('stockActual') }}u
                                     </span>
                                 </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="2"></td>
                             </tr>
                         </tfoot>
                     </table>

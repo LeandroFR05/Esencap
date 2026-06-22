@@ -51,16 +51,16 @@ class LoteInsumoController extends Controller
                 $query->where(function ($q) {
                     $q->where(function ($q2) {
                         $q2->whereRaw("unidadDeMedida = 'gramos'")
-                            ->where('stockActual', '<=', 500);
+                            ->where('stockActual', '<', 500);
                     })->orWhere(function ($q2) {
                         $q2->whereRaw("unidadDeMedida = 'kilos'")
-                            ->where('stockActual', '<=', 1);
+                            ->where('stockActual', '<', 1);
                     })->orWhere(function ($q2) {
                         $q2->whereRaw("unidadDeMedida = 'unidades'")
-                            ->where('stockActual', '<=', 10);
+                            ->where('stockActual', '<', 10);
                     })->orWhere(function ($q2) {
                         $q2->whereRaw("unidadDeMedida = 'litros'")
-                            ->where('stockActual', '<=', 2);
+                            ->where('stockActual', '<', 2);
                     });
                 });
             })
@@ -78,7 +78,7 @@ class LoteInsumoController extends Controller
             };
 
             $lotes = LoteInsumo::where('idInsumo', $insumo->idInsumo)
-                ->where('stockActual', '<=', $stockMinimo)
+                ->where('stockActual', '<', $stockMinimo)
                 ->get();
 
             if ($lotes->isNotEmpty()) {

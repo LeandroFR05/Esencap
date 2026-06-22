@@ -90,6 +90,9 @@
                                 <th class="sortable" data-col="4" data-dir="asc">
                                     Stock actual <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
                                 </th>
+                                <th>
+                                    Unidad
+                                </th>
                                 <th class="sortable" data-col="5" data-dir="asc">
                                     Fecha de vencimiento <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
                                 </th>
@@ -102,8 +105,9 @@
                                     <td class="text-center fw-bold"><code>{{ $lote->numeroLote }}</code></td>
                                     <td>{{ $lote->fechaCompra }}</td>
                                     <td>{{ $lote->insumo->nombre }}</td>
-                                    <td>{{ $lote->stockInicial }}u</td>
-                                    <td>{{ $lote->stockActual }}u</td>
+                                    <td>{{ $lote->stockInicial }}</td>
+                                    <td>{{ $lote->stockActual }}</td>
+                                    <td>{{ $lote->insumo->unidadDeMedida }}</td>
                                     <td>{{ $lote->fechaVencimiento }}</td>
                                     <td>
                                         @if($lote->estado == 1 && $lote->insumo->estado == 1)

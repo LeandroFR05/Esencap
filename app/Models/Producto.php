@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\LoteProducto;
-use App\Models\Carrito;
+use App\Models\DetalleVenta;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -30,10 +30,8 @@ class Producto extends Model
         return $this->hasMany(LoteProducto::class, 'idProducto', 'idProducto');
     }
 
-    public function carritos()
+    public function detallesVenta()
     {
-        return $this->hasMany(Carrito::class, 'idProducto', 'idProducto');
+        return $this->hasMany(DetalleVenta::class, 'idProducto', 'idProducto');
     }
-
-
 }

@@ -7,28 +7,22 @@ use App\Models\Familia;
 use App\Models\Formula;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
-use App\Services\ImageService;
+use App\Services\InsumoService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
 
 class InsumoController extends Controller
 {
+    public function __construct(
+        private InsumoService $insumoService
+    ) {}
+    
+
     public function insumos(Request $request): View {
-        $familias = Familia::all();
-        $insumos = Insumo::withSum('lotes', 'stockActual')
-            ->withMax('lotes', 'fechaCompra')
-            ->when($request->filled('familia'), function ($query) use ($request) {
-                $query->where('idFamilia', $request->familia);
-            })
-            ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
-                $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
-                $query->orderBy('lotes_max_fechaCompra', $direccion);
-            })
-            ->paginate(10)
-            ->appends($request->query());
+        ['insumos' => $insumos, 'familias' => $familias] = $this->insumoService->obtenerInsumos($request);
+
         return view('insumos.estante', compact('insumos', 'familias'));
     }
 
@@ -48,26 +42,8 @@ class InsumoController extends Controller
     }
 
 
-    public function store(InsumoRequest $request, ImageService $images): RedirectResponse {
-        $fotoPath = $request->hasFile('foto')
-            ? $images->storeAsWebp($request->file('foto'))
-            : null;
-
-        $insumo = Insumo::create([
-            'nombre' => $request->input('nombre'),
-            'foto' => $fotoPath,
-            'idFamilia' => $request->input('idFamilia'),
-            'fase' => $request->input('fase'),
-            'unidadDeMedida' => $request->input('unidadDeMedida')
-        ]);
-
-        LoteInsumo::create([
-            'idInsumo' => $insumo->idInsumo,
-            'stockInicial' => $request->input('stockInicial'),
-            'stockActual' => $request->input('stockInicial'),
-            'fechaCompra' => $request->input('fechaCompra'),
-            'fechaVencimiento' => $request->input('fechaVencimiento'),
-        ]);
+    public function store(InsumoRequest $request): RedirectResponse {
+        $this->insumoService->crearInsumo($request);
 
         return redirect()->route('insumos.create')->with('success', 'Insumo creado exitosamente.');
     }
@@ -81,25 +57,9 @@ class InsumoController extends Controller
     }
 
 
-    public function update(InsumoRequest $request, Insumo $insumo, ImageService $images): RedirectResponse {
-        $validated = $request->validated();
+    public function update(InsumoRequest $request, Insumo $insumo): RedirectResponse {
+        $this->insumoService->actualizarInsumo($request, $insumo);
 
-        // Para verificar si se eliminó la foto en el formulario, y no se volvió a cargar otra
-        if ($request->remove_foto == '1') {
-            if ($insumo->foto) {
-                Storage::disk('public')->delete($insumo->foto);
-            }
-            $insumo->foto = null;
-        }
-
-        if ($request->hasFile('foto')) {
-            if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {
-                Storage::disk('public')->delete($insumo->foto); // Eliminar la foto antigua
-            }
-            $validated['foto'] = $images->storeAsWebp($request->file('foto'));
-        }
-
-        $insumo->update($validated);
         return redirect()->route('insumos.edit', ['insumo' => $insumo->idInsumo])->with('success', 'Insumo actualizado exitosamente.');
     }
     
@@ -136,10 +96,12 @@ class InsumoController extends Controller
         return redirect()->route('insumos.estante')->with('success', 'Insumo eliminado exitosamente.');
     }
 
+
     public function eliminados(): View {
         $insumosEliminados = Insumo::onlyTrashed()->get();
         return view('insumos.eliminados', compact('insumosEliminados'));
     }
+
 
     public function restore($idInsumo): RedirectResponse {
         $insumo = Insumo::onlyTrashed()->findOrFail($idInsumo);
@@ -150,33 +112,17 @@ class InsumoController extends Controller
         return redirect()->route('insumos.eliminados')->with('success', 'Insumo restaurado exitosamente.');
     }
 
+
     // Esta función es para obtener los insumos vinculados a una determinada familia seleccionada en la fabricación de un producto.
     public function porFamilia($idFamilia): JsonResponse {
         $insumos = Insumo::where('idFamilia', $idFamilia)->get();
         return response()->json($insumos);
     }
 
+
     public function historial(Request $request): View {
-        $query = LoteInsumo::with('insumo')->withTrashed();
+        $lotes = $this->insumoService->obtenerHistorial($request);
 
-        // Filtro por insumo
-        if ($request->filled('insumo')) {
-            $query->whereHas('insumo', function ($q) use ($request) {
-                $q->where('nombre', 'like', '%' . $request->insumo . '%');
-            });
-        }
-
-        // Filtro por fecha de compra
-        if ($request->filled('fechaCompra')) {
-            $query->whereDate('fechaCompra', $request->fechaCompra);
-        }
-
-        // Filtro por fecha de vencimiento
-        if ($request->filled('fechaVencimiento')) {
-            $query->whereDate('fechaVencimiento', $request->fechaVencimiento);
-        }
-
-        $lotes = $query->paginate(10)->appends($request->query());
         return view('insumos.historial', compact('lotes'));
     }
 }

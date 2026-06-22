@@ -74,7 +74,8 @@
                                                                     $stock = $detalleLote->stockActual;
                                                                     $badgeStock = match(true) {
                                                                         $stock == 0  => 'danger',
-                                                                        $stock > 0 => 'warning',
+                                                                        $stock < 500 => 'warning',
+                                                                        default      => 'success',
                                                                     };
                                                                 } else {
                                                                     $badgeStock = 'secondary';

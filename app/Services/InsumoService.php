@@ -2,12 +2,19 @@
 
 namespace App\Services;
 
+use App\Http\Requests\InsumoRequest;
+use App\Models\Familia;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InsumoService
 {
+    public function __construct(
+        private ImageService $imageService
+    ) {}
+
     // Ubica el insumo y su contenido en pares dentro de un array asociativo
     public function mapearInsumos(Request $request): array
     {
@@ -106,6 +113,92 @@ class InsumoService
             default:
                 return $valor; // fallback
         }
+    }
+
+
+    public function obtenerInsumos(Request $request): array
+    {
+        $familias = Familia::all();
+        $insumos = Insumo::withSum('lotes', 'stockActual')
+            ->withMax('lotes', 'fechaCompra')
+            ->when($request->filled('familia'), function ($query) use ($request) {
+                $query->where('idFamilia', $request->familia);
+            })
+            ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
+                $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
+                $query->orderBy('lotes_max_fechaCompra', $direccion);
+            })
+            ->paginate(10)
+            ->appends($request->query());
+
+        return compact('insumos', 'familias');
+    }
+
+    public function crearInsumo(InsumoRequest $request): Insumo
+    {
+        $fotoPath = $request->hasFile('foto')
+            ? $this->imageService->storeAsWebp($request->file('foto'))
+            : null;
+
+        $insumo = Insumo::create([
+            'nombre' => $request->input('nombre'),
+            'foto' => $fotoPath,
+            'idFamilia' => $request->input('idFamilia'),
+            'fase' => $request->input('fase'),
+            'unidadDeMedida' => $request->input('unidadDeMedida')
+        ]);
+
+        LoteInsumo::create([
+            'idInsumo' => $insumo->idInsumo,
+            'stockInicial' => $request->input('stockInicial'),
+            'stockActual' => $request->input('stockInicial'),
+            'fechaCompra' => $request->input('fechaCompra'),
+            'fechaVencimiento' => $request->input('fechaVencimiento'),
+        ]);
+
+        return $insumo;
+    }
+
+    public function actualizarInsumo(Request $request, Insumo $insumo): void
+    {
+        $validated = $request->validated();
+
+        if ($request->input('remove_foto') == '1') {
+            if ($insumo->foto) {
+                Storage::disk('public')->delete($insumo->foto);
+            }
+            $insumo->foto = null;
+        }
+
+        if ($request->hasFile('foto')) {
+            if ($insumo->foto && Storage::disk('public')->exists($insumo->foto)) {
+                Storage::disk('public')->delete($insumo->foto);
+            }
+            $validated['foto'] = $this->imageService->storeAsWebp($request->file('foto'));
+        }
+
+        $insumo->update($validated);
+    }
+
+    public function obtenerHistorial(Request $request)
+    {
+        $query = LoteInsumo::with('insumo')->withTrashed();
+
+        if ($request->filled('insumo')) {
+            $query->whereHas('insumo', function ($q) use ($request) {
+                $q->where('nombre', 'like', '%' . $request->insumo . '%');
+            });
+        }
+
+        if ($request->filled('fechaCompra')) {
+            $query->whereDate('fechaCompra', $request->fechaCompra);
+        }
+
+        if ($request->filled('fechaVencimiento')) {
+            $query->whereDate('fechaVencimiento', $request->fechaVencimiento);
+        }
+
+        return $query->paginate(10)->appends($request->query());
     }
 
 }

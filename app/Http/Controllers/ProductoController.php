@@ -12,7 +12,6 @@ use App\Models\Producto;
 use App\Http\Requests\ProductoRequest;
 
 // Servicios
-use App\Services\ImageService;
 use App\Services\InsumoService;
 use App\Services\ProductoService;
 use App\Services\LoteProductoService;
@@ -57,7 +56,7 @@ class ProductoController extends Controller
         return view('productos.create', compact('familias', 'insumos'));
     }
 
-    public function store(ProductoRequest $request, ImageService $images): RedirectResponse
+    public function store(ProductoRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
@@ -73,7 +72,7 @@ class ProductoController extends Controller
                     ->withInput();
             }
 
-            $fotoPath = $this->productoService->guardarFoto($request, $images);
+            $fotoPath = $this->productoService->guardarFoto($request);
             $producto = $this->productoService->crearProducto($request, $fotoPath);
             $lote = $this->loteProductoService->crearLote($producto, $request);
             $this->formulaService->crearFormulas($lote, $request);
@@ -98,7 +97,7 @@ class ProductoController extends Controller
     }
 
 
-    public function update(ProductoRequest $request, Producto $producto, ImageService $images)
+    public function update(ProductoRequest $request, Producto $producto): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -114,7 +113,7 @@ class ProductoController extends Controller
             if ($producto->foto && Storage::disk('public')->exists($producto->foto)) {
                 Storage::disk('public')->delete($producto->foto); // Eliminar la foto antigua
             }
-            $validated['foto'] = $images->storeAsWebp($request->file('foto')); // Actualizar con la nueva foto en webp
+            $validated['foto'] = $this->productoService->guardarFoto($request); // Actualizar con la nueva foto en webp
         }
 
         $producto->update($validated);
@@ -127,7 +126,7 @@ class ProductoController extends Controller
     {
         $familias = Familia::all();
         $lote = LoteProducto::with([
-            'formulas.familia',
+            'formulas.insumo.familia',
             'formulas.insumo',
         ])->where('idProducto', $producto->idProducto)->orderBy('fechaElaboracion', 'desc')->first();
 
@@ -145,8 +144,9 @@ class ProductoController extends Controller
 
             if ($resultado !== null) {
                 DB::rollBack();
+
                 return redirect()->route('productos.reponer', $producto->idProducto)
-                    ->with('stock_error', json_encode($resultado))
+                    ->with('stock_error', $resultado)
                     ->withInput();
             }
 
