@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class LoteInsumoController extends Controller
@@ -50,32 +49,22 @@ class LoteInsumoController extends Controller
             ->whereHas('lotes', function ($query) {
                 $query->where(function ($q) {
                     $q->where(function ($q2) {
-                        $q2->whereRaw("unidadDeMedida = 'gramos'")
-                            ->where('stockActual', '<', 500);
+                        $q2->whereRaw("unidadDeMedida = 'gramos'")->where('stockActual', '<', 500);
                     })->orWhere(function ($q2) {
-                        $q2->whereRaw("unidadDeMedida = 'kilos'")
-                            ->where('stockActual', '<', 1);
+                        $q2->whereRaw("unidadDeMedida = 'kilos'")->where('stockActual', '<', 1);
                     })->orWhere(function ($q2) {
-                        $q2->whereRaw("unidadDeMedida = 'unidades'")
-                            ->where('stockActual', '<', 10);
+                        $q2->whereRaw("unidadDeMedida = 'unidades'")->where('stockActual', '<', 10);
                     })->orWhere(function ($q2) {
-                        $q2->whereRaw("unidadDeMedida = 'litros'")
-                            ->where('stockActual', '<', 2);
+                        $q2->whereRaw("unidadDeMedida = 'litros'")->where('stockActual', '<', 2);
                     });
                 });
-            })
-            ->paginate(5);
+            })->paginate(5);
 
         // Agrupamos los lotes de los insumos de la página actual
         $lotesAgrupados = collect();
 
         foreach ($insumos as $insumo) {
-            $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
-                'gramos'   => 500,
-                'kilos'    => 1,
-                'unidades' => 10,
-                'litros'   => 2,
-            };
+            $stockMinimo = encontrarStockBajo($insumo);
 
             $lotes = LoteInsumo::where('idInsumo', $insumo->idInsumo)
                 ->where('stockActual', '<', $stockMinimo)
@@ -87,7 +76,6 @@ class LoteInsumoController extends Controller
         }
 
         $bandera = $lotesAgrupados->isEmpty() ? 2 : 0;
-
         return view('lotes.stock', compact('lotesAgrupados', 'bandera', 'insumos'));
     }
 

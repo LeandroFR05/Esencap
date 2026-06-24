@@ -3,34 +3,53 @@
 namespace App\Services;
 
 use App\Models\Producto;
-use Illuminate\Http\Request;
-use App\Services\ImageService;
+use App\Models\LoteProducto;
 
 class ProductoService
 {
-    public function __construct(
-        private ImageService $imageService
-    ) {}
-
-
-    public function guardarFoto(Request $request): ?string
+    public function descontarStockLotes(array $carrito): ?array
     {
-        if ($request->hasFile('foto')) {
-            // Todas las imágenes se guardan en formato webp. "ImageService" se encarga de convertirlas y guardarlas.
-            return $this->imageService->storeAsWebp($request->file('foto'));
+        // Procesar cada producto del carrito
+        foreach ($carrito as $item) {
+            $idProducto = $item['idProducto'];
+            $cantidad = $item['cantidad'];
+            $producto = Producto::find($idProducto);
+            $nombreProducto = $producto->nombre;
+
+            $sumaStock = LoteProducto::where('idProducto', $idProducto)->sum('stockActual');
+
+            $lotes = LoteProducto::where('idProducto', $idProducto)
+                ->orderBy('fechaElaboracion', 'asc')
+                ->get();
+
+            if ($sumaStock >= $cantidad) {
+                foreach ($lotes as $lote) {
+                    if ($cantidad <= 0) {
+                        break;
+                    }
+                    if ($lote->stockActual > $cantidad) {
+                        $lote->stockActual -= $cantidad;
+                        $lote->save();
+                        $cantidad = 0;
+                    } else {
+                        $cantidad -= $lote->stockActual;
+                        $lote->stockActual = 0;
+                        $lote->save();
+                    }
+                }
+            }
+            else {
+                return [
+                    'producto' => $nombreProducto,
+                    'idProducto' => $idProducto,
+                    'stockDisponible' => round($sumaStock, 2),
+                    'stockSolicitado' => $cantidad,
+                    'lotes' => $lotes,
+                ];
+            }
         }
 
         return null;
-    }
-
-    
-    public function crearProducto(Request $request, ?string $fotoPath): Producto
-    {
-        return Producto::create([
-            'nombre' => $request->nombre,
-            'foto' => $fotoPath,
-            'contenidoPorUnidad' => $request->contenidoPorUnidad,
-        ]);
     }
 }
 

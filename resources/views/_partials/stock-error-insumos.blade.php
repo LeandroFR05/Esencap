@@ -1,6 +1,6 @@
-@if(session('stock_error'))
+@if(session('stock_error_insumo'))
     <script>
-        const data = @json(session('stock_error'));
+        const data = @json(session('stock_error_insumo'));
         document.addEventListener('DOMContentLoaded', function() {
             const lotes = Array.isArray(data.lotes) ? data.lotes : [];
             const fechaHoy = new Date();
@@ -53,6 +53,8 @@
             // Recorremos los lotes para construir las filas de la tabla
             lotes.forEach(function(lote) {
                 const stockActual = lote.stockActual;
+                const fechaCompra = window.formatFecha(lote.fechaCompra);
+                const fechaVencimiento = window.formatFecha(lote.fechaVencimiento);
                 const estaVencido = new Date(lote.fechaVencimiento) < fechaHoy;
 
                 // Si el lote no está vencido, sumamos su stock al total disponible
@@ -63,10 +65,10 @@
                 html += `
                     <tr style="${estaVencido ? 'background-color:#ffd6d6;' : ''}">
                         <td style="border:1px solid #ddd; padding:8px; text-align:center;">${lote.numeroLote}</td>
-                        <td style="border:1px solid #ddd; padding:8px; text-align:center;">${lote.fechaCompra}</td>
+                        <td style="border:1px solid #ddd; padding:8px; text-align:center;">${fechaCompra}</td>
                         <td style="border:1px solid #ddd; padding:8px; text-align:center;">${estaVencido ? '-' : ''}${lote.stockActual}</td>
                         <td style="border:1px solid #ddd; padding:8px; text-align:center;">${data.unidad}</td>
-                        <td style="border:1px solid #ddd; padding:8px; text-align:center;">${lote.fechaVencimiento}</td>
+                        <td style="border:1px solid #ddd; padding:8px; text-align:center;">${fechaVencimiento}</td>
                     </tr>
                 `;
             });

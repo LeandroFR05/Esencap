@@ -13,7 +13,7 @@ use App\Http\Requests\ProductoRequest;
 
 // Servicios
 use App\Services\InsumoService;
-use App\Services\ProductoService;
+use App\Services\ImageService;
 use App\Services\LoteProductoService;
 use App\Services\FormulaService;
 
@@ -28,7 +28,7 @@ class ProductoController extends Controller
 {
     public function __construct(    
         private InsumoService $insumoService,
-        private ProductoService $productoService,
+        private ImageService $imageService,
         private LoteProductoService $loteProductoService,
         private FormulaService $formulaService
     ) {}
@@ -61,28 +61,46 @@ class ProductoController extends Controller
         try {
             DB::beginTransaction();
 
-            $items = $this->insumoService->mapearInsumos($request);
-            $resultado = $this->insumoService->descontarStockLotes($items);
+            $resultado = $this->insumoService->descontarStockLotes($request);
 
             if ($resultado !== null) {
                 DB::rollBack();
                 
                 return redirect()->route('productos.create')
-                    ->with('stock_error', $resultado)
+                    ->with('stock_error_insumo', $resultado)
                     ->withInput();
             }
 
-            $fotoPath = $this->productoService->guardarFoto($request);
-            $producto = $this->productoService->crearProducto($request, $fotoPath);
+            $fotoPath = $this->guardarFoto($request);
+            $producto = $this->crearProducto($request, $fotoPath);
             $lote = $this->loteProductoService->crearLote($producto, $request);
-            $this->formulaService->crearFormulas($lote, $request);
-
+            $this->formulaService->crearFormula($lote, $request);
+                
             DB::commit();
             return redirect()->route('productos.estante')->with('success', 'Producto creado exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('productos.create')->with(['error' => $e->getMessage()])->withInput();
         }
+    }
+
+    private function guardarFoto(Request $request): ?string
+    {
+        if ($request->hasFile('foto')) {
+            // Todas las imágenes se guardan en formato webp. "ImageService" se encarga de convertirlas y guardarlas.
+            return $this->imageService->storeAsWebp($request->file('foto'));
+        }
+
+        return null;
+    }
+    
+    private function crearProducto(Request $request, ?string $fotoPath): Producto
+    {
+        return Producto::create([
+            'nombre' => $request->nombre,
+            'foto' => $fotoPath,
+            'contenidoPorUnidad' => $request->contenidoPorUnidad,
+        ]);
     }
 
 
@@ -113,7 +131,7 @@ class ProductoController extends Controller
             if ($producto->foto && Storage::disk('public')->exists($producto->foto)) {
                 Storage::disk('public')->delete($producto->foto); // Eliminar la foto antigua
             }
-            $validated['foto'] = $this->productoService->guardarFoto($request); // Actualizar con la nueva foto en webp
+            $validated['foto'] = $this->guardarFoto($request); // Actualizar con la nueva foto en webp
         }
 
         $producto->update($validated);
@@ -139,19 +157,18 @@ class ProductoController extends Controller
         try {
             DB::beginTransaction();
 
-            $items = $this->insumoService->mapearInsumos($request);
-            $resultado = $this->insumoService->descontarStockLotes($items);
+            $resultado = $this->insumoService->descontarStockLotes($request);
 
             if ($resultado !== null) {
                 DB::rollBack();
 
                 return redirect()->route('productos.reponer', $producto->idProducto)
-                    ->with('stock_error', $resultado)
+                    ->with('stock_error_insumo', $resultado)
                     ->withInput();
             }
 
             $lote = $this->loteProductoService->crearLote($producto, $request);
-            $this->formulaService->crearFormulas($lote, $request);
+            $this->formulaService->crearFormula($lote, $request);
 
             DB::commit();
 

@@ -16,7 +16,7 @@ class InsumoService
     ) {}
 
     // Ubica el insumo y su contenido en pares dentro de un array asociativo
-    public function mapearInsumos(Request $request): array
+    private function mapearInsumos(Request $request): array
     {
         $items = [];
 
@@ -32,8 +32,10 @@ class InsumoService
 
 
     // Descuenta el stock de los lotes con el array que armamos anteriormente, si no hay suficiente stock retorna un array con la info del error
-    public function descontarStockLotes(array $items): ?array
+    public function descontarStockLotes(Request $request): ?array
     {
+        $items = $this->mapearInsumos($request);
+        
         foreach ($items as $item) {
             $idInsumo = $item['idInsumo'];
             $contenidoNecesario = $item['contenido'];

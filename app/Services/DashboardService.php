@@ -49,19 +49,14 @@ class DashboardService
     }
 
 
-    public function insumosConBajoStock(): float
+    public function porcentajeDeInsumosConBajoStock(): float
     {
         $insumos = Insumo::where('estado', 1)->get();
         $totalInsumos = LoteInsumo::count();
         $stockBajo = 0;
 
         foreach ($insumos as $insumo) {
-            $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
-                'gramos'   => 500,
-                'kilos'    => 1,
-                'unidades' => 10,
-                'litros'   => 2,
-            };
+            $stockMinimo = encontrarStockBajo($insumo);
 
             $stockBajo += LoteInsumo::where('idInsumo', $insumo->idInsumo)->where('stockActual', '<', $stockMinimo)->count();
         }
@@ -110,32 +105,46 @@ class DashboardService
     }
 
 
-    public function lotesProximosAVencer(): int
+    public function insumosProximosAVencer(): int
     {
         $hoy = date('Y-m-d');
-        return LoteInsumo::where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy.' +10 days')))->count();
+        $insumos = Insumo::where('estado', 1)->get();
+        $insumosProximosAVencer = 0;
+        $resultado = 0;
+
+        foreach ($insumos as $insumo) {
+            $resultado += LoteInsumo::where('idInsumo', $insumo->idInsumo)
+                ->where('fechaVencimiento', '<=', date('Y-m-d', strtotime($hoy.' +10 days')))
+                ->limit(1)->count();
+            if ($resultado > 0) {
+                $insumosProximosAVencer++;
+            }
+            $resultado = 0;
+        }
+
+        return $insumosProximosAVencer;
     }
 
 
-    public function lotesConBajoStock(): int
+    public function insumosConBajoStock(): int
     {
         $insumos = Insumo::where('estado', 1)->get();
-        $lotesBajoStock = 0;
+        $insumosBajoStock = 0;
+        $resultado = 0;
 
         foreach ($insumos as $insumo) {
-            $stockMinimo = match (strtolower($insumo->unidadDeMedida)) {
-                'gramos' => 500,
-                'kilos' => 1,
-                'unidades' => 10,
-                'litros' => 2,
-            };
+            $stockMinimo = encontrarStockBajo($insumo);
 
-            $lotesBajoStock += LoteInsumo::where('idInsumo', $insumo->idInsumo)
+            $resultado += LoteInsumo::where('idInsumo', $insumo->idInsumo)
                 ->where('stockActual', '<', $stockMinimo)
-                ->count();
+                ->limit(1)->count();
+            if ($resultado > 0) {
+                $insumosBajoStock++;
+            }
+            $resultado = 0;
         }
 
-        return $lotesBajoStock;
+        return $insumosBajoStock;
     }
 
 

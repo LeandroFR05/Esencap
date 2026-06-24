@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class FormulaService
 {
-    public function crearFormulas(LoteProducto $lote, Request $request): void
+    public function crearFormula(LoteProducto $lote, Request $request): void
     {
         $cantidad = count($request->porcentaje);
 

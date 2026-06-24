@@ -13,7 +13,8 @@
     </script>
 @endif
 
-@include('_partials.stock-error-alert')
+@include('_partials.stock-error-insumos')
+@include('_partials.stock-error-productos')
 
 @if(session('error'))
     <script>

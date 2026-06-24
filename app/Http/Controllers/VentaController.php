@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VentaRequest;
-use App\Models\LoteProducto;
+use App\Models\DetalleVenta;
 use App\Models\Producto;
 use App\Models\Venta;
+use App\Services\ProductoService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,11 +15,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class VentaController extends Controller
 {
+    public function __construct(
+        private ProductoService $productoService
+    ) {}
+
+
     public function ventas(): View
     {
         // Lógica para mostrar la vista de ventas
         return view('ventas.index');
     }
+
 
     public function buscar(Request $request): JsonResponse
     {
@@ -30,6 +37,7 @@ class VentaController extends Controller
 
         return response()->json($productos);
     }
+
 
     public function historial(Request $request): View
     {
@@ -48,72 +56,54 @@ class VentaController extends Controller
         return view('ventas.historial', compact('ventas'));
     }
 
+
     public function store(VentaRequest $request): RedirectResponse
     {
-        $cliente = $request->input('cliente');
-        $fecha = $request->input('fecha');
-        $carrito = json_decode($request->input('carrito'), true);
-
         try {
             DB::beginTransaction();
 
-            // Crear la venta
-            $venta = Venta::create([
-                'cliente' => $cliente,
-                'fecha' => $fecha,
-                'idUsuario' => auth()->id(),
-            ]);
+            $carrito = json_decode($request->input('carrito'), true);
+            $resultado = $this->productoService->descontarStockLotes($carrito);
 
-            // Procesar cada producto del carrito
-            foreach ($carrito as $item) {
-                $idProducto = $item['idProducto'];
-                $cantidad = $item['cantidad'];
+            // Si la función devuelve un array con la clave 'producto', es un error de stock.
+            if ($resultado !== null) {
+                DB::rollBack();
 
-                $producto = Producto::find($idProducto);
-                $nombreProducto = $producto->nombre;
-
-                $lotes = LoteProducto::where('idProducto', $idProducto)
-                    ->orderBy('fechaElaboracion', 'asc')
-                    ->get();
-
-                foreach ($lotes as $lote) {
-                    if ($cantidad <= 0) {
-                        break;
-                    }
-                    if ($lote->stockActual > $cantidad) {
-                        $lote->stockActual -= $cantidad;
-                        $lote->save();
-                        $cantidad = 0;
-                    } else {
-                        $cantidad -= $lote->stockActual;
-                        $lote->stockActual = 0;
-                        $lote->save();
-                    }
-                }
-                if ($cantidad > 0) {
-                    throw new \Exception("No hay suficiente stock de " . $nombreProducto . " para completar la venta.");
-                }
-
-                // Guardar en detalleVentas
-                DB::table('detalleVentas')->insert([
-                    'idVenta' => $venta->idVenta,
-                    'idProducto' => $idProducto,
-                    'cantidad' => $item['cantidad'],
-                    'precioUnitario' => $item['precioUnitario'],
-                ]);
+                return redirect()->route('ventas.index')
+                    ->with('stock_error_producto', $resultado)
+                    ->withInput();
             }
 
-            DB::commit();
+            $venta = $this->crearVenta($request);
+            $this->crearDetalleVenta($venta, $carrito);
 
-            $resultado = redirect()->route('ventas.index')->with('success', 'Venta realizada exitosamente.');
+            DB::commit();
+            return redirect()->route('ventas.index')->with('success', 'Venta realizada exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();
-            $resultado = redirect()->route('ventas.index')
-                ->with('error', $e->getMessage())
-                ->withInput()
-                ->with('carrito', $carrito);
+            return redirect()->route('ventas.index')->with('error', $e->getMessage())->withInput();
         }
+    }
 
-        return $resultado;
+
+    private function crearVenta(Request $request): Venta
+    {
+        return Venta::create([
+            'cliente' => $request->input('cliente'),
+            'fecha' => $request->input('fecha'),
+            'idUsuario' => auth()->id(),
+        ]);
+    }
+
+    private function crearDetalleVenta(Venta $venta, array $carrito): void
+    {
+        foreach ($carrito as $item) {
+            DetalleVenta::create([
+                'idVenta' => $venta->idVenta,
+                'idProducto' => $item['idProducto'],
+                'cantidad' => $item['cantidad'],
+                'precioUnitario' => $item['precioUnitario'],
+            ]);
+        }
     }
 }

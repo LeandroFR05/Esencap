@@ -111,7 +111,7 @@
         <div class="col-md-4">
             <div class="card" style="height: 94.7%; width: 100%;">
                 <div class="card-header">
-                    <h5>Insumos con bajo stock</h5>
+                    <h5>Porcentaje de insumos con bajo stock</h5>
                 </div>
                 <div class="card-body">
                     @if(empty($porcentajeStockBajo))

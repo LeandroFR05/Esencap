@@ -16,13 +16,13 @@ class DashboardController extends Controller
         // Gráficos
         $ventas_data = $this->dashboardService->ventasRegistradasPorMes();
         $aniosDisponibles = $this->dashboardService->aniosDisponibles();
-        $porcentajeStockBajo = $this->dashboardService->insumosConBajoStock();
+        $porcentajeStockBajo = $this->dashboardService->porcentajeDeInsumosConBajoStock();
         $cantProductosVendidos = $this->dashboardService->productosMasVendidos();
         $ventasDiarias = $this->dashboardService->cantidadDeProductosVendidosPorDia();
 
         // Tarjetas
-        $lotesProximosaVencer = $this->dashboardService->lotesProximosAVencer();
-        $lotesBajoStock = $this->dashboardService->lotesConBajoStock();
+        $lotesProximosaVencer = $this->dashboardService->insumosProximosAVencer();
+        $lotesBajoStock = $this->dashboardService->insumosConBajoStock();
         $insumosRegistrados = $this->dashboardService->insumosRegistrados();
         $productosRegistrados = $this->dashboardService->productosRegistrados();
         
