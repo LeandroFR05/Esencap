@@ -45,10 +45,12 @@ async function run() {
         { name: "dashboard", url: "http://127.0.0.1:8000/dashboard", delay: 3000 }, // más tiempo para gráficos
         { name: "insumos_estante", url: "http://127.0.0.1:8000/insumos", delay: 1500 },
         { name: "insumos_crear", url: "http://127.0.0.1:8000/insumos/create", delay: 1500 },
+        { name: "insumos_editar", url: "http://127.0.0.1:8000/insumos/edit/1", delay: 1500 },
         { name: "insumos_historial", url: "http://127.0.0.1:8000/insumos/historial", delay: 1500 },
         { name: "insumos_eliminados", url: "http://127.0.0.1:8000/insumos/eliminados", delay: 1500 },
         { name: "productos_estante", url: "http://127.0.0.1:8000/productos", delay: 1500 },
         { name: "productos_crear", url: "http://127.0.0.1:8000/productos/create", delay: 1500 },
+        { name: "productos_editar", url: "http://127.0.0.1:8000/productos/edit/1", delay: 1500 },
         { name: "productos_historial", url: "http://127.0.0.1:8000/productos/historial", delay: 1500 },
         { name: "productos_eliminados", url: "http://127.0.0.1:8000/productos/eliminados", delay: 1500 },
         { name: "ventas_registrar", url: "http://127.0.0.1:8000/ventas", delay: 1500 },
