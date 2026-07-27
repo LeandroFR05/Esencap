@@ -1,24 +1,29 @@
+<!-- Plantilla principal -->
 @extends('layouts.admin')
+
 @section('page', 'Editar Producto')
 
 @section('title')
     {{ Breadcrumbs::render('editar', $producto) }}
 @endsection
 
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/estEdit.css') }}">
+@endsection
+
 @section('content')
+    <!-- Componente -->
     @component('components.cards')
 
         @slot('titulo')
-            <i class="bi bi-pencil-square me-2"></i>
-            Editar {{ $producto->nombre }}
+            <span class="edit-title">
+                <i class="bi bi-pencil-square"></i>
+                Editar {{ $producto->nombre }}
+            </span>
         @endslot
 
         @slot('contenido')
-            <form action="{{ route('productos.update', $producto->idProducto) }}"
-                method="POST"
-                id="updateForm"
-                enctype="multipart/form-data">
-
+            <form action="{{ route('productos.update', $producto->idProducto) }}" method="POST" id="updateForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 

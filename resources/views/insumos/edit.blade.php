@@ -1,13 +1,23 @@
 @extends('layouts.admin')
+
 @section('page', 'Editar Insumo')
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/estEdit.css') }}">
+@endsection
+
 @section('title')
     {{ Breadcrumbs::render('editarInsumo', $insumo) }}
 @endsection
 
 @section('content')
-
     @component('components.cards')
-        @slot('titulo', 'Editar ' . $insumo->nombre)
+        @slot('titulo')
+            <span class="edit-title">
+                <i class="bi bi-pencil-square"></i>
+                Editar {{ $insumo->nombre }}
+            </span>
+        @endslot
 
         @slot('contenido')
             <form action="{{ route('insumos.update', $insumo->idInsumo) }}" method="POST" enctype="multipart/form-data" id="updateForm">

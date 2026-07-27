@@ -4,7 +4,7 @@
         <div class="card shadow-sm">
             <div class="card-header text-black">
                 <h5 class="mb-0">
-                {{ $titulo }}
+                    {{ $titulo }}
                 </h5>
             </div>
 
