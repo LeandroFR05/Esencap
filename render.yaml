@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: esencap
+    runtime: php
+    buildCommand: "pnpm build"
+    startCommand: "php artisan serve --host=0.0.0.0 --port=$PORT"
