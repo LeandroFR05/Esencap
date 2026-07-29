@@ -1,0 +1,40 @@
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Cache de bootstrap (se regenera en runtime, puede tener referencias a paquetes dev)
+bootstrap/cache/*.php
+
+
+# Dependencias (se instalan dentro del contenedor)
+node_modules/
+vendor/
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Cache y logs de Laravel (se generan en runtime)
+storage/logs/*.log
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+# Tests y docs
+tests/
+docs/
+*.md
+Manual_de_Usuario.docx
+phpunit.xml
+
+# Herramientas de desarrollo
+.editorconfig
+opencode.json
+capturar_pantallas.js
+generar_docx.js
+
+# Docker compose local (no necesario en la imagen)
+docker-compose.yml
+docker-compose*.yml
