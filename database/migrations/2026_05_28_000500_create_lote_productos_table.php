@@ -29,20 +29,6 @@ return new class extends Migration
             // Unique constraint
             $table->unique(['idProducto', 'numeroLote']);
         });
-
-        // Trigger para auto-incrementar numeroLote por producto
-        DB::unprepared('
-            CREATE TRIGGER tr_loteproductos_auto
-            BEFORE INSERT ON loteproductos
-            FOR EACH ROW
-            BEGIN
-              SET NEW.numeroLote = (
-                SELECT COALESCE(MAX(numeroLote), 0) + 1
-                FROM loteproductos
-                WHERE idProducto = NEW.idProducto
-              );
-            END;
-        ');
     }
 
     /**
@@ -50,7 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::unprepared('DROP TRIGGER IF EXISTS tr_loteproductos_auto');
         Schema::dropIfExists('loteproductos');
     }
 };

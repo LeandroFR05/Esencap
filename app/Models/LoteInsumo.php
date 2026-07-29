@@ -16,6 +16,16 @@ class LoteInsumo extends Model
     protected $primaryKey = 'idLote';
     public $timestamps = false;
 
+    protected static function booted()
+    {
+        static::creating(function ($loteInsumo) {
+            if (empty($loteInsumo->numeroLote)) {
+                $maxLote = static::where('idInsumo', $loteInsumo->idInsumo)->max('numeroLote');
+                $loteInsumo->numeroLote = ($maxLote ?? 0) + 1;
+            }
+        });
+    }
+
     //Para mostrar la fecha en formato argentino
     public function getFechaVencimientoAttribute($value)
     {

@@ -18,6 +18,17 @@ class LoteProducto extends Model
 
     protected $table = 'loteproductos';
     protected $primaryKey = 'idLote';
+
+    protected static function booted()
+    {
+        static::creating(function ($loteProducto) {
+            if (empty($loteProducto->numeroLote)) {
+                $maxLote = static::where('idProducto', $loteProducto->idProducto)->max('numeroLote');
+                $loteProducto->numeroLote = ($maxLote ?? 0) + 1;
+            }
+        });
+    }
+    
     protected $fillable = [
         'numeroLote',
         'idUsuario',
