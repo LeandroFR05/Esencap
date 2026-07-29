@@ -35,9 +35,11 @@ RUN apk add --no-cache \
     libzip-dev \
     icu-dev \
     oniguruma-dev \
+    postgresql-dev \
     && docker-php-ext-configure gd --with-jpeg --with-webp \
     && docker-php-ext-install \
         pdo_mysql \
+        pdo_pgsql \
         mbstring \
         exif \
         pcntl \
