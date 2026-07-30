@@ -41,7 +41,6 @@ class LoteInsumoController extends Controller
         return view('lotes.vencimientos', compact('lotesAgrupados', 'bandera', 'insumos'));
     }
 
-
     public function infoStock()
     {
         // Filtramos los insumos que tienen al menos un lote con bajo stock
@@ -49,13 +48,13 @@ class LoteInsumoController extends Controller
             ->whereHas('lotes', function ($query) {
                 $query->where(function ($q) {
                     $q->where(function ($q2) {
-                        $q2->whereRaw("unidadDeMedida = 'gramos'")->where('stockActual', '<', 500);
+                        $q2->whereRaw("insumos.unidadDeMedida = 'gramos'")->where('stockActual', '<', 500);
                     })->orWhere(function ($q2) {
-                        $q2->whereRaw("unidadDeMedida = 'kilos'")->where('stockActual', '<', 1);
+                        $q2->whereRaw("insumos.unidadDeMedida = 'kilos'")->where('stockActual', '<', 1);
                     })->orWhere(function ($q2) {
-                        $q2->whereRaw("unidadDeMedida = 'unidades'")->where('stockActual', '<', 10);
+                        $q2->whereRaw("insumos.unidadDeMedida = 'unidades'")->where('stockActual', '<', 10);
                     })->orWhere(function ($q2) {
-                        $q2->whereRaw("unidadDeMedida = 'litros'")->where('stockActual', '<', 2);
+                        $q2->whereRaw("insumos.unidadDeMedida = 'litros'")->where('stockActual', '<', 2);
                     });
                 });
             })->paginate(5);
@@ -76,9 +75,9 @@ class LoteInsumoController extends Controller
         }
 
         $bandera = $lotesAgrupados->isEmpty() ? 2 : 0;
+
         return view('lotes.stock', compact('lotesAgrupados', 'bandera', 'insumos'));
     }
-
 
     public function eliminar(Request $request, LoteInsumo $lote)
     {
