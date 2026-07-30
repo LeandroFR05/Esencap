@@ -12,7 +12,7 @@ class LoteInsumo extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'loteinsumos';
+    protected $table = 'lote_insumos';
     protected $primaryKey = 'idLote';
     public $timestamps = false;
 

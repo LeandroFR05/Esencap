@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loteInsumos', function (Blueprint $table) {
+        Schema::create('lote_insumos', function (Blueprint $table) {
             $table->mediumIncrements('idLote');
             $table->smallInteger('numeroLote')->unsigned();
             $table->smallInteger('idInsumo')->unsigned();
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loteInsumos');
+        Schema::dropIfExists('lote_insumos');
     }
 };
