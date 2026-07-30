@@ -13,7 +13,7 @@ class DashboardService
     public function ventasRegistradasPorMes(?int $anio = null): array
     {
         $query = Venta::select(
-            DB::raw('MONTH(fecha) as mes'),
+            DB::raw('EXTRACT(MONTH FROM fecha) as mes'),
             DB::raw('COUNT(*) as total')
         )
             ->groupBy('mes')
@@ -36,7 +36,7 @@ class DashboardService
 
     public function aniosDisponibles(): array
     {
-        $anios = Venta::select(DB::raw('DISTINCT YEAR(fecha) as anio'))
+        $anios = Venta::select(DB::raw('DISTINCT EXTRACT(YEAR FROM fecha) as anio'))
             ->orderBy('anio', 'desc')
             ->pluck('anio')
             ->toArray();
@@ -95,7 +95,7 @@ class DashboardService
         return DB::table('ventas as v')
             ->join('detalleVentas as d', 'd.idVenta', '=', 'v.idVenta')
             ->select(
-                DB::raw('DATE(v.fecha) as dia'),
+                DB::raw('CAST(v.fecha AS DATE) as dia'),
                 DB::raw('SUM(d.cantidad) as total')
             )
             ->groupBy('dia')
