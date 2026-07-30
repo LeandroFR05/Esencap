@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detalleVentas', function (Blueprint $table) {
-            $table->mediumIncrements('idDetalle');
-            $table->unsignedMediumInteger('idVenta');
-            $table->unsignedSmallInteger('idProducto');
-            $table->unsignedSmallInteger('cantidad');
+            $table->increments('idDetalle');
+            $table->integer('idVenta');
+            $table->smallInteger('idProducto');
+            $table->smallInteger('cantidad');
             $table->decimal('precioUnitario', 10, 2);
 
             // Foreign keys

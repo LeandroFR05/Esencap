@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('insumos', function (Blueprint $table) {
             $table->smallIncrements('idInsumo');
             $table->string('foto', 200)->nullable();
-            $table->tinyInteger('idFamilia')->unsigned();
+            $table->smallInteger('idFamilia');
             $table->string('nombre', 50);
             $table->char('fase', 10);
             $table->string('unidadDeMedida', 30)->nullable();

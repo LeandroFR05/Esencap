@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ventas', function (Blueprint $table) {
-            $table->mediumIncrements('idVenta');
+            $table->increments('idVenta');
             $table->foreignId('idUsuario')->constrained('users')->cascadeOnDelete();
             $table->date('fecha');
             $table->string('cliente', 50)->nullable();
