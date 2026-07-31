@@ -68,7 +68,7 @@ class DashboardService
     public function productosMasVendidos(?int $anio = null, ?int $mes = null): array
     {
         $query = DB::table('ventas as v')
-            ->join('detalleVentas as d', 'd.idVenta', '=', 'v.idVenta')
+            ->join('detalle_ventas as d', 'd.idVenta', '=', 'v.idVenta')
             ->join('productos as p', 'p.idProducto', '=', 'd.idProducto')
             ->select(
                 'p.idProducto',
@@ -93,7 +93,7 @@ class DashboardService
     public function cantidadDeProductosVendidosPorDia(): array
     {
         return DB::table('ventas as v')
-            ->join('detalleVentas as d', 'd.idVenta', '=', 'v.idVenta')
+            ->join('detalle_ventas as d', 'd.idVenta', '=', 'v.idVenta')
             ->select(
                 DB::raw('CAST(v.fecha AS DATE) as dia'),
                 DB::raw('SUM(d.cantidad) as total')
