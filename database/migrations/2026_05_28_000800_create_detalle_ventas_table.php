@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detalleVentas', function (Blueprint $table) {
+        Schema::create('detalle_ventas', function (Blueprint $table) {
             $table->increments('idDetalle');
-            $table->integer('idVenta');
-            $table->smallInteger('idProducto');
+            $table->unsignedInteger('idVenta');
+            $table->unsignedInteger('idProducto');
             $table->smallInteger('cantidad');
             $table->decimal('precioUnitario', 10, 2);
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detalleVentas');
+        Schema::dropIfExists('detalle_ventas');
     }
 };

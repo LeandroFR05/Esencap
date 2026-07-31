@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('lote_insumos', function (Blueprint $table) {
             $table->increments('idLote');
             $table->smallInteger('numeroLote');
-            $table->smallInteger('idInsumo');
+            $table->unsignedInteger('idInsumo');
             $table->decimal('stockInicial', 10, 2);
             $table->decimal('stockActual', 10, 2);
-            $table->date('fechaVencimiento');
             $table->date('fechaCompra');
+            $table->date('fechaVencimiento');
             $table->boolean('estado')->default(true);
             $table->softDeletes();
 

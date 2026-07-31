@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('productos', function (Blueprint $table) {
-            $table->smallIncrements('idProducto');
+            $table->increments('idProducto');
             $table->string('foto', 200)->nullable();
             $table->string('nombre', 50);
-            $table->decimal('contenidoPorUnidad');
+            $table->decimal('contenidoPorUnidad', 10, 2);
             $table->boolean('estado')->default(true);
             $table->softDeletes();
         });

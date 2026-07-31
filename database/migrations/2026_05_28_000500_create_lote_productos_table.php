@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loteproductos', function (Blueprint $table) {
+        Schema::create('lote_productos', function (Blueprint $table) {
             $table->increments('idLote');
             $table->smallInteger('numeroLote');
             $table->foreignId('idUsuario')->constrained('users')->cascadeOnDelete();
-            $table->smallInteger('idProducto');
+            $table->unsignedInteger('idProducto');
             $table->smallInteger('stockInicial');
             $table->smallInteger('stockActual');
             $table->date('fechaElaboracion');
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loteproductos');
+        Schema::dropIfExists('lote_productos');
     }
 };

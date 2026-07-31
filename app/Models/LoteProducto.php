@@ -16,7 +16,7 @@ class LoteProducto extends Model
 
     public $timestamps = false;
 
-    protected $table = 'loteproductos';
+    protected $table = 'lote_productos';
     protected $primaryKey = 'idLote';
 
     protected static function booted()

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('insumos', function (Blueprint $table) {
-            $table->smallIncrements('idInsumo');
+            $table->increments('idInsumo');
             $table->string('foto', 200)->nullable();
-            $table->smallInteger('idFamilia');
+            $table->unsignedSmallInteger('idFamilia');
             $table->string('nombre', 50);
             $table->char('fase', 10);
             $table->string('unidadDeMedida', 30)->nullable();

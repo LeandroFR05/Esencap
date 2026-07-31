@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('formulas', function (Blueprint $table) {
             $table->increments('idFormula');
-            $table->integer('idLote');
+            $table->unsignedInteger('idLote');
             $table->decimal('porcentaje', 10, 2);
-            $table->smallInteger('idInsumo');
+            $table->unsignedInteger('idInsumo');
             $table->decimal('contenido', 10, 2);
 
             // Foreign keys
-            $table->foreign('idLote')->references('idLote')->on('loteproductos')->cascadeOnDelete();
+            $table->foreign('idLote')->references('idLote')->on('lote_productos')->cascadeOnDelete();
             $table->foreign('idInsumo')->references('idInsumo')->on('insumos')->restrictOnDelete();
         });
     }
