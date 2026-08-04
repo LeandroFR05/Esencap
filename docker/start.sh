@@ -24,7 +24,7 @@ php artisan view:cache
 
 # ── Migraciones ────────────────────────────────────────────────────────────────
 echo "🗄️  Ejecutando migraciones y seeders..."
-php artisan migrate:fresh --force --seed
+php artisan migrate:fresh --force
 
 # ── Iniciar servicios ──────────────────────────────────────────────────────────
 echo "✅ Iniciando PHP-FPM..."
