@@ -33,11 +33,10 @@
                                     name="stockInicial"
                                     id="stockInicial"
                                     class="form-control stockInicial @error('stockInicial') is-invalid @enderror"
+                                    value="{{ old('stockInicial') }}"
                                     required>
 
-                                <span class="input-group-text">
-                                    unidades
-                                </span>
+                                <span class="input-group-text">unidades</span>
 
                                 @error('stockInicial')
                                     <div class="invalid-feedback">
@@ -68,9 +67,7 @@
                                     readonly
                                     required>
 
-                                <span class="input-group-text">
-                                    gramos
-                                </span>
+                                <span class="input-group-text">gramos</span>
 
                                 @error('contenidoPorUnidad')
                                     <div class="invalid-feedback">
@@ -97,6 +94,7 @@
                                     name="fechaElaboracion"
                                     id="fechaElaboracion"
                                     class="form-control @error('fechaElaboracion') is-invalid @enderror"
+                                    value="{{ old('fechaElaboracion') }}"
                                     required>
 
                                 @error('fechaElaboracion')

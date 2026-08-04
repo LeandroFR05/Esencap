@@ -6,6 +6,7 @@ use App\Http\Requests\InsumoRequest;
 use App\Models\Familia;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,16 +39,16 @@ class InsumoService
         
         foreach ($items as $item) {
             $idInsumo = $item['idInsumo'];
-            $contenidoNecesario = $item['contenido'];
+            $contenidoNecesario = $item['contenido']; // Es lo que necesitamos para la elaboración del producto
             $contVencidos = 0;
-            $insumo = Insumo::find($idInsumo);
+            $insumo = Insumo::find($idInsumo); // Se busca el insumo en la bd
 
             $sumaStock = LoteInsumo::where('idInsumo', $idInsumo)
                 ->where('fechaVencimiento', '>=', now())
-                ->sum('stockActual');
-            $sumaStock = $this->convertirUnidad($sumaStock, $insumo->unidadDeMedida);
+                ->sum('stockActual'); // Se obtiene la suma de stock actual de todos los lotes que no estén vencidos
+            $sumaStock = $this->convertirUnidad($sumaStock, $insumo->unidadDeMedida); // Convierte todo a gramos
 
-            // Obtenemos todos los lotes ordenados por fecha de vencimiento
+            // Obtenemos todos los lotes ordenados por fecha de vencimiento del insumo
             $lotes = LoteInsumo::where('idInsumo', $idInsumo)
                 ->orderBy('fechaVencimiento', 'asc')
                 ->get();
@@ -59,8 +60,10 @@ class InsumoService
                 if ($lote->stockActual <= 0) {
                     continue; // Saltar lotes sin stock
                 }
-                if ($lote->fechaVencimiento < now()) {
-                    $contVencidos++;
+
+                $fechaVencimiento = Carbon::parse($lote->getRawOriginal('fechaVencimiento'));
+                if ($fechaVencimiento->lt(now())) {
+                    $contVencidos++; // Se cuentan los lotes vencidos
                     continue; // Saltar lotes vencidos
                 }
 
@@ -68,7 +71,7 @@ class InsumoService
                     // Convertimos el stock actual del lote a la unidad de gramos.
                     $contenidoDisponible = $this->convertirUnidad($lote->stockActual, $insumo->unidadDeMedida);
 
-                    // Caso más simple: el stock disponible es mayor o igual al contenido necesario.
+                    // Caso más simple: el stock disponible del lote es mayor o igual al contenido necesario.
                     if ($contenidoDisponible >= $contenidoNecesario) {
                         $contenidoDisponible -= $contenidoNecesario;
                         $lote->stockActual = ($contenidoDisponible * $lote->stockActual) / $this->convertirUnidad($lote->stockActual, $insumo->unidadDeMedida);
