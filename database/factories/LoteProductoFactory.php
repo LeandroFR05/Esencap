@@ -19,12 +19,12 @@ class LoteProductoFactory extends Factory
      */
     public function definition(): array
     {
-        $stockInicial = fake()->randomBetween(10, 70);
+        // $stockInicial = fake()->random(10, 70);
 
         return [
             'idUsuario' => 1,
-            'stockInicial' => $stockInicial,
-            'stockActual' => $stockInicial, // Inicialmente igual al stock inicial
+            'stockInicial' => 10,
+            'stockActual' => 10, // Inicialmente igual al stock inicial
             'fechaElaboracion' => fake()->dateTimeBetween('-6 months', 'now')->format('Y-m-d'),
         ];
     }
