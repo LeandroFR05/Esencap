@@ -80,7 +80,7 @@ Genera lotes de insumos con stock y fechas coherentes entre sí.
 | `fechaVencimiento`  | Entre 1 y 24 meses posterior a la `fechaCompra`                   |
 | `numeroLote`        | Asignado automáticamente por trigger de base de datos             |
 
-> **Nota:** El campo `numeroLote` no se define en la factory porque es generado por un trigger SQL al momento de la inserción.
+> **Nota:** El campo `numeroLote` no se define en la factory porque el modelo lo asigna automáticamente en su hook `creating` (`booted()`), calculando `max(numeroLote) + 1` para cada insumo.
 
 ---
 
@@ -252,7 +252,7 @@ Al ejecutar `php artisan db:seed` con todos los seeders activos, se verificó el
 | Aspecto verificado                                  | Resultado observado                                                  |
 |-----------------------------------------------------|----------------------------------------------------------------------|
 | Creación masiva de insumos con lotes                | El sistema creó los 20 insumos y 40 lotes sin errores               |
-| Asignación automática de `numeroLote` por trigger   | El trigger de BD asignó correctamente el número correlativo          |
+| Asignación automática de `numeroLote`               | El modelo asignó el número correlativo (max + 1) correctamente        |
 | Navegación del listado de insumos con muchos registros | Las vistas respondieron de forma fluida con los 20 registros      |
 | Creación de productos con lotes y fórmulas anidadas | Las relaciones Producto → Lote → Fórmula se crearon correctamente   |
 | Referencias a insumos existentes en fórmulas        | `FormulaFactory` resolvió insumos existentes sin crear duplicados    |
@@ -273,4 +273,57 @@ php artisan migrate:fresh --seed
 # Opción 2: Solo ejecutar los seeders (sin recrear tablas)
 php artisan db:seed
 ```
+
+---
+
+## Test de estrés
+
+Para evaluar cómo se comporta la aplicación bajo una carga mayor a la normal, se ampliaron los volúmenes de los seeders a 100 registros por entidad y se repobló la base de datos completa. El objetivo fue comprobar que los listados, historiales y reportes siguieran respondiendo con fluidez con un volumen aproximado de **~1.000 registros** en total (más de 4 veces la carga base).
+
+### Volúmenes usados
+
+| Seeder            | Registros directos | Registros relacionados generados                                 | Total  |
+|-------------------|--------------------|------------------------------------------------------------------|--------|
+| `UserSeeder`      | 1 usuario          | —                                                                | 1      |
+| `FamiliaSeeder`   | 5 familias (fijos) | —                                                                | 5      |
+| `InsumoSeeder`    | 100 insumos        | 2 lotes por insumo → 200 lotes                                   | 300    |
+| `ProductoSeeder`  | 100 productos      | 2 lotes de producción + 1 fórmula por lote → 200 lotes + 200 fórmulas | 500 |
+| `VentaSeeder`     | 100 ventas         | 1 detalle por venta → 100 detalles                               | 200    |
+| **Total general** |                    |                                                                  | **1.006** |
+
+### Cómo se ejecutó
+
+Se modificaron los contadores de los seeders para que generen 100 registros por entidad:
+
+```php
+Insumo::factory(100)->withLotes(2)->create();
+Producto::factory(100)->withLotes(2)->create();
+Venta::factory(100)->withDetalleVentas()->create();
+```
+
+Y se repobló la base de datos desde cero:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+### Resultados
+
+Con el volumen de carga de ~1.000 registros, la aplicación respondió de forma fluida:
+
+| Aspecto verificado                                     | Resultado                          |
+|--------------------------------------------------------|------------------------------------|
+| Navegación de listados e historiales                   | Sin demoras perceptibles           |
+| Creación masiva de lotes con `numeroLote` correlativo  | Correcta (max + 1 por insumo/producto) |
+| Carga de relaciones anidadas (Producto → Lote → Fórmula) | Correcta                         |
+| Referencias entre entidades (fórmulas e insumos, detalles de venta) | Sin datos huérfanos ni errores |
+
+### Ajustes realizados para esta prueba
+
+Para que la generación masiva funcionara, se reemplazó la asignación de `numeroLote` que antes hacían los triggers de base de datos:
+
+1. Se eliminaron los triggers SQL que asignaban `numeroLote`.
+2. Ahora lo asigna cada modelo en su hook `creating` (`booted()`), calculando `max(numeroLote) + 1` por insumo o producto. Por eso `LoteInsumoFactory` y `LoteProductoFactory` ya no definen el campo.
+3. Se quitó el trait `WithoutModelEvents` de los seeders (`DatabaseSeeder` y `ProductoSeeder`): como ya no hay observers en la aplicación, ese trait solo silenciaba el evento `creating` del modelo e impedía el auto-generado de `numeroLote`, provocando el error `Field 'numeroLote' doesn't have a default value`.
+
 

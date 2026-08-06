@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\LoteInsumo;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<LoteInsumo>
@@ -22,7 +22,6 @@ class LoteInsumoFactory extends Factory
         $fechaCompra = fake()->dateTimeBetween('-1 year', 'now');
 
         return [
-            // numeroLote se asigna automáticamente por el trigger
             'stockInicial' => $stockInicial,
             'stockActual' => $stockInicial, // Inicialmente igual al stock inicial
             'fechaCompra' => $fechaCompra->format('Y-m-d'),
