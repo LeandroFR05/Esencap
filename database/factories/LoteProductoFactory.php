@@ -19,7 +19,7 @@ class LoteProductoFactory extends Factory
      */
     public function definition(): array
     {
-        $stockInicial = fake()->random_int(10, 70);
+        $stockInicial = fake()->randomBetween(10, 70);
 
         return [
             'idUsuario' => 1,
