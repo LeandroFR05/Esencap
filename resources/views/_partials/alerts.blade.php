@@ -31,7 +31,7 @@
     </script>
 @endif
 
-@if ($errors->any())
+<!-- @if ($errors->any())
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
@@ -52,7 +52,7 @@
 
         });
     </script>
-@endif
+@endif -->
 
 
 @if(session('warning'))

@@ -35,11 +35,14 @@ class ProductoController extends Controller
 
     public function productos(Request $request): View
     {
-        $productos = Producto::withSum('lotes', 'stockActual')
-            ->withMax('lotes', 'fechaElaboracion')
+        $productos = Producto::withSum('lotes', 'stockActual') // muestra el stock total de cada producto en la tarjeta
             ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
                 $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
-                $query->orderBy('lotes_max_fechaElaboracion', $direccion);
+                $query->orderBy(
+                    LoteProducto::selectRaw('MAX(lote_productos.fechaElaboracion)')
+                        ->whereColumn('lote_productos.idProducto', 'productos.idProducto'),
+                    $direccion // De cada producto busca el último lote elaborado
+                );
             })
             ->paginate(10)
             ->appends($request->query());

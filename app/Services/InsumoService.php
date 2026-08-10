@@ -125,13 +125,16 @@ class InsumoService
     {
         $familias = Familia::all();
         $insumos = Insumo::withSum('lotes', 'stockActual')
-            ->withMax('lotes', 'fechaCompra')
             ->when($request->filled('familia'), function ($query) use ($request) {
                 $query->where('idFamilia', $request->familia);
             })
             ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
                 $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
-                $query->orderBy('lotes_max_fechaCompra', $direccion);
+                $query->orderBy(
+                    LoteInsumo::selectRaw('MAX(lote_insumos.fechaCompra)')
+                        ->whereColumn('lote_insumos.idInsumo', 'insumos.idInsumo'),
+                    $direccion
+                );
             })
             ->paginate(10)
             ->appends($request->query());
@@ -139,7 +142,7 @@ class InsumoService
         return compact('insumos', 'familias');
     }
 
-    public function crearInsumo(InsumoRequest $request): Insumo
+    public function crearInsumo(Request $request): Insumo
     {
         $fotoPath = $request->hasFile('foto')
             ? $this->imageService->storeAsWebp($request->file('foto'))

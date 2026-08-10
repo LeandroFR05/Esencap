@@ -52,15 +52,16 @@ class InsumoRequest extends FormRequest
             'idFamilia.exists' => 'La familia seleccionada no es válida.',
 
             'stockInicial.max' => 'El stock inicial no puede superar 999999,99.',
+            'stockInicial.required' => 'El stock inicial es obligatorio.',
 
             'fechaCompra.required' => 'La fecha de compra es obligatoria.',
             'fechaCompra.date' => 'La fecha de compra no es válida.',
-            'fechaCompra.date_format' => 'El formato de fecha de compra debe ser DD-MM-YYYY.',
+            'fechaCompra.date_format' => 'El formato de fecha no es correcto.',
             'fechaCompra.before_or_equal' => 'La fecha de compra no puede ser futura.',
 
             'fechaVencimiento.required' => 'La fecha de vencimiento es obligatoria.',
             'fechaVencimiento.date' => 'La fecha de vencimiento no es válida.',
-            'fechaVencimiento.date_format' => 'El formato de fecha de vencimiento debe ser DD-MM-YYYY.',
+            'fechaVencimiento.date_format' => 'El formato de fecha no es correcto.',
         ];
     }
 

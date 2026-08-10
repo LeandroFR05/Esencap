@@ -37,16 +37,11 @@
                                 </span>
 
                                 <input type="number" name="stockInicial" id="stockInicial" value="{{ old('stockInicial') }}"
-                                    class="form-control stockInicial @error('stockInicial') is-invalid @enderror" required>
+                                    class="form-control stockInicial" required>
                                 <span class="input-group-text w-25">
                                     unidades
                                 </span>
 
-                                @error('stockInicial')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
                         </div>
 
@@ -62,16 +57,10 @@
                                 </span>
 
                                 <input type="number" name="contenidoPorUnidad" id="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}"
-                                    class="form-control contenidoPorUnidad @error('contenidoPorUnidad') is-invalid @enderror" required>
+                                    class="form-control contenidoPorUnidad" required>
                                 <span class="input-group-text w-25">
                                     gramos
                                 </span>
-
-                                @error('contenidoPorUnidad')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
                         </div>
 

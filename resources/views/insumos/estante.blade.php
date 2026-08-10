@@ -23,7 +23,8 @@
                     <label for="buscarInsumo" class="form-label fw-semibold small">Buscar por nombre</label>
                     <input type="text" id="buscarInsumo" class="form-control form-control-sm">
                 </div>
-                
+
+                <!-- Se recarga la página cada vez que se aplica un filtro -->
                 <form method="GET" action="{{ route('insumos.estante') }}" id="formFiltros" class="col-md-8">
                     <div class="row g-3">
                         <!-- Filtro por familia -->
