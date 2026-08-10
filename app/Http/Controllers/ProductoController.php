@@ -3,30 +3,27 @@
 namespace App\Http\Controllers;
 
 // Modelos
-use App\Models\Familia;
-use App\Models\LoteProducto;
-use App\Models\Insumo;
-use App\Models\Producto;
-
-// Requests
 use App\Http\Requests\ProductoRequest;
-
+use App\Models\Familia;
+use App\Models\Insumo;
+use App\Models\LoteProducto;
+// Requests
+use App\Models\Producto;
 // Servicios
-use App\Services\InsumoService;
-use App\Services\ImageService;
-use App\Services\LoteProductoService;
 use App\Services\FormulaService;
-
+use App\Services\ImageService;
+use App\Services\InsumoService;
+use App\Services\LoteProductoService;
 // Otros
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
-    public function __construct(    
+    public function __construct(
         private InsumoService $insumoService,
         private ImageService $imageService,
         private LoteProductoService $loteProductoService,
@@ -39,7 +36,7 @@ class ProductoController extends Controller
             ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
                 $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
                 $query->orderBy(
-                    LoteProducto::selectRaw('MAX(lote_productos.fechaElaboracion)')
+                    LoteProducto::selectRaw('MAX(??)', ['lote_productos.fechaElaboracion'])
                         ->whereColumn('lote_productos.idProducto', 'productos.idProducto'),
                     $direccion // De cada producto busca el último lote elaborado
                 );
@@ -68,7 +65,7 @@ class ProductoController extends Controller
 
             if ($resultado !== null) {
                 DB::rollBack();
-                
+
                 return redirect()->route('productos.create')
                     ->with('stock_error_insumo', $resultado)
                     ->withInput();
@@ -78,11 +75,13 @@ class ProductoController extends Controller
             $producto = $this->crearProducto($request, $fotoPath);
             $lote = $this->loteProductoService->crearLote($producto, $request);
             $this->formulaService->crearFormula($lote, $request);
-                
+
             DB::commit();
+
             return redirect()->route('productos.estante')->with('success', 'Producto creado exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return redirect()->route('productos.create')->with(['error' => $e->getMessage()])->withInput();
         }
     }
@@ -96,7 +95,7 @@ class ProductoController extends Controller
 
         return null;
     }
-    
+
     private function crearProducto(Request $request, ?string $fotoPath): Producto
     {
         return Producto::create([
@@ -106,17 +105,15 @@ class ProductoController extends Controller
         ]);
     }
 
-
     public function edit(Producto $producto): View
     {
         $stockTotal = LoteProducto::where('idProducto', $producto->idProducto)->sum('stockActual');
         $ultimaElaboracion = LoteProducto::where('idProducto', $producto->idProducto)
-        ->latest('fechaElaboracion')
-        ->value('fechaElaboracion');
+            ->latest('fechaElaboracion')
+            ->value('fechaElaboracion');
 
         return view('productos.edit', compact('producto', 'stockTotal', 'ultimaElaboracion'));
     }
-
 
     public function update(ProductoRequest $request, Producto $producto): RedirectResponse
     {
@@ -142,7 +139,6 @@ class ProductoController extends Controller
         return redirect()->route('productos.edit', ['producto' => $producto->idProducto])->with('success', 'Producto actualizado exitosamente.');
     }
 
-
     public function reponer(Producto $producto): View
     {
         $familias = Familia::all();
@@ -153,7 +149,6 @@ class ProductoController extends Controller
 
         return view('productos.reponer', compact('producto', 'lote', 'familias'));
     }
-
 
     public function reponerStore(ProductoRequest $request, Producto $producto): RedirectResponse
     {
@@ -184,7 +179,6 @@ class ProductoController extends Controller
         return $resultado;
     }
 
-
     public function lotes(Producto $producto): View
     {
         $producto = Producto::with([
@@ -197,8 +191,8 @@ class ProductoController extends Controller
         return view('productos.lotes', compact('producto', 'lote'));
     }
 
-
-    public function eliminar(Producto $producto): RedirectResponse {
+    public function eliminar(Producto $producto): RedirectResponse
+    {
         $producto->estado = false;
         $producto->save();
         $producto->delete();
@@ -206,12 +200,15 @@ class ProductoController extends Controller
         return redirect()->route('productos.estante')->with('success', 'Producto eliminado exitosamente.');
     }
 
-    public function eliminados(): View {
+    public function eliminados(): View
+    {
         $productosEliminados = Producto::onlyTrashed()->get();
+
         return view('productos.eliminados', compact('productosEliminados'));
     }
 
-    public function restore($idProducto): RedirectResponse {
+    public function restore($idProducto): RedirectResponse
+    {
         $producto = Producto::onlyTrashed()->findOrFail($idProducto);
         $producto->restore();
         $producto->estado = true;

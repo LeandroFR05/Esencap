@@ -131,7 +131,7 @@ class InsumoService
             ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
                 $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
                 $query->orderBy(
-                    LoteInsumo::selectRaw('MAX(lote_insumos.fechaCompra)')
+                    LoteInsumo::selectRaw('MAX(??)', ['lote_insumos.fechaCompra'])
                         ->whereColumn('lote_insumos.idInsumo', 'insumos.idInsumo'),
                     $direccion
                 );
