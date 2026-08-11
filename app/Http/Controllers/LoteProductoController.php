@@ -18,7 +18,7 @@ class LoteProductoController extends Controller
         // Filtro por producto
         if ($request->filled('producto')) {
             $query->whereHas('producto', function ($q) use ($request) {
-                $q->where('nombre', 'like', '%' . $request->producto . '%');
+                $q->where('nombre', 'like', '%' . $request->producto . '%'); 
             });
         }
 

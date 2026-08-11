@@ -36,8 +36,14 @@ class ProductoController extends Controller
     public function productos(Request $request): View
     {
         $productos = Producto::withSum('lotes', 'stockActual') // muestra el stock total de cada producto en la tarjeta
-            ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
-                $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
+
+            // Filtra por producto
+            ->when($request->filled('nombre'), function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' . $request->nombre . '%');
+            })
+            // Filtra por fecha
+            ->when($request->filled('fecha'), function ($query) use ($request) {
+                $direccion = $request->fecha === 'reciente' ? 'desc' : 'asc';
                 $query->orderBy(
                     LoteProducto::select('fechaElaboracion')
                         ->whereColumn('lote_productos.idProducto', 'productos.idProducto')
@@ -46,8 +52,7 @@ class ProductoController extends Controller
                     $direccion // De cada producto busca el último lote elaborado
                 );
             })
-            ->paginate(10)
-            ->appends($request->query());
+            ->paginate(10)->appends($request->query());
 
         return view('productos.estante', compact('productos'));
     }

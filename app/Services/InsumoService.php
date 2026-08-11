@@ -125,21 +125,28 @@ class InsumoService
     {
         $familias = Familia::all();
         $insumos = Insumo::withSum('lotes', 'stockActual')
-            ->when($request->filled('familia'), function ($query) use ($request) {
-                $query->where('idFamilia', $request->familia);
-            })
-            ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
-                $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
-                $query->orderBy(
-                    LoteInsumo::select('fechaCompra')
-                        ->whereColumn('lote_insumos.idInsumo', 'insumos.idInsumo')
-                        ->latest('fechaCompra')
-                        ->limit(1),
-                    $direccion
-                );
-            })
-            ->paginate(10)
-            ->appends($request->query());
+
+        // Filtra por insumo
+        ->when($request->filled('nombre'), function ($query) use ($request) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        })
+        // Filtra por familia
+        ->when($request->filled('familia'), function ($query) use ($request) {
+            $query->where('idFamilia', $request->familia);
+        })
+        // Filtra por fecha
+        ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
+            $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
+            $query->orderBy(
+                LoteInsumo::select('fechaCompra')
+                    ->whereColumn('lote_insumos.idInsumo', 'insumos.idInsumo')
+                    ->latest('fechaCompra')
+                    ->limit(1),
+                $direccion
+            );
+        })
+        ->paginate(10)
+        ->appends($request->query());
 
         return compact('insumos', 'familias');
     }
