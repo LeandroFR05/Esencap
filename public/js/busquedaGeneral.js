@@ -12,14 +12,20 @@ document.getElementById("insumo").addEventListener("keypress", function(event) {
     }
 });
 
-document.getElementById("fecha").addEventListener("change", function() {
-    // Enviar automáticamente al seleccionar una fecha
-    document.getElementById("formFiltros").submit();
-});
 
-function limpiarFiltros() {
+function limpiarFiltrosProductos() {
     // 1. Limpiar los inputs
     document.getElementById("nombre").value = "";
+    document.getElementById("fecha").value = "";
+
+    // 2. Enviar el formulario vacío (para resetear a todos los registros)
+    document.getElementById("formFiltros").submit();
+}
+
+function limpiarFiltrosInsumos() {
+    // 1. Limpiar los inputs
+    document.getElementById("nombre").value = "";
+    document.getElementById("familia").value = "";
     document.getElementById("fecha").value = "";
 
     // 2. Enviar el formulario vacío (para resetear a todos los registros)

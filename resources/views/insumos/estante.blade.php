@@ -55,7 +55,7 @@
                         </button>
                     </div>
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" onclick="limpiarFiltros()" class="btn btn-sm btn-secondary w-100">
+                        <button type="button" onclick="limpiarFiltrosInsumos()" class="btn btn-sm btn-secondary w-100">
                             <i class="bi bi-x-circle"></i> Limpiar
                         </button>
                     </div>
