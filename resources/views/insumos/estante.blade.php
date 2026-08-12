@@ -126,7 +126,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/tooltips/tooltips.js') }}"></script>
-    <script src="{{ asset('js/insumos/filtrosEstante.js') }}"></script>
+    <script src="{{ asset('js/tooltips/tooltips.js') }}?v={{ filemtime(public_path('js/tooltips/tooltips.js')) }}"></script>
+    <script src="{{ asset('js/insumos/filtrosEstante.js') }}?v={{ filemtime(public_path('js/insumos/filtrosEstante.js')) }}"></script>
 @endsection
 
