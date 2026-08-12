@@ -41,7 +41,7 @@
                     </button>
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
-                    <button type="button" onclick="limpiarFiltrosProductos()" class="btn btn-sm btn-secondary w-100">
+                    <button type="button" class="btn btn-sm btn-secondary w-100" onclick="limpiarFiltrosProductos()">
                         <i class="bi bi-x-circle"></i> Limpiar
                     </button>
                 </div>
@@ -109,7 +109,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/tooltips/tooltips.js') }}"></script>
-    <script src="{{ asset('js/productos/filtrosEstante.js') }}"></script>
     <script src="{{ asset('js/busquedaGeneral.js') }}"></script>
+    <script src="{{ asset('js/tooltips/tooltips.js') }}"></script>
 @endsection
