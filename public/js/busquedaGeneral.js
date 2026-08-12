@@ -1,36 +1,64 @@
-document.getElementById("producto").addEventListener("keypress", function(event) {
-    // Permitir enviar con Enter
-    if (event.key === "Enter") {
-        document.getElementById("formFiltros").submit();
-    }
-});
-
-document.getElementById("insumo").addEventListener("keypress", function(event) {
-    // Permitir enviar con Enter
-    if (event.key === "Enter") {
-        document.getElementById("formFiltros").submit();
-    }
-});
-
-
-function limpiarFiltrosProductos() {
-    // 1. Limpiar los inputs
-    document.getElementById("nombre").value = "";
-    document.getElementById("fecha").value = "";
-
-    // 2. Enviar el formulario vacío (para resetear a todos los registros)
-    document.getElementById("formFiltros").submit();
+const productoInput = document.getElementById("producto");
+if (productoInput) {
+    productoInput.addEventListener("keypress", function(event) {
+        // Permitir enviar con Enter
+        if (event.key === "Enter") {
+            const form = document.getElementById("formFiltros");
+            if (form) {
+                form.submit();
+            }
+        }
+    });
 }
 
-function limpiarFiltrosInsumos() {
-    // 1. Limpiar los inputs
-    document.getElementById("nombre").value = "";
-    document.getElementById("familia").value = "";
-    document.getElementById("fecha").value = "";
-
-    // 2. Enviar el formulario vacío (para resetear a todos los registros)
-    document.getElementById("formFiltros").submit();
+const insumoInput = document.getElementById("insumo");
+if (insumoInput) {
+    insumoInput.addEventListener("keypress", function(event) {
+        // Permitir enviar con Enter
+        if (event.key === "Enter") {
+            const form = document.getElementById("formFiltros");
+            if (form) {
+                form.submit();
+            }
+        }
+    });
 }
+
+window.limpiarFiltrosProductos = function() {
+    const nombre = document.getElementById("nombre");
+    const fecha = document.getElementById("fecha");
+    const form = document.getElementById("formFiltros");
+
+    if (nombre) {
+        nombre.value = "";
+    }
+    if (fecha) {
+        fecha.value = "";
+    }
+    if (form) {
+        form.submit();
+    }
+};
+
+window.limpiarFiltrosInsumos = function() {
+    const nombre = document.getElementById("nombre");
+    const familia = document.getElementById("familia");
+    const fecha = document.getElementById("fecha");
+    const form = document.getElementById("formFiltros");
+
+    if (nombre) {
+        nombre.value = "";
+    }
+    if (familia) {
+        familia.value = "";
+    }
+    if (fecha) {
+        fecha.value = "";
+    }
+    if (form) {
+        form.submit();
+    }
+};
 
 
 
