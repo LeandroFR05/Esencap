@@ -128,6 +128,5 @@
 @section('scripts')
     <script src="{{ asset('js/tooltips/tooltips.js') }}"></script>
     <script src="{{ asset('js/insumos/filtrosEstante.js') }}"></script>
-    <script src="{{ asset('js/busquedaGeneral.js') }}"></script>
 @endsection
 
