@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Requests\InsumoRequest;
 use App\Models\Familia;
 use App\Models\Insumo;
 use App\Models\LoteInsumo;
@@ -135,8 +134,8 @@ class InsumoService
             $query->where('idFamilia', $request->familia);
         })
         // Filtra por fecha
-        ->when($request->filled('ordenarFecha'), function ($query) use ($request) {
-            $direccion = $request->ordenarFecha === 'reciente' ? 'desc' : 'asc';
+        ->when($request->filled('fecha'), function ($query) use ($request) {
+            $direccion = $request->fecha === 'reciente' ? 'desc' : 'asc';
             $query->orderBy(
                 LoteInsumo::select('fechaCompra')
                     ->whereColumn('lote_insumos.idInsumo', 'insumos.idInsumo')
@@ -199,20 +198,37 @@ class InsumoService
 
     public function obtenerHistorial(Request $request)
     {
-        $query = LoteInsumo::with('insumo')->withTrashed();
+        $query = LoteInsumo::withTrashed()->with([
+            'insumo',
+        ]);
 
+        // Filtro por estado
+        if ($request->estado === 'Activo') {
+            $query->where('lote_insumos.estado', true);
+        }
+        if ($request->estado === 'Eliminado') {
+            $query->where('lote_insumos.estado', false);
+        }
+        
+        // Filtro por nombre
         if ($request->filled('insumo')) {
             $query->whereHas('insumo', function ($q) use ($request) {
                 $q->where('nombre', 'like', '%' . $request->insumo . '%');
             });
         }
-
+        
+        // Filtro por fechas
         if ($request->filled('fechaCompra')) {
             $query->whereDate('fechaCompra', $request->fechaCompra);
         }
-
         if ($request->filled('fechaVencimiento')) {
             $query->whereDate('fechaVencimiento', $request->fechaVencimiento);
+        }
+
+        if ($request->input('orden') === 'reciente') {
+            $query->orderBy('fechaCompra', 'desc');
+        } elseif ($request->input('orden') === 'antigua') {
+            $query->orderBy('fechaCompra', 'asc');
         }
 
         return $query->paginate(10)->appends($request->query());

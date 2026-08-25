@@ -16,6 +16,23 @@ class Insumo extends Model
     public $timestamps = false;
     protected $primaryKey = 'idInsumo';
 
+    
+    // Soft delete en cascada para los lotes asociados al insumo
+    protected static function booted()
+    {
+        static::deleting(function (Insumo $insumo) {
+            $insumo->lotes()->update(['estado' => false]);
+            $insumo->lotes()->delete();
+        });
+
+        static::restoring(function (Insumo $insumo) {
+            $lotes = $insumo->lotes()->withTrashed();
+            $lotes->update(['estado' => true]);
+            $lotes->restore();
+        });
+    }
+
+
     protected $fillable = [
         'nombre',
         'foto', 

@@ -40,7 +40,7 @@
                     
                     <!-- Ordenar por fecha -->
                     <div class="col-md-4">
-                        <label for="fecha" class="form-label fw-semibold small">Ordenar por fecha de elaboración</label>
+                        <label for="fecha" class="form-label fw-semibold small">Ordenar por fecha de compra</label>
                         <select id="fecha" name="fecha" class="form-select form-select-sm">
                             <option value="">Sin orden</option>
                             <option value="reciente" {{ request('fecha') === 'reciente' ? 'selected' : '' }}>Más reciente</option>

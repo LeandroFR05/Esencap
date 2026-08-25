@@ -18,24 +18,28 @@ document.getElementById('fechaVencimiento').addEventListener('change', function(
     document.getElementById('formFiltros').submit();
 });
 
-
-document.getElementById('estado').addEventListener('change', function() {
-    const estado = document.getElementById('estado').value;
-    const filas = document.querySelectorAll("#tableHistorial tbody tr");
-
-    filas.forEach(fila => {
-        const celda = fila.getElementsByTagName("td");
-        const estadoTabla = celda[6].textContent.trim();
-
-        const coincideEstado = (estado === "" || estadoTabla === estado);
-
-        if (coincideEstado) {
-            fila.style.display = "";
-        } else {
-            fila.style.display = "none";
-        }
-    });
+document.getElementById('orden').addEventListener('change', function() {
+    document.getElementById('formFiltros').submit();
 });
+
+
+// document.getElementById('estado').addEventListener('change', function() {
+//     const estado = document.getElementById('estado').value;
+//     const filas = document.querySelectorAll("#tableHistorial tbody tr");
+
+//     filas.forEach(fila => {
+//         const celda = fila.getElementsByTagName("td");
+//         const estadoTabla = celda[6].textContent.trim();
+
+//         const coincideEstado = (estado === "" || estadoTabla === estado);
+
+//         if (coincideEstado) {
+//             fila.style.display = "";
+//         } else {
+//             fila.style.display = "none";
+//         }
+//     });
+// });
 
 
 function limpiarFiltros() {
@@ -44,6 +48,7 @@ function limpiarFiltros() {
     document.getElementById('fechaCompra').value = '';
     document.getElementById('fechaVencimiento').value = '';
     document.getElementById('estado').value = '';
+    document.getElementById('orden').value = '';
     // 2. Enviar el formulario vacío (para resetear a todos los registros)
     document.getElementById('formFiltros').submit();
 }

@@ -18,7 +18,7 @@ class FormulaService
                 'idLote' => $lote->idLote,
                 'porcentaje' => $request->porcentaje[$i],
                 'idInsumo' => $request->insumo[$i],
-                'contenido' => $request->contenido[$i],
+                'contenido' => number_format((float) $request->contenido[$i], 2, '.', ''),
             ]);
         }
     }
