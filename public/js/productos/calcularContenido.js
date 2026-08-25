@@ -15,7 +15,7 @@ document.addEventListener('input', function(e) {
 
             let resultado = ((porcentaje * contenidoPorUnidad) / 100) * stockInicial;
 
-            inputContenido.value = resultado;
+            inputContenido.value = resultado.toFixed(2);
         }
 
         // Si cambia stockInicial o contenidoPorUnidad recalcula TODOS
@@ -30,7 +30,7 @@ document.addEventListener('input', function(e) {
 
                     let resultado = ((porcentaje * contenidoPorUnidad) / 100) * stockInicial;
 
-                    inputContenido.value = resultado;
+                    inputContenido.value = resultado.toFixed(2);
                 });
         }
     }

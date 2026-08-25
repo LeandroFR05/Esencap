@@ -22,12 +22,23 @@
                                 placeholder="Buscar cliente..." value="{{ request('cliente', '') }}">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="fecha" class="form-label fw-semibold small">Fecha</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
                             <input type="date" id="fecha" name="fecha" class="form-control"
                                 value="{{ request('fecha', '') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="orden" class="form-label fw-semibold small">Ordenar por fecha</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+                            <select id="orden" name="orden" class="form-select">
+                                <option value="">Sin orden</option>
+                                <option value="reciente" @selected(request('orden') === 'reciente')>Más reciente</option>
+                                <option value="antigua" @selected(request('orden') === 'antigua')>Más antigua</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-2">

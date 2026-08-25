@@ -51,6 +51,12 @@ class VentaController extends Controller
             $query->whereDate('fecha', $request->fecha);
         }
 
+        if ($request->input('orden') === 'reciente') {
+            $query->orderBy('fecha', 'desc');
+        } elseif ($request->input('orden') === 'antigua') {
+            $query->orderBy('fecha', 'asc');
+        }
+
         $ventas = $query->paginate(10)->appends($request->query());
 
         return view('ventas.historial', compact('ventas'));
