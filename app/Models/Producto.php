@@ -14,6 +14,24 @@ class Producto extends Model
 
     public $timestamps = false;
     protected $primaryKey = 'idProducto';
+    
+
+    // Soft delete en cascada para los lotes asociados al producto
+    protected static function booted()
+    {
+        static::deleting(function (Producto $producto) {
+            $producto->lotes()->update(['estado' => false]);
+            $producto->lotes()->delete();
+        });
+
+        static::restoring(function (Producto $producto) {
+            $lotes = $producto->lotes()->withTrashed();
+            $lotes->update(['estado' => true]);
+            $lotes->restore();
+        });
+    }
+
+    
 
     
     //Campos editables

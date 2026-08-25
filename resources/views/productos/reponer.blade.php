@@ -35,7 +35,6 @@
                                     class="form-control stockInicial @error('stockInicial') is-invalid @enderror"
                                     value="{{ old('stockInicial') }}"
                                     required>
-
                                 <span class="input-group-text">unidades</span>
 
                                 @error('stockInicial')
@@ -66,7 +65,6 @@
                                     class="form-control contenidoPorUnidad @error('contenidoPorUnidad') is-invalid @enderror"
                                     readonly
                                     required>
-
                                 <span class="input-group-text">gramos</span>
 
                                 @error('contenidoPorUnidad')
@@ -118,7 +116,7 @@
                                     <!-- Porcentaje -->
                                     <div class="col">
                                         <div class="input-group">
-                                            <input type="number" name="porcentaje[]" value="{{ $fila->porcentaje }}" class="form-control form-control-sm porcentaje" required>
+                                            <input type="number" name="porcentaje[]" value="{{ $fila->porcentaje }}" class="form-control form-control-sm porcentaje" step="0.01" required>
                                             <span class="input-group-text w-25 d-flex justify-content-center">%</span>   
                                         </div>
                                     </div>
@@ -137,7 +135,7 @@
                                     <!-- Contenido -->
                                     <div class="col">
                                         <div class="input-group">
-                                            <input type="number" name="contenido[]" value="{{ $fila->contenido }}" class="form-control form-control-sm contenido" readonly>
+                                            <input type="number" name="contenido[]" value="{{ number_format((float) $fila->contenido, 2, '.', '') }}" class="form-control form-control-sm contenido" step="0.01" readonly>
                                             <span class="input-group-text w-25 d-flex justify-content-center">gr</span>
                                         </div>
                                     </div>

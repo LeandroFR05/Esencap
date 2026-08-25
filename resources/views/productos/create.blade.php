@@ -113,7 +113,7 @@
                                         <!-- Porcentaje -->
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" value="{{ $porcentaje }}" required>
+                                                <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" value="{{ $porcentaje }}" step="0.01" required>
                                                 <span class="input-group-text input-group-text-sm">%</span>
                                             </div>
                                         </div>
@@ -129,7 +129,7 @@
                                         <!-- Contenido -->
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="number" name="contenido[]" class="form-control form-control-sm contenido" readonly value="{{ $oldContenidos[$index] ?? '' }}">
+                                                <input type="number" name="contenido[]" class="form-control form-control-sm contenido" readonly value="{{ isset($oldContenidos[$index]) && $oldContenidos[$index] !== '' ? number_format((float) $oldContenidos[$index], 2, '.', '') : '' }}" step="0.01">
                                                 <span class="input-group-text input-group-text-sm">gr</span>
                                             </div>
                                         </div>
@@ -155,7 +155,7 @@
                                     <!-- Porcentaje -->
                                     <div class="col">
                                         <div class="input-group">
-                                            <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" required>
+                                            <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" step="0.01" required>
                                             <span class="input-group-text input-group-text-sm">%</span>
                                         </div>
                                     </div>

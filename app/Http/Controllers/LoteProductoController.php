@@ -9,11 +9,17 @@ class LoteProductoController extends Controller
 {
     public function historial(Request $request)
     {
-        $query = LoteProducto::with([
+        $query = LoteProducto::withTrashed()->with([
             'producto',
-            'formulas.insumo',
-            'formulas.familia',
-        ])->withTrashed();
+        ]);
+
+        // Filtro por estado
+        if ($request->estado === 'Activo') {
+            $query->where('lote_productos.estado', true);
+        }
+        if ($request->estado === 'Eliminado') {
+            $query->where('lote_productos.estado', false);
+        }
 
         // Filtro por producto
         if ($request->filled('producto')) {
@@ -25,6 +31,12 @@ class LoteProductoController extends Controller
         // Filtro por fecha
         if ($request->filled('fecha')) {
             $query->whereDate('fechaElaboracion', $request->fecha);
+        }
+
+        if ($request->input('orden') === 'reciente') {
+            $query->orderBy('fechaElaboracion', 'desc');
+        } elseif ($request->input('orden') === 'antigua') {
+            $query->orderBy('fechaElaboracion', 'asc');
         }
 
         $historial = $query->paginate(10)->appends($request->query());

@@ -36,8 +36,19 @@
                             <span class="input-group-text"><i class="bi bi-flag"></i></span>
                             <select id="estado" name="estado" class="form-select">
                                 <option value="">Todos</option>
-                                <option value="Activo">Activo</option>
-                                <option value="Eliminado">Eliminado</option>
+                                <option value="Activo" @selected(request('estado') === 'Activo')>Activo</option>
+                                <option value="Eliminado" @selected(request('estado') === 'Eliminado')>Eliminado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="orden" class="form-label fw-semibold small">Ordenar por fecha</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+                            <select id="orden" name="orden" class="form-select">
+                                <option value="">Sin orden</option>
+                                <option value="reciente" @selected(request('orden') === 'reciente')>Más reciente</option>
+                                <option value="antigua" @selected(request('orden') === 'antigua')>Más antigua</option>
                             </select>
                         </div>
                     </div>
@@ -99,9 +110,9 @@
                                     <td>{{ $h->stockActual }}u</td>
                                     <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
                                     <td>
-                                        @if ($h->estado == 1 && $h->producto->estado == 1)
+                                        @if ($h->estado == 1)
                                             <span class="badge bg-success w-100">Activo</span>
-                                        @elseif ($h->estado == 0 || $h->producto->estado == 0)
+                                        @elseif ($h->estado == 0)
                                             <span class="badge bg-danger w-100">Eliminado</span>
                                         @else
                                             <span class="badge bg-secondary w-100">{{ $h->producto->estado }}</span>
