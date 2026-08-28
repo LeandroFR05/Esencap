@@ -95,6 +95,8 @@ Route::get('/manual/descargar', [ManualController::class, 'descargar'])->middlew
 // USER PROFILE ROUTES
 Route::get('/profile', [UserController::class, 'show'])->middleware('auth')->name('profile');
 Route::put('/profile', [UserController::class, 'update'])->middleware('auth')->name('profile.update');
+Route::get('/profile/password', [UserController::class, 'mostrarCambiarContraseña'])->middleware('auth')->name('profile.password');
+Route::put('/profile/password', [UserController::class, 'cambiarContraseña'])->middleware('auth')->name('profile.password.update');
 
 
 

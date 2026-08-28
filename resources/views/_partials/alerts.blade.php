@@ -33,23 +33,15 @@
 
 <!-- @if ($errors->any())
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-
-            let lista = `
-                <ul style="text-align:left;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            `;
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Errores encontrados',
-                html: lista,
-                confirmButtonText: 'Aceptar'
-            });
-
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Error',
+                    text: "{{ $errors->first() }}",
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            }
         });
     </script>
 @endif -->
