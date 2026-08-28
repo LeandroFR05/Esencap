@@ -44,7 +44,7 @@ class VentaController extends Controller
         $query = Venta::with('detalleVentas.producto');
 
         if ($request->filled('cliente')) {
-            $query->where('cliente', 'like', '%' . $request->cliente . '%');
+            $query->whereRaw('LOWER(cliente) LIKE LOWER(?)', ['%' . $request->cliente . '%']);
         }
 
         if ($request->filled('fecha')) {
