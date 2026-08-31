@@ -149,6 +149,7 @@ class InsumoService
 
         return compact('insumos', 'familias');
     }
+    
 
     public function crearInsumo(Request $request): Insumo
     {

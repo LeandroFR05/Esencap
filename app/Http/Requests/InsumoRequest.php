@@ -28,7 +28,7 @@ class InsumoRequest extends FormRequest
             'idFamilia' => 'required|sometimes|exists:familias,idFamilia',
             'stockInicial' => 'required|sometimes|numeric|max:999999.99',
             'fechaCompra' => 'bail|sometimes|required|date_format:Y-m-d|before_or_equal:today',
-            'fechaVencimiento' => 'bail|sometimes|required|date_format:Y-m-d',
+            'fechaVencimiento' => 'bail|sometimes|required|date_format:Y-m-d|after:fechaCompra',
         ];
     }
 
@@ -62,6 +62,7 @@ class InsumoRequest extends FormRequest
             'fechaVencimiento.required' => 'La fecha de vencimiento es obligatoria.',
             'fechaVencimiento.date' => 'La fecha de vencimiento no es válida.',
             'fechaVencimiento.date_format' => 'El formato de fecha no es correcto.',
+            'fechaVencimiento.after' => 'La fecha de vencimiento debe ser posterior a la fecha de compra.',
         ];
     }
 

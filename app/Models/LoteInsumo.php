@@ -20,7 +20,7 @@ class LoteInsumo extends Model
     {
         static::creating(function ($loteInsumo) {
             if (empty($loteInsumo->numeroLote)) {
-                $maxLote = static::where('idInsumo', $loteInsumo->idInsumo)->max('numeroLote');
+                $maxLote = static::where('idInsumo', $loteInsumo->idInsumo)->withTrashed()->max('numeroLote');
                 $loteInsumo->numeroLote = ($maxLote ?? 0) + 1;
             }
         });

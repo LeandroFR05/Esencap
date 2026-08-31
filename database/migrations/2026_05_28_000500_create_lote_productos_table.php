@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lote_productos', function (Blueprint $table) {
             $table->increments('idLote');
             $table->smallInteger('numeroLote');
-            $table->foreignId('idUsuario')->constrained('users')->cascadeOnDelete();
+            $table->unsignedBigInteger('idUsuario');
             $table->unsignedInteger('idProducto');
             $table->smallInteger('stockInicial');
             $table->smallInteger('stockActual');
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->softDeletes();
 
             // Foreign key
+            $table->foreign('idUsuario')->references('id')->on('users');
             $table->foreign('idProducto')->references('idProducto')->on('productos')->cascadeOnDelete();
 
             // Unique constraint

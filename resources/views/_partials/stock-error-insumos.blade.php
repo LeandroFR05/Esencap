@@ -76,7 +76,7 @@
             html += `
                         <tr style="background-color:#f9f9f9; font-weight:700;">
                             <td style="border:1px solid #ddd; padding:8px; text-align:center;" colspan="2">Total</td>
-                            <td style="border:1px solid #ddd; padding:8px; text-align:center;">${totalStockActual}</td>
+                            <td style="border:1px solid #ddd; padding:8px; text-align:center;">${totalStockActual.toFixed(2)}</td>
                             <td style="border:1px solid #ddd; padding:8px; text-align:center;">${data.unidad}</td>
                             <td style="border:1px solid #ddd; padding:8px; text-align:center;"></td>
                         </tr>

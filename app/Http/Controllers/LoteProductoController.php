@@ -45,11 +45,11 @@ class LoteProductoController extends Controller
     }
 
 
-    public function eliminar(LoteProducto $loteProducto, Request $request)
+    public function eliminar(Request $request, LoteProducto $lote)
     {
-        $loteProducto->estado = false; 
-        $loteProducto->save(); 
-        $loteProducto->delete();
+        $lote->estado = false;
+        $lote->save();
+        $lote->delete();
 
         $redirectTo = url()->previous() ?: route('productos.lotes', $request->input('idProducto'));
 

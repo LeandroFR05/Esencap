@@ -23,7 +23,7 @@ class LoteProducto extends Model
     {
         static::creating(function ($loteProducto) {
             if (empty($loteProducto->numeroLote)) {
-                $maxLote = static::where('idProducto', $loteProducto->idProducto)->max('numeroLote');
+                $maxLote = static::where('idProducto', $loteProducto->idProducto)->withTrashed()->max('numeroLote');
                 $loteProducto->numeroLote = ($maxLote ?? 0) + 1;
             }
         });

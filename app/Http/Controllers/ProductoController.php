@@ -156,7 +156,8 @@ class ProductoController extends Controller
         $lote = LoteProducto::with([
             'formulas.insumo.familia',
             'formulas.insumo',
-        ])->where('idProducto', $producto->idProducto)->orderBy('fechaElaboracion', 'desc')->first();
+        ])->where('idProducto', $producto->idProducto)->orderBy('fechaElaboracion', 'desc')
+        ->withTrashed()->first();
 
         return view('productos.reponer', compact('producto', 'lote', 'familias'));
     }

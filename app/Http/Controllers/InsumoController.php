@@ -66,6 +66,7 @@ class InsumoController extends Controller
 
     public function reponer(Insumo $insumo): View {
         $ultimoNumero = LoteInsumo::where('idInsumo', $insumo->idInsumo)
+            ->withTrashed()
             ->max('numeroLote');
         $nuevoNumero = $ultimoNumero ? $ultimoNumero + 1 : 1;
 
