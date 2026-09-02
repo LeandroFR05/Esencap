@@ -39,7 +39,7 @@ class VentaRequest extends FormRequest
 
             'fecha.required' => 'La fecha es obligatoria.',
             'fecha.date' => 'La fecha no es válida.',
-            'fecha.date_format' => 'El formato de fecha debe ser DD-MM-YYYY.',
+            'fecha.date_format' => 'El formato de fecha debe ser DD/MM/YYYY.',
         ];
     }
 }

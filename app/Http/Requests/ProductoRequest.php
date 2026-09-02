@@ -43,7 +43,7 @@ class ProductoRequest extends FormRequest
             'foto.dimensions' => 'Máximo permitido: 2000x2000px.',
 
             'fechaElaboracion.required' => 'La fecha de vencimiento es obligatoria.',
-            'fechaElaboracion.date_format' => 'El formato de fecha no es correcto.',
+            'fechaElaboracion.date_format' => 'El formato de fecha debe ser DD/MM/YYYY.',
         ];
     }
 }

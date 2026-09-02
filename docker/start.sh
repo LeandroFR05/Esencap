@@ -17,6 +17,7 @@ php artisan package:discover --ansi
 echo "🔗 Creando enlace de storage..."
 php artisan storage:link --force 2>/dev/null || true
 
+
 echo "⚡ Cacheando configuración, rutas y vistas..."
 php artisan config:cache
 php artisan route:cache
@@ -24,8 +25,9 @@ php artisan view:cache
 
 # ── Migraciones ────────────────────────────────────────────────────────────────
 echo "🗄️  Ejecutando migraciones y seeders..."
-php artisan migrate --force
-# php artisan migrate:fresh --force --seed
+# php artisan migrate --force
+php artisan migrate:fresh --force --seed
+
 
 # ── Iniciar servicios ──────────────────────────────────────────────────────────
 echo "✅ Iniciando PHP-FPM..."

@@ -56,12 +56,12 @@ class InsumoRequest extends FormRequest
 
             'fechaCompra.required' => 'La fecha de compra es obligatoria.',
             'fechaCompra.date' => 'La fecha de compra no es válida.',
-            'fechaCompra.date_format' => 'El formato de fecha no es correcto.',
+            'fechaCompra.date_format' => 'El formato de fecha debe ser DD/MM/YYYY.',
             'fechaCompra.before_or_equal' => 'La fecha de compra no puede ser futura.',
 
             'fechaVencimiento.required' => 'La fecha de vencimiento es obligatoria.',
             'fechaVencimiento.date' => 'La fecha de vencimiento no es válida.',
-            'fechaVencimiento.date_format' => 'El formato de fecha no es correcto.',
+            'fechaVencimiento.date_format' => 'El formato de fecha debe ser DD/MM/YYYY.',
             'fechaVencimiento.after' => 'La fecha de vencimiento debe ser posterior a la fecha de compra.',
         ];
     }
