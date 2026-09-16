@@ -18,15 +18,12 @@ class UserProfileTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->put(route('profile.update'), [
-                'name' => $user->name,
-                'email' => $user->email,
+            ->put(route('profile.password.update'), [
                 'current_password' => 'password-incorrecta',
                 'new_password' => 'password-nueva',
                 'new_password_confirmation' => 'password-nueva',
             ])
-            ->assertSessionHas('error', 'Contraseña actual incorrecta')
-            ->assertSessionDoesntHaveErrors();
+            ->assertSessionHasErrors(['current_password' => 'La contraseña actual es incorrecta.']);
 
         $this->assertTrue(Hash::check('password-original', $user->fresh()->password));
     }
@@ -38,14 +35,12 @@ class UserProfileTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->put(route('profile.update'), [
-                'name' => $user->name,
-                'email' => $user->email,
+            ->put(route('profile.password.update'), [
                 'current_password' => 'password-original',
                 'new_password' => 'password-nueva',
                 'new_password_confirmation' => 'password-nueva',
             ])
-            ->assertSessionHas('success', 'Perfil actualizado correctamente.');
+            ->assertSessionHas('success', 'Contraseña actualizada correctamente.');
 
         $this->assertTrue(Hash::check('password-nueva', $user->fresh()->password));
     }
@@ -57,14 +52,12 @@ class UserProfileTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->put(route('profile.update'), [
-                'name' => $user->name,
-                'email' => $user->email,
+            ->put(route('profile.password.update'), [
                 'current_password' => 'password-original',
                 'new_password' => 'password-nueva',
                 'new_password_confirmation' => 'password-distinta',
             ])
-            ->assertSessionHas('error', 'Las contraseñas no coinciden');
+            ->assertSessionHasErrors(['new_password' => 'No coincide con la nueva contraseña.']);
 
         $this->assertTrue(Hash::check('password-original', $user->fresh()->password));
     }

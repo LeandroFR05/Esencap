@@ -70,10 +70,16 @@
       crossorigin="anonymous"
     />
     @yield('styles')
+    <style>
+      .app-header .breadcrumb {
+        margin-left: 4px;
+        transform: translateY(3px);
+      }
+    </style>
   </head>
   
 
-  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+  <body class="layout-fixed sidebar-expand-lg">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
       <!--begin::Header-->
@@ -87,10 +93,11 @@
                 <i class="bi bi-list"></i>
               </a>
             </li>
+            <li class="nav-item d-flex align-items-center">
+              <h6 class="breadcrumb mb-0">@yield('title')</h6>
+            </li>
           </ul>
-          <!--end::Start Navbar Links-->
 
-          <!--begin::End Navbar Links-->
           <ul class="navbar-nav ms-auto">
             <!--begin::Fullscreen Toggle-->
             <li class="nav-item">
@@ -125,13 +132,9 @@
         <!--begin::App Content Header-->
         <div class="app-content-header">
           <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-
-            <h4 class="mb-0">@yield('title')</h4>
-              
-            <!--end::Row-->
-          </div>
+          <!-- <div class="container-fluid col-md-10">
+            <h5 class="title mb-0">@yield('title')</h5>
+          </div> -->
           <!--end::Container-->
         </div>
         <!--end::App Content Header-->

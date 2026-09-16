@@ -1,5 +1,5 @@
-<label for="dropzone-file" id="dropzone-label" class="d-flex flex-column align-items-center justify-content-center w-100 border border-2 border-dashed border-secondary rounded-3 bg-light position-relative overflow-hidden" style="height: 15rem; cursor: pointer;">
-    <div id="dropzone-content" class="d-flex flex-column align-items-center justify-content-center pt-5 pb-6">
+<label for="dropzone-file" id="dropzone-label" class="d-flex flex-column align-items-center justify-content-center w-100 rounded-3 position-relative overflow-hidden" style="height: 19.5rem; cursor: pointer;">
+    <div class="dropzone-content">
         <svg class="mb-4 text-secondary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16" width="40" height="40">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
         </svg>
@@ -15,3 +15,26 @@
 
     <input id="dropzone-file" name="foto" type="file" class="d-none" accept="image/*" />
 </label>
+
+<style>
+    #dropzone-label {
+        background-color: rgb(228, 255, 234);
+
+        svg {
+            background-color: rgb(183, 255, 198);
+            border-radius: 8px;
+            height: 3rem;
+            width: 3rem;
+            padding: 8px;
+        }
+    }
+    .dropzone-content svg {
+        display: block;
+        margin: auto;
+    }
+    .dropzone-content p {
+        text-align: center;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+</style>

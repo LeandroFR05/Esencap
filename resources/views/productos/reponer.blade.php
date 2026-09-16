@@ -4,7 +4,9 @@
     {{ Breadcrumbs::render('reponerProducto', $producto) }}
 @endsection
 
-<link rel="stylesheet" href="{{ asset('css/Productos/estCreate.css') }}">
+@section('styles')
+    @vite('resources/css/Productos/estReponer.css')
+@endsection
 
 @section('content')
     @component('components.cards')
