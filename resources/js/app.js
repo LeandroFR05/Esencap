@@ -1,3 +1,5 @@
+import '../css/estGeneral.css';
+
 // AdminLTE
 import 'admin-lte/dist/js/adminlte.js';
 

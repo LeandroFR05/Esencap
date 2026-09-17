@@ -1,20 +1,27 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
+
 @section('page', 'Productos')
+
 @section('title')
-    <div class="d-flex justify-content-between align-items-center">
         {{ Breadcrumbs::render('productos') }}
-        <div class="d-flex gap-2">
-            <a href="{{ route('productos.eliminados') }}" class="btn btn-danger">
-                <i class="bi bi-trash"></i> Ver productos eliminados
-            </a>
-            <a href="{{ route('productos.create') }}" class="btn btn-success">
-                <i class="bi bi-plus-lg"></i> Nuevo Producto
-            </a>
-        </div>
-    </div>
 @endsection
 
+@section('styles')
+    @vite('resources/css/estEstante.css')
+@endsection
+
+<!-- CONTENIDO -->
 @section('content')
+    <div class="container-btn">
+        <a href="{{ route('productos.eliminados') }}" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Ver productos eliminados
+        </a>
+        <a href="{{ route('productos.create') }}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> Nuevo Producto
+        </a>
+    </div>
+
     <div class="card shadow-sm mb-3">
         <div class="card-body p-3">
             <form method="GET" action="{{ route('productos.estante') }}" id="formFiltros" class="row g-3">

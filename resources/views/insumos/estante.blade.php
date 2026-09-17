@@ -1,20 +1,27 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
+
 @section('page', 'Insumos')
+
 @section('title')
-    <div class="d-flex justify-content-between align-items-center">
         {{ Breadcrumbs::render('insumos') }}
-        <div class="d-flex gap-2">
-            <a href="{{ route('insumos.eliminados') }}" class="btn btn-danger">
-                <i class="bi bi-trash"></i> Ver insumos eliminados
-            </a>
-            <a href="{{ route('insumos.create') }}" class="btn btn-success">
-                <i class="bi bi-plus-lg"></i> Nuevo Insumo
-            </a>
-        </div>
-    </div>
 @endsection
 
+@section('styles')
+    @vite('resources/css/estEstante.css')
+@endsection
+
+<!-- CONTENIDO -->
 @section('content')
+    <div class="container-btn">
+        <a href="{{ route('insumos.eliminados') }}" class="btn btn-danger">
+            <i class="bi bi-trash"></i> Ver insumos eliminados
+        </a>
+        <a href="{{ route('insumos.create') }}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> Nuevo Insumo
+        </a>
+    </div>
+
     <div class="card shadow-sm mb-3">
         <div class="card-body p-3">
             
