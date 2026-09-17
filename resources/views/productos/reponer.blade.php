@@ -190,7 +190,7 @@
         @component('components.cards')
             @slot('contenido')
                 <button type="submit" id="btn-submit" class="btn w-100">
-                    <i class="bi bi-check-circle me-1"></i> Guardar
+                    <i class="bi bi-floppy me-1"></i> Guardar
                 </button>
             @endslot
         @endcomponent

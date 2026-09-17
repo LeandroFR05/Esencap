@@ -22,6 +22,7 @@
                 @endslot
                 @slot('contenido')
                     <!-- Nombre -->
+                    <div class="mb-3">
                     <x-input-group 
                         name="nombre"
                         label="Nombre"
@@ -30,6 +31,7 @@
                         value="{{ old('nombre') }}"
                         required
                     />
+                    </div>
 
                     <div class="row g-3 justify-content-center">
                         <!-- Stock inicial -->
@@ -90,6 +92,7 @@
                     </div>
 
                     <!-- Fecha de Elaboración -->
+                    <div class="mb-3">
                     <x-input-group
                         name="fechaElaboracion"
                         label="Fecha de Elaboración"
@@ -98,6 +101,7 @@
                         value="{{ old('fechaElaboracion') }}"
                         required
                     />
+                    </div>
                 @endslot
             @endcomponent
 
@@ -234,7 +238,7 @@
         @component('components.cards')
             @slot('contenido')
                 <button type="submit" id="btn-submit" class="btn w-100">
-                    <i class="bi bi-check-circle me-1"></i> Guardar en el estante
+                    <i class="bi bi-floppy me-1"></i> Guardar en el estante
                 </button>
             @endslot
         @endcomponent

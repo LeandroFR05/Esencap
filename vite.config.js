@@ -9,7 +9,8 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/Productos/estCreate.css',
                 'resources/css/Productos/estReponer.css',
-                'resources/css/Productos/estEstante.css'
+                'resources/css/Productos/estEstante.css',
+                'resources/css/Insumos/estCreate.css',
             ],
             refresh: true,
         }),

@@ -9,6 +9,7 @@
 
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
+    @vite('resources/css/Insumos/estCreate.css')
 @endsection
 
 <!-- CONTENIDO -->
@@ -22,6 +23,7 @@
                 @endslot
                 @slot('contenido')
                     <!-- Nombre -->
+                    <div class="mb-3">
                     <x-input-group 
                         name="nombre"
                         label="Nombre"
@@ -30,8 +32,10 @@
                         value="{{ old('nombre') }}"
                         required
                     />
+                    </div>
                         
                     <!-- Stock inicial -->
+                    <div class="mb-3">
                     <x-input-group name="stockInicial" label="Stock inicial" icon="bi-boxes" value="{{ old('stockInicial') }}" type="number" step="0.01" required>
                         <x-slot:select>
                             <select name="unidadDeMedida" id="unidadDeMedida" class="form-select">
@@ -42,8 +46,9 @@
                             </select>
                         </x-slot:select>
                     </x-input-group>
+                    </div>
 
-                    <div class="row g-3 justify-content-center">
+                    <div class="row g-3 mb-3 justify-content-center">
                         <!-- Familia -->
                         <div class="col-md-6">
                             <x-input-group name="idFamilia" label="Familia" icon="bi-diagram-3">
@@ -120,7 +125,7 @@
     @component('components.cards')
         @slot('contenido')
             <button type="submit" id="btn-submit" form="form-insumo" class="btn w-100">
-                <i class="bi bi-check-circle me-1"></i> Guardar en el estante
+                <i class="bi bi-floppy me-1"></i> Guardar en el estante
             </button>
         @endslot
     @endcomponent
