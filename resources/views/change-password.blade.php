@@ -1,8 +1,17 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
 
 @section('page', 'Cambiar contraseña')
-@section('title', 'Cambiar contraseña')
 
+@section('title')
+    {{ Breadcrumbs::render('password') }}
+@endsection
+
+@section('styles')
+    @vite('resources/css/Productos/estCreate.css')
+@endsection
+
+<!-- CONTENIDO -->
 @section('content')
     @component('components.cards')
         @slot('titulo')
@@ -45,8 +54,11 @@
                 </div>
             </form>
         @endslot
+    @endcomponent
+    <br>
 
-        @slot('footer')
+    @component('components.cards')
+        @slot('contenido')
             <div class="d-flex justify-content-between">
                 <a href="{{ route('profile') }}" class="btn btn-outline-secondary">
                     <i class="bi bi-arrow-left me-1"></i>Volver al perfil

@@ -1,18 +1,24 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
+
 @section('page', 'Historial')
+
 @section('title')
     {{ Breadcrumbs::render('historialGeneral') }}
 @endsection
 
-@section('content')
+@section('styles')
+    @vite('resources/css/Productos/estCreate.css')
+@endsection
 
-    {{-- Filtros --}}
-    @component('components.cards')
-        @slot('titulo')
-            <i class="bi bi-funnel me-2"></i>Filtros
-        @endslot
-        @slot('contenido')
-            <form method="GET" action="{{ route('productos.historial') }}" id="formFiltros">
+<!-- CONTENIDO -->
+@section('content')
+    <form method="GET" action="{{ route('productos.historial') }}" id="formFiltros">
+        @component('components.cards')
+            @slot('titulo')
+                <i class="bi bi-funnel me-2"></i>Filtros
+            @endslot
+            @slot('contenido')
                 <div class="row g-3 align-items-end">
                     <div class="col-md-4">
                         <label for="producto" class="form-label fw-semibold small">Producto</label>
@@ -52,23 +58,23 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-search"></i> Buscar
                         </button>
                     </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-secondary w-100" onclick="limpiarFiltros()">
-                            Limpiar
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-danger w-100" onclick="limpiarFiltros()">
+                            <i class="bi bi-trash"></i> Limpiar filtros
                         </button>
                     </div>
                 </div>
-            </form>
-        @endslot
-    @endcomponent
-
+            @endslot
+        @endcomponent
+    </form>
+        
+    
     <br>
-    {{-- Tabla --}}
     @component('components.cards')
         @slot('titulo')
             <i class="bi bi-clock-history me-2"></i>Historial de productos

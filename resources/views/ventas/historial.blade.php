@@ -1,18 +1,24 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
+
 @section('page', 'Historial de ventas')
+
 @section('title')
     {{ Breadcrumbs::render('ventasHistorial') }}
 @endsection
 
-@section('content')
+@section('styles')
+    @vite('resources/css/Productos/estCreate.css')
+@endsection
 
-    {{-- Filtros --}}
-    @component('components.cards')
-        @slot('titulo')
-            <i class="bi bi-funnel me-2"></i>Filtros
-        @endslot
-        @slot('contenido')
-            <form method="GET" action="{{ route('ventas.historial') }}" id="formFiltros">
+<!-- CONTENIDO -->
+@section('content')
+    <form method="GET" action="{{ route('ventas.historial') }}" id="formFiltros">
+        @component('components.cards')
+            @slot('titulo')
+                <i class="bi bi-funnel me-2"></i>Filtros
+            @endslot
+            @slot('contenido')
                 <div class="row g-3 align-items-end">
                     <div class="col-md-4">
                         <label for="cliente" class="form-label fw-semibold small">Cliente</label>
@@ -22,7 +28,7 @@
                                 placeholder="Buscar cliente..." value="{{ request('cliente', '') }}">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="fecha" class="form-label fw-semibold small">Fecha</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
@@ -41,19 +47,17 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-secondary w-100" onclick="limpiarFiltros()">
-                            Limpiar
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-danger w-100" onclick="limpiarFiltros()">
+                            <i class="bi bi-trash"></i> Limpiar filtros
                         </button>
                     </div>
                 </div>
-            </form>
-        @endslot
-    @endcomponent
+            @endslot
+        @endcomponent
+    </form><br>
 
-    <br>
 
-    {{-- Tabla --}}
     @component('components.cards')
         @slot('titulo')
             <i class="bi bi-bag-check me-2"></i>Historial de ventas
@@ -62,9 +66,7 @@
             @slot('bodyClass', 'p-0')
             @slot('contenido')
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle mb-0"
-                        style="table-layout: fixed; width: 100%;"
-                        id="tableHistorial">
+                    <table class="table table-bordered table-hover align-middle mb-0" id="tableHistorial">
                         <thead class="table-dark">
                             <tr>
                                 <th class="sortable" data-col="0" data-dir="asc" style="width: 180px;">

@@ -128,6 +128,18 @@ Breadcrumbs::for('historialGeneral', function (BreadcrumbTrail $trail) {
         $trail->push('Historial de Ventas', route('ventas.index'));
     });
 
+
+//PERFIL
+    Breadcrumbs::for('perfil', function (BreadcrumbTrail $trail) {
+        $trail->parent('home');
+        $trail->push('Perfil', route('profile'));
+    });
+
+    Breadcrumbs::for('password', function (BreadcrumbTrail $trail) {
+        $trail->parent('perfil');
+        $trail->push('Cambiar contraseña', route('change-password'));
+    });
+
 // Home > Blog
 // Breadcrumbs::for('blog', function (BreadcrumbTrail $trail) {
 //     $trail->parent('home');

@@ -1,18 +1,24 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
+
 @section('page', 'Historial')
+
 @section('title')
     {{ Breadcrumbs::render('historialInsumos') }}
 @endsection
 
-@section('content')
+@section('styles')
+    @vite('resources/css/Productos/estCreate.css')
+@endsection
 
-    {{-- Filtros --}}
-    @component('components.cards')
-        @slot('titulo')
-            <i class="bi bi-funnel me-2"></i>Filtros
-        @endslot
-        @slot('contenido')
-            <form method="GET" action="{{ route('insumos.historial') }}" id="formFiltros">
+<!-- CONTENIDO -->
+@section('content')
+    <form method="GET" action="{{ route('insumos.historial') }}" id="formFiltros">
+        @component('components.cards')
+            @slot('titulo')
+                <i class="bi bi-funnel me-2"></i>Filtros
+            @endslot
+            @slot('contenido')
                 <div class="row g-3 align-items-end">
                     <div class="col-md-4">
                         <label for="insumo" class="form-label fw-semibold small">Insumo</label>
@@ -66,17 +72,16 @@
                         </button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-secondary w-100" onclick="limpiarFiltros()">
-                            Limpiar
+                        <button type="button" class="btn btn-danger w-100" onclick="limpiarFiltros()">
+                            <i class="bi bi-trash"></i> Limpiar filtros
                         </button>
                     </div>
                 </div>
-            </form>
-        @endslot
-    @endcomponent
+            @endslot
+        @endcomponent
+    </form>
 
     <br>
-    {{-- Tabla --}}
     @component('components.cards')
         @slot('titulo')
             <i class="bi bi-clock-history me-2"></i>Historial de insumos

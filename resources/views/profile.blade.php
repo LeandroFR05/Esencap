@@ -1,14 +1,22 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
 
 @section('page', 'Perfil')
-@section('title', 'Perfil de Usuario')
 
+@section('title')
+    {{ Breadcrumbs::render('perfil') }}
+@endsection
+
+@section('styles')
+    @vite('resources/css/Productos/estCreate.css')
+@endsection
+
+<!-- CONTENIDO -->
 @section('content')
     @component('components.cards')
         @slot('titulo')
             <i class="bi bi-person-circle me-2"></i>Datos del usuario
         @endslot
-
         @slot('contenido')
             <form id="form-perfil" action="{{ route('profile.update') }}" method="POST">
                 @csrf
@@ -39,7 +47,7 @@
                 </div>
 
                 <div class="row g-3 mb-4">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label for="created_at" class="form-label fw-semibold">Fecha de creación</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-calendar-plus"></i></span>
@@ -47,7 +55,7 @@
                                    value="{{ $user->created_at->format('d/m/Y') }}" readonly>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label for="updated_at" class="form-label fw-semibold">Última modificación</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
@@ -57,13 +65,13 @@
                         </div>
                     </div>
                 </div>
-
-                <hr>
-
             </form>
         @endslot
+    @endcomponent
+    <br>
 
-        @slot('footer')
+    @component('components.cards')
+        @slot('contenido')
             <div class="d-flex justify-content-between">
                 <a href="{{ route('profile.password') }}" class="btn btn-outline-secondary">
                     <i class="bi bi-shield-lock me-1"></i>Cambiar contraseña

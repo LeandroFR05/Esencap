@@ -8,7 +8,7 @@ const btnAgregar = document.getElementById('btn-agregar');
 const carritoBody = document.getElementById('carrito-body');
 const carritoInput = document.getElementById('carrito-input');
 const totalGeneral = document.getElementById('total-general');
-const btnRegistrar = document.getElementById('btn-registrar');
+const btnRegistrar = document.getElementById('btn-submit');
 const formVenta = document.getElementById('form-venta');
 
 let carrito = [];
@@ -86,13 +86,13 @@ producto.addEventListener('input', function() {
 });
 
 // Ocultar lista al perder foco
-producto.addEventListener('blur', function() {
-    setTimeout(() => {
-        if (!busquedaActiva) {
-            lista.innerHTML = '';
-        }
-    }, 200);
-});
+// producto.addEventListener('blur', function() {
+//     setTimeout(() => {
+//         if (!busquedaActiva) {
+//             lista.innerHTML = '';
+//         }
+//     }, 200);
+// });
 
 // Agregar producto al carrito
 btnAgregar.addEventListener('click', function() {
@@ -164,7 +164,7 @@ function renderizarCarrito() {
         tr.innerHTML = `
             <td>${item.nombre}</td>
             <td>
-                <input type="number" class="form-control form-control-sm input-cantidad" value="${item.cantidad}" min="1" data-index="${index}" style="width: 80px;">
+                <input type="number" class="form-control form-control-sm input-cantidad" value="${item.cantidad}" min="1" data-index="${index}">
             </td>
             <td>
                 <div class="input-group input-group-sm">
