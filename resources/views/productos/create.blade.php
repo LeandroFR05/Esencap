@@ -23,55 +23,62 @@
                 @slot('contenido')
                     <!-- Nombre -->
                     <div class="mb-3">
-                    <x-input-group 
-                        name="nombre"
-                        label="Nombre"
-                        type="text"
-                        icon="bi-tag"
-                        value="{{ old('nombre') }}"
-                        required
-                    />
+                        <x-input-group 
+                            name="nombre"
+                            label="Nombre"
+                            type="text"
+                            icon="bi-tag"
+                            value="{{ old('nombre') }}"
+                            required 
+                        /> 
                     </div>
 
                     <div class="row g-3 justify-content-center">
                         <!-- Stock inicial -->
                         <div class="col-md-6">
-                            <label for="stockInicial" class="form-label fw-semibold">
-                                Stock inicial
-                            </label>
+                            <label for="stockInicial" class="form-label fw-semibold">Stock inicial</label>
 
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-box"></i>
                                 </span>
                                 <input type="number" name="stockInicial" id="stockInicial" value="{{ old('stockInicial') }}"
-                                    class="form-control stockInicial" required>
+                                    class="form-control stockInicial @error('stockInicial') is-invalid @enderror" min="1" required>
 
                                 <div class="unidad-container">
                                     <span class="unidad">
                                         unidades
                                     </span>
                                 </div>
+                                @error('stockInicial')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
+                        
                         <!-- Contenido por Unidad -->
                         <div class="col-md-6 mb-3">
-                            <label for="contenidoPorUnidad" class="form-label fw-semibold">
-                                Contenido por Unidad
-                            </label>
+                            <label for="contenidoPorUnidad" class="form-label fw-semibold">Contenido por Unidad</label>
 
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-archive"></i>
                                 </span>
                                 <input type="number" name="contenidoPorUnidad" id="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}"
-                                    class="form-control contenidoPorUnidad" required>
+                                    class="form-control contenidoPorUnidad @error('contenidoPorUnidad') is-invalid @enderror" min="1" step="0.01" required>
 
                                 <div class="unidad-container">
                                     <span class="unidad">
                                         gramos
                                     </span>
                                 </div>
+                                @error('contenidoPorUnidad')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -93,14 +100,14 @@
 
                     <!-- Fecha de Elaboración -->
                     <div class="mb-3">
-                    <x-input-group
-                        name="fechaElaboracion"
-                        label="Fecha de Elaboración"
-                        type="date"
-                        icon="bi-calendar-date"
-                        value="{{ old('fechaElaboracion') }}"
-                        required
-                    />
+                        <x-input-group
+                            name="fechaElaboracion"
+                            label="Fecha de Elaboración"
+                            type="date"
+                            icon="bi-calendar-date"
+                            value="{{ old('fechaElaboracion') }}"
+                            required
+                        />
                     </div>
                 @endslot
             @endcomponent
@@ -140,7 +147,12 @@
                                 <!-- Porcentaje -->
                                 <div class="col">
                                     <div class="input-group">
-                                        <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" value="{{ $porcentaje }}" step="0.01" required>
+                                        <input type="number" 
+                                           name="porcentaje[]" 
+                                           class="form-control form-control-sm porcentaje" 
+                                           step="0.01" 
+                                           min="1" max="99999.99"
+                                           required>
                                         <span class="input-group-text input-group-text-sm"><small>%</small></span>
                                     </div>
                                 </div>
@@ -183,7 +195,13 @@
                             <!-- Porcentaje -->
                             <div class="col">
                                 <div class="input-group">
-                                    <input type="number" name="porcentaje[]" class="form-control form-control-sm porcentaje" placeholder="0.00" step="0.01" required>
+                                    <input type="number" 
+                                           name="porcentaje[]" 
+                                           class="form-control form-control-sm porcentaje" 
+                                           placeholder="0.00" 
+                                           step="0.01" 
+                                           min="1" max="99999.99"
+                                           required>
                                     <span class="input-group-text input-group-text-sm"><small>%</small></span>
                                 </div>
                             </div>

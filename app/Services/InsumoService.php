@@ -120,39 +120,11 @@ class InsumoService
     }
 
 
-    public function obtenerInsumos(Request $request): array
-    {
-        $familias = Familia::all();
-        $insumos = Insumo::withSum('lotes', 'stockActual')
-
-        // Filtra por insumo
-        ->when($request->filled('nombre'), function ($query) use ($request) {
-            $query->where('nombre', 'like', '%' . $request->nombre . '%');
-        })
-        // Filtra por familia
-        ->when($request->filled('familia'), function ($query) use ($request) {
-            $query->where('idFamilia', $request->familia);
-        })
-        // Filtra por fecha
-        ->when($request->filled('fecha'), function ($query) use ($request) {
-            $direccion = $request->fecha === 'reciente' ? 'desc' : 'asc';
-            $query->orderBy(
-                LoteInsumo::select('fechaCompra')
-                    ->whereColumn('lote_insumos.idInsumo', 'insumos.idInsumo')
-                    ->latest('fechaCompra')
-                    ->limit(1),
-                $direccion
-            );
-        })
-        ->paginate(10)
-        ->appends($request->query());
-
-        return compact('insumos', 'familias');
-    }
-    
-
     public function crearInsumo(Request $request): Insumo
     {
+        $fechaCompra = Carbon::parse($request->fechaCompra)
+            ->setTime(Carbon::now()->hour, Carbon::now()->minute, Carbon::now()->second);
+
         $fotoPath = $request->hasFile('foto')
             ? $this->imageService->storeAsWebp($request->file('foto'))
             : null;
@@ -169,12 +141,13 @@ class InsumoService
             'idInsumo' => $insumo->idInsumo,
             'stockInicial' => $request->input('stockInicial'),
             'stockActual' => $request->input('stockInicial'),
-            'fechaCompra' => $request->input('fechaCompra'),
+            'fechaCompra' => $fechaCompra->format('Y-m-d H:i:s'),
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
 
         return $insumo;
     }
+
 
     public function actualizarInsumo(Request $request, Insumo $insumo): void
     {

@@ -137,7 +137,7 @@ Breadcrumbs::for('historialGeneral', function (BreadcrumbTrail $trail) {
 
     Breadcrumbs::for('password', function (BreadcrumbTrail $trail) {
         $trail->parent('perfil');
-        $trail->push('Cambiar contraseña', route('change-password'));
+        $trail->push('Cambiar contraseña', route('profile.password.update'));
     });
 
 // Home > Blog

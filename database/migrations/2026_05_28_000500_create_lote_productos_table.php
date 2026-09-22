@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedInteger('idProducto');
             $table->smallInteger('stockInicial');
             $table->smallInteger('stockActual');
-            $table->date('fechaElaboracion');
+            $table->dateTime('fechaElaboracion');
             $table->boolean('estado')->default(true);
             $table->softDeletes();
 

@@ -9,6 +9,7 @@
 
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
+    @vite('resources/css/estTablas.css')
 @endsection
 
 <!-- CONTENIDO -->
@@ -87,58 +88,55 @@
             <i class="bi bi-clock-history me-2"></i>Historial de insumos
         @endslot
         @if(!$lotes->isEmpty())
-            @slot('bodyClass', 'p-0')
             @slot('contenido')
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle mb-0" id="tableHistorial">
-                        <thead class="table-dark">
+                <table id="tableHistorial">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Lote</th>
+                            <th class="sortable" data-col="1" data-dir="asc">
+                                Fecha de compra <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th class="sortable" data-col="2" data-dir="asc">
+                                Insumo <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th class="sortable" data-col="3" data-dir="asc">
+                                Stock inicial <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th class="sortable" data-col="4" data-dir="asc">
+                                Stock actual <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th>
+                                Unidad
+                            </th>
+                            <th class="sortable" data-col="5" data-dir="asc">
+                                Fecha de vencimiento <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($lotes as $lote)
                             <tr>
-                                <th style="width: 80px;">Lote</th>
-                                <th class="sortable" data-col="1" data-dir="asc">
-                                    Fecha de compra <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th class="sortable" data-col="2" data-dir="asc">
-                                    Insumo <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th class="sortable" data-col="3" data-dir="asc">
-                                    Stock inicial <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th class="sortable" data-col="4" data-dir="asc">
-                                    Stock actual <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th>
-                                    Unidad
-                                </th>
-                                <th class="sortable" data-col="5" data-dir="asc">
-                                    Fecha de vencimiento <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th>Estado</th>
+                                <td class="fw-bold"><code>{{ $lote->numeroLote }}</code></td>
+                                <td>{{ $lote->fechaCompra }}</td>
+                                <td>{{ $lote->insumo->nombre }}</td>
+                                <td>{{ $lote->stockInicial }}</td>
+                                <td>{{ $lote->stockActual }}</td>
+                                <td>{{ $lote->insumo->unidadDeMedida }}</td>
+                                <td>{{ $lote->fechaVencimiento }}</td>
+                                <td>
+                                    @if($lote->estado == 1)
+                                        <span class="badge bg-success w-100">Activo</span>
+                                    @elseif($lote->estado == 0)
+                                        <span class="badge bg-danger w-100">Eliminado</span>
+                                    @else
+                                        {{ $lote->insumo->estado }}
+                                    @endif
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($lotes as $lote)
-                                <tr>
-                                    <td class="text-center fw-bold"><code>{{ $lote->numeroLote }}</code></td>
-                                    <td>{{ $lote->fechaCompra }}</td>
-                                    <td>{{ $lote->insumo->nombre }}</td>
-                                    <td>{{ $lote->stockInicial }}</td>
-                                    <td>{{ $lote->stockActual }}</td>
-                                    <td>{{ $lote->insumo->unidadDeMedida }}</td>
-                                    <td>{{ $lote->fechaVencimiento }}</td>
-                                    <td>
-                                        @if($lote->estado == 1)
-                                            <span class="badge bg-success w-100">Activo</span>
-                                        @elseif($lote->estado == 0)
-                                            <span class="badge bg-danger w-100">Eliminado</span>
-                                        @else
-                                            {{ $lote->insumo->estado }}
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             @endslot
             @if($lotes->hasPages())
                 @slot('footer')

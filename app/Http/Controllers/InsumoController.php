@@ -21,7 +21,26 @@ class InsumoController extends Controller
     
 
     public function insumos(Request $request): View {
-        ['insumos' => $insumos, 'familias' => $familias] = $this->insumoService->obtenerInsumos($request);
+        $familias = Familia::all();
+
+        $insumos = Insumo::withSum('lotes', 'stockActual')
+            ->when($request->filled('nombre'), function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' . $request->nombre . '%');
+            })
+            ->when($request->filled('familia'), function ($query) use ($request) {
+                $query->where('idFamilia', $request->familia);
+            })
+            ->when($request->filled('fecha'), function ($query) use ($request) {
+                $direccion = $request->fecha === 'reciente' ? 'desc' : 'asc';
+                $query->orderBy(
+                    LoteInsumo::select('fechaCompra')
+                        ->whereColumn('lote_insumos.idInsumo', 'insumos.idInsumo')
+                        ->latest('fechaCompra')
+                        ->limit(1),
+                    $direccion
+                );
+            })
+            ->paginate(10)->appends($request->query());
 
         return view('insumos.estante', compact('insumos', 'familias'));
     }

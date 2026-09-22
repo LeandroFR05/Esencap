@@ -25,7 +25,7 @@
     <div class="card shadow-sm mb-3">
         <div class="card-body p-3">
             <form method="GET" action="{{ route('productos.estante') }}" id="formFiltros" class="row g-3">
-                <!-- Búsqueda de productos -->
+                <!-- Búsqueda de nombre -->
                 <div class="col-md-4">
                     <label for="nombre" class="form-label fw-semibold small">Buscar por nombre</label>
                     <input type="text" id="nombre" name="nombre" placeholder="Buscar producto..." 
@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
                     <button type="button" class="btn btn-sm btn-secondary w-100" onclick="limpiarFiltrosProductos()">
-                        <i class="bi bi-x-circle"></i> Limpiar
+                        <i class="bi bi-x-circle"></i> Limpiar filtros
                     </button>
                 </div>
             </form>

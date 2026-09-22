@@ -31,6 +31,7 @@
             {{ $button }}
         @endisset
 
+        <!-- Muestra el mensaje de error -->
         @error($name)
             <div class="invalid-feedback">
                 {{ $message }}

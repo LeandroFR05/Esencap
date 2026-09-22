@@ -1,5 +1,8 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
+
 @section('page', 'Reponer Producto')
+
 @section('title')
     {{ Breadcrumbs::render('reponerProducto', $producto) }}
 @endsection
@@ -9,6 +12,7 @@
     @vite('resources/css/Productos/estReponer.css')
 @endsection
 
+<!-- CONTENIDO -->
 @section('content')
     <form action="{{ route('productos.reponer.store', $producto->idProducto) }}" method="POST">
         @csrf
@@ -32,6 +36,7 @@
                                 id="stockInicial"
                                 class="form-control stockInicial @error('stockInicial') is-invalid @enderror"
                                 value="{{ old('stockInicial') }}"
+                                min="1"
                                 required>
                             <div class="unidad-container">
                                 <span class="unidad">unidades</span>
@@ -122,6 +127,7 @@
         @endcomponent
         <br>
 
+        <!-- FÓRMULA -->
         @component('components.cards')
             @slot('contenido')
                 <p>Última Elaboración</p>
@@ -132,7 +138,14 @@
                             <!-- Porcentaje -->
                             <div class="col">
                                 <div class="input-group">
-                                    <input type="number" name="porcentaje[]" value="{{ $fila->porcentaje }}" class="form-control form-control-sm porcentaje" step="0.01" required>
+                                    <input type="number" 
+                                           name="porcentaje[]" 
+                                           value="{{ $fila->porcentaje }}" 
+                                           class="form-control form-control-sm porcentaje" 
+                                           placeholder="0.00"
+                                           step="0.01"
+                                           min="1" max="99999.99"
+                                           required>
                                     <span class="input-group-text w-25 d-flex justify-content-center"><small>%</small></span>   
                                 </div>
                             </div>
@@ -151,14 +164,24 @@
                             <!-- Contenido -->
                             <div class="col">
                                 <div class="input-group">
-                                    <input type="number" name="contenido[]" value="{{ number_format((float) $fila->contenido, 2, '.', '') }}" class="form-control form-control-sm contenido" step="0.01" readonly>
+                                    <input type="number" 
+                                           name="contenido[]" 
+                                           value="{{ number_format((float) $fila->contenido, 2, '.', '') }}" 
+                                           class="form-control form-control-sm contenido" 
+                                           step="0.01" 
+                                           readonly>
                                     <span class="input-group-text w-25 d-flex justify-content-center"><small>gr</small></span>
                                 </div>
                             </div>
                             <!-- Insumo -->
                             <div class="col">
                                 <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
-                                    <option value="{{ $fila->insumo->idInsumo }}">{{ $fila->insumo->nombre }}</option>
+                                    <option value="{{ $fila->insumo->idInsumo }}" selected>{{ $fila->insumo->nombre }}</option>
+                                    @foreach($fila->insumo->familia->insumos as $insumo)
+                                        @if($insumo->idInsumo !== $fila->insumo->idInsumo)
+                                            <option value="{{ $insumo->idInsumo }}">{{ $insumo->nombre }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                             <!-- Botón eliminar -->

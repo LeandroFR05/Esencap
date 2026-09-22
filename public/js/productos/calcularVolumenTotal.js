@@ -1,5 +1,5 @@
 (() => {
-    const stockInicial = document.getElementById('stockInicial');
+    const stockInicial = document.getElementById('stockInicial') || document.getElementById('stock');
     const contenidoPorUnidad = document.getElementById('contenidoPorUnidad');
     const volumenTotal = document.getElementById('volumenTotal');
 

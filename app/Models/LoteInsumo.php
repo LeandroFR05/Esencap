@@ -26,17 +26,6 @@ class LoteInsumo extends Model
         });
     }
 
-    //Para mostrar la fecha en formato argentino
-    public function getFechaVencimientoAttribute($value)
-    {
-        return Carbon::parse($value)->format('d-m-Y');
-    }
-
-    public function getFechaCompraAttribute($value)
-    {
-        return Carbon::parse($value)->format('d-m-Y');
-    }
-
     protected $fillable = [
         'numeroLote',
         'idInsumo',
@@ -46,6 +35,12 @@ class LoteInsumo extends Model
         'fechaCompra'
     ];
 
+
+    // Para mostrar la fecha en formato argentino
+    public function getFechaCompraAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
 
     //Relaciones
     public function insumo()

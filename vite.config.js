@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/css/Productos/estReponer.css',
                 'resources/css/estEstante.css',
                 'resources/css/Insumos/estCreate.css',
+                'resources/css/estTablas.css'
             ],
             refresh: true,
         }),

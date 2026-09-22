@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rows.forEach(row => tbody.appendChild(row));
 
             document.querySelectorAll('#tableHistorial .sortable i').forEach(icon => {
-                icon.className = 'bi bi-arrow-down-up text-secondary ms-1';
+                icon.className = 'bi bi-arrow-down-up text-white ms-1';
             });
 
             const icon = th.querySelector('i');

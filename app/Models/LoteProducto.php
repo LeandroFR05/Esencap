@@ -40,7 +40,7 @@ class LoteProducto extends Model
 
     public function getFechaElaboracionAttribute($value)
     {
-        return Carbon::parse($value)->format('d-m-Y');
+        return Carbon::parse($value)->format('d-m-Y H:i:s');
     }
 
 

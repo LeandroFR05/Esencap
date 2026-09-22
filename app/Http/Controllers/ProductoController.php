@@ -47,12 +47,12 @@ class ProductoController extends Controller
                 $query->orderBy(
                     LoteProducto::select('fechaElaboracion')
                         ->whereColumn('lote_productos.idProducto', 'productos.idProducto')
-                        ->latest('fechaElaboracion')
+                        ->latest('fechaElaboracion') 
                         ->limit(1),
-                    $direccion // De cada producto busca el último lote elaborado
+                    $direccion // Busca la última fecha de elaboración de cada producto y lo ordena
                 );
             })
-            ->paginate(10)->appends($request->query());
+            ->paginate(10)->appends($request->query()); // appends: mantiene los parámetros de búsqueda al paginar
 
         return view('productos.estante', compact('productos'));
     }

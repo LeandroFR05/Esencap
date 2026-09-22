@@ -9,6 +9,7 @@
 
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
+    @vite('resources/css/estTablas.css')
 @endsection
 
 <!-- CONTENIDO -->
@@ -80,65 +81,62 @@
             <i class="bi bi-clock-history me-2"></i>Historial de productos
         @endslot
         @if(!$historial->isEmpty())
-            @slot('bodyClass', 'p-0')
             @slot('contenido')
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle mb-0" id="tableHistorial">
-                        <thead class="table-dark">
+                <table id="tableHistorial">
+                    <thead>
+                        <tr>
+                            <th>Lote</th>
+                            <th class="sortable" data-col="1" data-dir="asc">
+                                Fecha de elaboración <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th class="sortable" data-col="2" data-dir="asc">
+                                Producto <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th class="sortable" data-col="3" data-dir="asc">
+                                Stock inicial <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th class="sortable" data-col="4" data-dir="asc">
+                                Stock actual <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th class="sortable" data-col="5" data-dir="asc">
+                                Contenido por unidad <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th>Estado</th>
+                            <th style="width: 100px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($historial as $h)
                             <tr>
-                                <th>Lote</th>
-                                <th class="sortable" data-col="1" data-dir="asc">
-                                    Fecha de elaboración <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th class="sortable" data-col="2" data-dir="asc">
-                                    Producto <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th class="sortable" data-col="3" data-dir="asc">
-                                    Stock inicial <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th class="sortable" data-col="4" data-dir="asc">
-                                    Stock actual <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th class="sortable" data-col="5" data-dir="asc">
-                                    Contenido por unidad <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th>Estado</th>
-                                <th class="text-center" style="width: 100px;">Acciones</th>
+                                <td class="fw-bold"><code>{{ $h->numeroLote }}</code></td>
+                                <td>{{ $h->fechaElaboracion }}</td>
+                                <td>{{ $h->producto->nombre }}</td>
+                                <td>{{ $h->stockInicial }}u</td>
+                                <td>{{ $h->stockActual }}u</td>
+                                <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
+                                <td>
+                                    @if ($h->estado == 1)
+                                        <span class="badge bg-success w-100">Activo</span>
+                                    @elseif ($h->estado == 0)
+                                        <span class="badge bg-danger w-100">Eliminado</span>
+                                    @else
+                                        <span class="badge bg-secondary w-100">{{ $h->producto->estado }}</span>
+                                    @endif
+                                </td>
+                                <td class="p-1">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button
+                                            class="btn btn-sm btn-primary flex-fill"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalHistorial-{{ $h->idLote }}">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($historial as $h)
-                                <tr>
-                                    <td class="text-center fw-bold"><code>{{ $h->numeroLote }}</code></td>
-                                    <td>{{ $h->fechaElaboracion }}</td>
-                                    <td>{{ $h->producto->nombre }}</td>
-                                    <td>{{ $h->stockInicial }}u</td>
-                                    <td>{{ $h->stockActual }}u</td>
-                                    <td>{{ $h->producto->contenidoPorUnidad }}gr</td>
-                                    <td>
-                                        @if ($h->estado == 1)
-                                            <span class="badge bg-success w-100">Activo</span>
-                                        @elseif ($h->estado == 0)
-                                            <span class="badge bg-danger w-100">Eliminado</span>
-                                        @else
-                                            <span class="badge bg-secondary w-100">{{ $h->producto->estado }}</span>
-                                        @endif
-                                    </td>
-                                    <td class="p-1">
-                                        <div class="d-flex gap-1 justify-content-center">
-                                            <button
-                                                class="btn btn-sm btn-primary flex-fill"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalHistorial-{{ $h->idLote }}">
-                                                <i class="bi bi-eye-fill"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             @endslot
             @if($historial->hasPages())
                 @slot('footer')

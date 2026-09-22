@@ -69,6 +69,7 @@
       integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
       crossorigin="anonymous"
     />
+    
     @yield('styles')
     <style>
       .app-header .breadcrumb {

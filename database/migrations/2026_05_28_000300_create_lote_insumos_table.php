@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('idInsumo');
             $table->decimal('stockInicial', 10, 2);
             $table->decimal('stockActual', 10, 2);
-            $table->date('fechaCompra');
+            $table->dateTime('fechaCompra');
             $table->date('fechaVencimiento');
             $table->boolean('estado')->default(true);
             $table->softDeletes();

@@ -9,35 +9,13 @@
 
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
+    @vite('resources/css/estTablas.css')
     <style>
         .detalle-title {
             padding: 1rem 1.25rem;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 8px;
             border-left: 4px solid #0e9100;
-        }
-        table {
-            border-collapse: separate;
-            border-spacing: 0;
-            border: 0;
-            border-radius: 8px;
-            overflow: hidden;
-            width: 100%;
-            text-align: center;
-        }
-        th {
-            background-color: #0e9100;
-            color: #fff;
-            padding: 5px;
-        }
-        td {
-            padding: 7px;
-        }
-        tbody {
-            background-color: #fff;
-        }
-        tfoot {
-            background-color: #f1f3f5;
         }
     </style>
 @endsection
@@ -126,7 +104,7 @@
                             <th>Producto</th>
                             <th style="width: 110px;">Cantidad</th>
                             <th style="width: 130px;">Precio Unitario</th>
-                            <th style="width: 130px;">Total</th>
+                            <th style="width: 130px;">Subtotal</th>
                             <th style="width: 100px;">Acciones</th>
                         </tr>
                     </thead>
