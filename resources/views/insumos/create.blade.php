@@ -10,6 +10,11 @@
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
     @vite('resources/css/Insumos/estCreate.css')
+    <style>
+        #dropzone-label {
+            height: 19.5rem;
+        }
+    </style>
 @endsection
 
 <!-- CONTENIDO -->

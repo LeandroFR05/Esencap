@@ -9,6 +9,11 @@
 
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
+    <style>
+        #dropzone-label {
+            height: 17.1rem;
+        }
+    </style>
 @endsection
 
 <!-- CONTENIDO -->
@@ -24,7 +29,7 @@
                 @endslot
 
                 @slot('contenido')
-                    <div class="row g-4">
+                    <div class="row g-3">
                         <!-- Nombre -->
                         <div class="col-md-6">
                             <x-input-group 
@@ -65,8 +70,8 @@
                                     </span>
 
                                     <input type="number"
-                                        name="stock"
-                                        id="stock"
+                                        name="stockTotal"
+                                        id="stockTotal"
                                         value="{{ $stockTotal }}"
                                         class="form-control"
                                         readonly>
@@ -170,6 +175,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/dropzone.js') }}"></script>
     <script src="{{ asset('js/removerImagenDropzone.js') }}"></script>
     <script src="{{ asset('js/confirmarEliminacion.js') }}"></script>
     <script src="{{ asset('js/productos/calcularVolumenTotal.js') }}"></script>

@@ -35,6 +35,8 @@ class ProductoController extends Controller
 
     public function productos(Request $request): View
     {
+        $hayProductos = Producto::exists();
+
         $productos = Producto::withSum('lotes', 'stockActual') // muestra el stock total de cada producto en la tarjeta
 
             // Filtra por producto
@@ -54,7 +56,7 @@ class ProductoController extends Controller
             })
             ->paginate(10)->appends($request->query()); // appends: mantiene los parámetros de búsqueda al paginar
 
-        return view('productos.estante', compact('productos'));
+        return view('productos.estante', compact('productos', 'hayProductos'));
     }
 
     public function create(): View
@@ -131,7 +133,7 @@ class ProductoController extends Controller
 
         // Para verificar si se eliminó la foto en el formulario, y no se volvió a cargar otra
         if ($request->remove_foto == '1') {
-            if ($producto->foto) {
+            if ($producto->foto) { // Pregunto si el producto tiene una foto actual
                 Storage::disk('public')->delete($producto->foto);
             }
             $producto->foto = null;

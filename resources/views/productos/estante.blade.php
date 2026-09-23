@@ -103,7 +103,7 @@
             <div class="alert alert-info d-flex align-items-center justify-content-center mt-5" role="alert" style="min-height: 100px;">
                 <div class="text-center">
                     <i class="bi bi-box2" style="font-size: 3rem;"></i>
-                    <p class="mt-3 mb-0"><strong>No hay productos disponibles en este momento.</strong></p>
+                    <p class="mt-3 mb-0"><strong>{{ $hayProductos ? 'No se encontraron resultados' : 'No hay productos disponibles en este momento' }}</strong></p>
                 </div>
             </div>
             <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-4">

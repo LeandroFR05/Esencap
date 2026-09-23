@@ -9,6 +9,11 @@
 
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
+    <style>
+        #dropzone-label {
+            height: 19.5rem;
+        }
+    </style>
 @endsection
 
 <!-- CONTENIDO -->

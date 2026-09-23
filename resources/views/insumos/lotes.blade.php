@@ -1,9 +1,18 @@
+<!-- PLANTILLA -->
 @extends('layouts.admin')
+
 @section('page', 'Lotes')
+
 @section('title')
     {{ Breadcrumbs::render('lotes', $insumo) }}
 @endsection
 
+@section('styles')
+    @vite('resources/css/Productos/estCreate.css')
+    @vite('resources/css/estTablas.css')
+@endsection
+
+<!-- CONTENIDO -->
 @section('content')
 
     {{-- Tarjetas de resumen --}}
@@ -44,87 +53,84 @@
         @endslot
 
         @slot('contenido')
-        @slot('bodyClass', 'p-0')
             @if($lote->isNotEmpty())
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle mb-0">
-                        <thead class="table-dark text-center">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N° de Lote</th>
+                            <th>Stock inicial</th>
+                            <th>Stock actual</th>
+                            <th>F. compra</th>
+                            <th>F. vencimiento</th>
+                            <th style="width: 50px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($lote as $item)
+                            @php
+                                $vencimiento   = $item->fechaVencimiento;
+                                $diasRestantes = now()->diffInDays($vencimiento, false);
+                                $badgeClass1    = match(true) {
+                                    $diasRestantes < 0  => 'danger',
+                                    $diasRestantes < 30 => 'warning',
+                                    default             => 'success',
+                                };
+                                $stockActual = $item->stockActual;
+                                $badgeClass2 = match(true) {
+                                    $stockActual <= 0 => 'danger',
+                                    $stockActual < 500  => 'warning',
+                                    default             => 'success',
+                                };
+                            @endphp
                             <tr>
-                                <th>N° de Lote</th>
-                                <th>Stock inicial</th>
-                                <th>Stock actual</th>
-                                <th>F. compra</th>
-                                <th>F. vencimiento</th>
-                                <th class="text-center" style="width: 50px;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($lote as $item)
-                                @php
-                                    $vencimiento   = $item->fechaVencimiento;
-                                    $diasRestantes = now()->diffInDays($vencimiento, false);
-                                    $badgeClass1    = match(true) {
-                                        $diasRestantes < 0  => 'danger',
-                                        $diasRestantes < 30 => 'warning',
-                                        default             => 'success',
-                                    };
-                                    $stockActual = $item->stockActual;
-                                    $badgeClass2 = match(true) {
-                                        $stockActual <= 0 => 'danger',
-                                        $stockActual < 500  => 'warning',
-                                        default             => 'success',
-                                    };
-                                @endphp
-                                <tr>
-                                    <td class="text-center">
-                                        <code class="fw-bold">{{ $item->numeroLote }}</code>
-                                    </td>
-                                    <td class="text-center">
-                                        {{ $item->stockInicial }} {{ $insumo->unidadDeMedida }}
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-{{ $badgeClass2 }} stock-actual" data-id="{{ $item->idLote }}">
-                                            {{ $item->stockActual }} {{ $insumo->unidadDeMedida }}
-                                        </span>
-                                    </td>
-                                    <td class="text-center text-muted small">
-                                        {{ ($item->fechaCompra) }}
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-{{ $badgeClass1 }}">
-                                            {{ ($item->fechaVencimiento) }}
-                                        </span>
-                                    </td>
-                                    <td class="p-1">
-                                        <form action="{{ route('lotes.destroy', $item->idLote) }}" method="POST" class="w-100">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="idInsumo" value="{{ $insumo->idInsumo }}">
-                                            <button type="submit"
-                                                class="btn btn-sm btn-danger delete-btn w-100"
-                                                title="Eliminar lote">
-                                                <i class="bi bi-trash3-fill"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr class="table-secondary fw-bold">
-                                <td colspan="2" class="text-end text-muted small text-uppercase">
-                                    Stock total:
+                                <td>
+                                    <code class="fw-bold">{{ $item->numeroLote }}</code>
                                 </td>
-                                <td class="text-center">
-                                    <span class="badge bg-{{ $badgeClass2 }}">
-                                        {{ $lote->sum('stockActual') }} {{ $insumo->unidadDeMedida }}
+                                <td>
+                                    {{ $item->stockInicial }} {{ $insumo->unidadDeMedida }}
+                                </td>
+                                <td>
+                                    <span class="badge bg-{{ $badgeClass2 }} stock-actual" data-id="{{ $item->idLote }}">
+                                        {{ $item->stockActual }} {{ $insumo->unidadDeMedida }}
                                     </span>
                                 </td>
-                                <td colspan="3"></td>
+                                <td class="text-muted small">
+                                    {{ ($item->fechaCompra) }}
+                                </td>
+                                <td>
+                                    <span class="badge bg-{{ $badgeClass1 }}">
+                                        {{ ($item->fechaVencimiento) }}
+                                    </span>
+                                </td>
+                                <td class="p-1">
+                                    <form action="{{ route('lotes.destroy', $item->idLote) }}" method="POST" class="w-100">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="idInsumo" value="{{ $insumo->idInsumo }}">
+                                        <button type="submit"
+                                            class="btn btn-sm btn-danger delete-btn w-100"
+                                            title="Eliminar lote">
+                                            <i class="bi bi-trash3-fill"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-secondary fw-bold">
+                            <td colspan="2" class="text-end text-muted small text-uppercase">
+                                Stock total:
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-{{ $badgeClass2 }}">
+                                    {{ $lote->sum('stockActual') }} {{ $insumo->unidadDeMedida }}
+                                </span>
+                            </td>
+                            <td colspan="3"></td>
+                        </tr>
+                    </tfoot>
+                </table>
             @else
                 <div class="text-center py-5 text-muted">
                     <i class="bi bi-inbox fs-1 d-block mb-2 opacity-50"></i>

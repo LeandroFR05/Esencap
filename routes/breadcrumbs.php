@@ -65,6 +65,11 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
         $trail->push('Productos eliminados', route('productos.eliminados'));
     });
 
+    Breadcrumbs::for('historialGeneral', function (BreadcrumbTrail $trail) {
+        $trail->parent('productos');
+        $trail->push('Historial', route('productos.historial'));
+    });
+
 
 //INSUMOS
     //Estante de insumos
@@ -105,16 +110,10 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
 
     //Historial
     Breadcrumbs::for('historialInsumos', function (BreadcrumbTrail $trail) {
-        $trail->parent('home');
+        $trail->parent('insumos');
         $trail->push('Historial', route('insumos.historial'));
     });
 
-
-//HISTORIAL
-Breadcrumbs::for('historialGeneral', function (BreadcrumbTrail $trail) {
-    $trail->parent('home');
-    $trail->push('Historial', route('productos.historial'));
-});
 
 
 //VENTA
