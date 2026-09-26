@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->increments('idVenta');
             $table->foreignId('idUsuario')->constrained('users')->cascadeOnDelete();
-            $table->date('fecha');
+            $table->dateTime('fecha');
             $table->string('cliente', 50)->nullable();
         });
     }

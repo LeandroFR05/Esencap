@@ -1,65 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const table = document.getElementById('tableHistorial');
+    if (!table) return;
 
-    document.querySelectorAll('#tableHistorial .sortable').forEach(th => {
+    const tbody = table.querySelector('tbody');
+    const headers = table.querySelectorAll('.sortable');
+
+    headers.forEach(th => {
         th.style.cursor = 'pointer';
 
         th.addEventListener('click', () => {
-            const table = document.getElementById('tableHistorial');
-            const tbody = table.querySelector('tbody');
-            const col   = parseInt(th.dataset.col);
-            const dir   = th.dataset.dir;
-            const rows  = Array.from(tbody.querySelectorAll('tr'));
+            const col = th.dataset.col;
+            
+            // 1. Alternamos la dirección (ascendente/descendente)
+            const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc';
+            th.dataset.dir = dir;
 
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            // 2. Ordenamos las filas
             rows.sort((a, b) => {
-                const aText = a.cells[col].innerText.trim();
-                const bText = b.cells[col].innerText.trim();
+                let valA = a.cells[col].innerText.trim();
+                let valB = b.cells[col].innerText.trim();
 
-                const aNum = parseFloat(aText);
-                const bNum = parseFloat(bText);
-                const isNum = !isNaN(aNum) && !isNaN(bNum);
+                // Convertimos formato fecha (DD-MM-YYYY -> YYYY-MM-DD) para que se ordene bien
+                const dateRegex = /^(\d{2})-(\d{2})-(\d{4})/;
+                valA = valA.replace(dateRegex, '$3-$2-$1');
+                valB = valB.replace(dateRegex, '$3-$2-$1');
 
-                const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-                const isDate = dateRegex.test(aText) && dateRegex.test(bText);
-
-                if (isDate) {
-                    const aDate = aText.split('-').reverse().join('-');
-                    const bDate = bText.split('-').reverse().join('-');
-
-                    return dir === 'asc'
-                        ? aDate.localeCompare(bDate)
-                        : bDate.localeCompare(aDate);
-
-                } else if (isNum) {
-
-                    return dir === 'asc'
-                        ? aNum - bNum
-                        : bNum - aNum;
-
-                } else {
-
-                    return dir === 'asc'
-                        ? aText.localeCompare(bText)
-                        : bText.localeCompare(aText);
-                }
+                // localeCompare con 'numeric:true' resuelve automáticamente textos y números
+                const result = valA.localeCompare(valB, undefined, { numeric: true });
+                return dir === 'asc' ? result : -result;
             });
 
-            rows.forEach(row => tbody.appendChild(row));
+            // 3. Reinsertamos las filas ya ordenadas
+            tbody.append(...rows);
 
-            document.querySelectorAll('#tableHistorial .sortable i').forEach(icon => {
-                icon.className = 'bi bi-arrow-down-up text-white ms-1';
+            // 4. Actualizamos los íconos visuales
+            headers.forEach(h => {
+                const icon = h.querySelector('i');
+                if (icon) icon.className = 'bi bi-arrow-down-up text-white ms-1';
             });
-
-            const icon = th.querySelector('i');
-
-            if (dir === 'asc') {
-                icon.className = 'bi bi-arrow-up text-white ms-1';
-                th.dataset.dir = 'desc';
-
-            } else {
-                icon.className = 'bi bi-arrow-down text-white ms-1';
-                th.dataset.dir = 'asc';
+            
+            const activeIcon = th.querySelector('i');
+            if (activeIcon) {
+                activeIcon.className = `bi bi-arrow-${dir === 'asc' ? 'up' : 'down'} text-white ms-1`;
             }
         });
     });
-
 });

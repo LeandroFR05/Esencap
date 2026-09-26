@@ -1,3 +1,7 @@
+@section('styles')
+    @vite('resources/css/Productos/estCreate.css')
+@endsection
+
 <link rel="stylesheet" href="{{ asset('css/Lotes/scroll.css') }}">
 
 @section('content')
@@ -33,7 +37,7 @@
                 <h6 style="display: flex; justify-content: center;">No existen lotes con bajo stock</h6>
             @else
                 @foreach($lotesAgrupados as $idInsumo => $lotes)
-                    <div class="card mb-4 shadow-lg" id="cardLotes">
+                    <div class="card mb-4 shadow" id="cardLotes">
                         <div class="card-body">
 
                             <div class="row">
@@ -48,7 +52,7 @@
                                 <!-- Lista de lotes -->
                                 <div class="col-md-10">
                                     <div class="lotes-scroll">
-                                        <table class="table table-sm table-striped" style="table-layout: fixed; width: 100%;">
+                                        <table class="table table-sm table-striped" style="text-align: center; table-layout: fixed; width: 100%;">
                                             <thead>
                                                 <tr>
                                                     <th style="width: 7%;">Lote</th>

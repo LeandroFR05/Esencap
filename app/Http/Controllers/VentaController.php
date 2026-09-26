@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Illuminate\Support\Carbon;
 
 class VentaController extends Controller
 {
@@ -94,9 +95,12 @@ class VentaController extends Controller
 
     private function crearVenta(Request $request): Venta
     {
+        $fecha = Carbon::parse($request->fecha)
+            ->setTime(Carbon::now()->hour, Carbon::now()->minute, Carbon::now()->second);
+
         return Venta::create([
             'cliente' => $request->input('cliente'),
-            'fecha' => $request->input('fecha'),
+            'fecha' => $fecha->format('Y-m-d H:i:s'),
             'idUsuario' => auth()->id(),
         ]);
     }

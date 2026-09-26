@@ -108,7 +108,7 @@
                             <th>
                                 Unidad
                             </th>
-                            <th class="sortable" data-col="5" data-dir="asc">
+                            <th class="sortable" data-col="6" data-dir="asc">
                                 Fecha de vencimiento <i class="bi bi-arrow-down-up text-white ms-1"></i>
                             </th>
                             <th>Estado</th>
@@ -123,7 +123,7 @@
                                 <td>{{ $lote->stockInicial }}</td>
                                 <td>{{ $lote->stockActual }}</td>
                                 <td>{{ $lote->insumo->unidadDeMedida }}</td>
-                                <td>{{ $lote->fechaVencimiento }}</td>
+                                <td>{{ \Carbon\Carbon::parse($lote->fechaVencimiento)->format('d-m-Y') }}</td>
                                 <td>
                                     @if($lote->estado == 1)
                                         <span class="badge bg-success w-100">Activo</span>

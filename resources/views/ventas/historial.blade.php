@@ -9,6 +9,7 @@
 
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
+    @vite('resources/css/estTablas.css')
 @endsection
 
 <!-- CONTENIDO -->
@@ -63,43 +64,40 @@
             <i class="bi bi-bag-check me-2"></i>Historial de ventas
         @endslot
         @if(!$ventas->isEmpty())
-            @slot('bodyClass', 'p-0')
             @slot('contenido')
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle mb-0" id="tableHistorial">
-                        <thead class="table-dark">
+                <table id="tableHistorial">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-col="0" data-dir="asc" style="width: 180px;">
+                                Fecha <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th style="width: 180px;">
+                                Usuario
+                            </th>
+                            <th class="sortable" data-col="2" data-dir="asc">
+                                Cliente <i class="bi bi-arrow-down-up text-white ms-1"></i>
+                            </th>
+                            <th class="text-center" style="width: 120px;">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($ventas as $v)
                             <tr>
-                                <th class="sortable" data-col="0" data-dir="asc" style="width: 180px;">
-                                    Fecha <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th style="width: 180px;">
-                                    Usuario
-                                </th>
-                                <th class="sortable" data-col="1" data-dir="asc">
-                                    Cliente <i class="bi bi-arrow-down-up text-secondary ms-1"></i>
-                                </th>
-                                <th class="text-center" style="width: 120px;">Acción</th>
+                                <td>{{ $v->fecha }}</td>
+                                <td>{{ optional($v->usuario)->name }}</td>
+                                <td>{{ $v->cliente }}</td>
+                                <td class="p-1">
+                                    <button type="button"
+                                        class="btn btn-info btn-sm w-100"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalVenta{{ $v->idVenta }}">
+                                        <i class="bi bi-eye me-1"></i>Ver
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($ventas as $v)
-                                <tr>
-                                    <td>{{ $v->fecha }}</td>
-                                    <td>{{ optional($v->usuario)->name }}</td>
-                                    <td>{{ $v->cliente }}</td>
-                                    <td class="p-1">
-                                        <button type="button"
-                                            class="btn btn-info btn-sm w-100"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalVenta{{ $v->idVenta }}">
-                                            <i class="bi bi-eye me-1"></i>Ver
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             @endslot
             @if($ventas->hasPages())
                 @slot('footer')
