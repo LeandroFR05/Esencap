@@ -36,7 +36,7 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-boxes"></i></span>
                             <input type="number" name="stockInicial" id="stockInicial"
-                                    class="form-control" required>
+                                    class="form-control" step="0.1" min="0.1" required>
                             <span class="input-group-text">{{ $insumo->unidadDeMedida }}</span>
                         </div>
                     </div>
