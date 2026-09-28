@@ -41,7 +41,8 @@
                         
                     <!-- Stock inicial -->
                     <div class="mb-3">
-                    <x-input-group name="stockInicial" label="Stock inicial" icon="bi-boxes" value="{{ old('stockInicial') }}" type="number" step="0.01" required>
+                    <x-input-group name="stockInicial" label="Stock inicial" icon="bi-boxes" 
+                        value="{{ old('stockInicial') }}" type="number" step="0.1" min="0.1" required>
                         <x-slot:select>
                             <select name="unidadDeMedida" id="unidadDeMedida" class="form-select">
                                 <option value="gramos">gramos</option>
