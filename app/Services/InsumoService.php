@@ -122,9 +122,6 @@ class InsumoService
 
     public function crearInsumo(Request $request): Insumo
     {
-        $fechaCompra = Carbon::parse($request->fechaCompra)
-            ->setTime(Carbon::now()->hour, Carbon::now()->minute, Carbon::now()->second);
-
         $fotoPath = $request->hasFile('foto')
             ? $this->imageService->storeAsWebp($request->file('foto'))
             : null;
@@ -141,7 +138,7 @@ class InsumoService
             'idInsumo' => $insumo->idInsumo,
             'stockInicial' => $request->input('stockInicial'),
             'stockActual' => $request->input('stockInicial'),
-            'fechaCompra' => $fechaCompra->format('Y-m-d H:i:s'),
+            'fechaCompra' => obtenerFechaYHora($request->fechaCompra),
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
 

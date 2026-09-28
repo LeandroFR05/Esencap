@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
 
 class InsumoController extends Controller
 {
@@ -94,13 +95,11 @@ class InsumoController extends Controller
 
 
     public function reponerStore(InsumoRequest $request, Insumo $insumo): RedirectResponse {
-
         LoteInsumo::create([
             'idInsumo' => $insumo->idInsumo,
-            // numeroLote se asigna automáticamente por el trigger
             'stockInicial' => $request->input('stockInicial'),
             'stockActual' => $request->input('stockInicial'),
-            'fechaCompra' => $request->input('fechaCompra'),
+            'fechaCompra' => obtenerFechaYHora($request->fechaCompra),
             'fechaVencimiento' => $request->input('fechaVencimiento'),
         ]);
 
