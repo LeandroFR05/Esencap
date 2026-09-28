@@ -25,7 +25,7 @@ class InsumoController extends Controller
 
         $insumos = Insumo::withSum('lotes', 'stockActual')
             ->when($request->filled('nombre'), function ($query) use ($request) {
-                $query->where('nombre', 'like', '%' . $request->nombre . '%');
+                $query->whereRaw('LOWER(nombre) LIKE LOWER(?)', ['%' . $request->nombre . '%']);
             })
             ->when($request->filled('familia'), function ($query) use ($request) {
                 $query->where('idFamilia', $request->familia);
