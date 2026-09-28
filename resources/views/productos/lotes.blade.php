@@ -96,7 +96,7 @@
                                     {{ optional($lote->usuario)->name }}
                                 </td>
                                 <td>
-                                    {{ \Carbon\Carbon::parse($lote->fechaElaboracion)->format('d/m/Y') }}
+                                    {{ $lote->fechaElaboracion }}
                                 </td>
                                 <td class="text-center">
                                     {{ $lote->stockInicial }}u

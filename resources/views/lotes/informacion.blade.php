@@ -1,5 +1,6 @@
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
+    @vite('resources/css/estTablas.css')
 @endsection
 
 <link rel="stylesheet" href="{{ asset('css/Lotes/scroll.css') }}">
@@ -52,7 +53,7 @@
                                 <!-- Lista de lotes -->
                                 <div class="col-md-10">
                                     <div class="lotes-scroll">
-                                        <table class="table table-sm table-striped" style="text-align: center; table-layout: fixed; width: 100%;">
+                                        <table>
                                             <thead>
                                                 <tr>
                                                     <th style="width: 7%;">Lote</th>
@@ -78,8 +79,7 @@
                                                                     $stock = $detalleLote->stockActual;
                                                                     $badgeStock = match(true) {
                                                                         $stock == 0  => 'danger',
-                                                                        $stock < 500 => 'warning',
-                                                                        default      => 'success',
+                                                                        default      => 'warning',
                                                                     };
                                                                 } else {
                                                                     $badgeStock = 'secondary';
@@ -89,7 +89,7 @@
                                                                 {{ $detalleLote->stockActual }} {{ $lotes->first()->insumo->unidadDeMedida }}
                                                             </span>
                                                         </td>
-                                                        <td class="text-muted small">
+                                                        <td class="text-muted">
                                                             {{ $detalleLote->fechaCompra }}
                                                         </td>
                                                         <td>
@@ -98,15 +98,14 @@
                                                                     $dias = now()->diffInDays(\Carbon\Carbon::parse($detalleLote->fechaVencimiento), false);
                                                                     $badgeVenc = match(true) {
                                                                         $dias < 0  => 'danger',
-                                                                        $dias < 30 => 'warning',
-                                                                        default    => 'success',
+                                                                        default    => 'warning',
                                                                     };
                                                                 } else {
                                                                     $badgeVenc = 'secondary';
                                                                 }
                                                             @endphp
                                                             <span class="badge bg-{{ $badgeVenc }}">
-                                                                {{ $detalleLote->fechaVencimiento }}
+                                                                {{ \Carbon\Carbon::parse($detalleLote->fechaVencimiento)->format('d-m-Y') }}
                                                             </span>
                                                         </td>
                                                         <td class="text-center">

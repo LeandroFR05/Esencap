@@ -72,14 +72,16 @@
                                 $diasRestantes = now()->diffInDays($vencimiento, false);
                                 $badgeClass1    = match(true) {
                                     $diasRestantes < 0  => 'danger',
-                                    $diasRestantes < 30 => 'warning',
+                                    $diasRestantes < 10 => 'warning',
                                     default             => 'success',
                                 };
+                                
+                                $stockMinimo = encontrarStockBajo($insumo);
                                 $stockActual = $item->stockActual;
                                 $badgeClass2 = match(true) {
-                                    $stockActual <= 0 => 'danger',
-                                    $stockActual < 500  => 'warning',
-                                    default             => 'success',
+                                    $stockActual <= 0  => 'danger',
+                                    $stockActual < $stockMinimo => 'warning',
+                                    default => 'success',
                                 };
                             @endphp
                             <tr>
@@ -99,7 +101,7 @@
                                 </td>
                                 <td>
                                     <span class="badge bg-{{ $badgeClass1 }}">
-                                        {{ ($item->fechaVencimiento) }}
+                                        {{ \Carbon\Carbon::parse($item->fechaVencimiento)->format('d-m-Y') }}
                                     </span>
                                 </td>
                                 <td class="p-1">

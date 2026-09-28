@@ -1,8 +1,15 @@
 document.getElementById("formProductos").addEventListener("submit", function(e) {
 
+    let errorDiv = document.getElementById("error-porcentaje");
     if (!validarPorcentajes()) {
         e.preventDefault();
-        alert("La suma de todos los porcentajes debe ser 100%.");
+        if (errorDiv) {
+            errorDiv.style.display = "block";
+        }
+    } else {
+        if (errorDiv) {
+            errorDiv.style.display = "none";
+        }
     }
 
 });

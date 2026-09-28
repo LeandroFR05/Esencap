@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class LoteInsumoController extends Controller
 {
+    // Obtiene los lotes que se van a vencer de hoy a 10 días
     public function vencidos()
     {
         $hoy = now();
@@ -41,6 +42,8 @@ class LoteInsumoController extends Controller
         return view('lotes.vencimientos', compact('lotesAgrupados', 'bandera', 'insumos'));
     }
 
+
+
     public function infoStock()
     {
         // Filtramos los insumos que tienen al menos un lote con bajo stock
@@ -65,12 +68,13 @@ class LoteInsumoController extends Controller
         foreach ($insumos as $insumo) {
             $stockMinimo = encontrarStockBajo($insumo);
 
+            // Buscamos los lotes con stock actual menor al stock mínimo
             $lotes = LoteInsumo::where('idInsumo', $insumo->idInsumo)
                 ->where('stockActual', '<', $stockMinimo)
                 ->get();
 
             if ($lotes->isNotEmpty()) {
-                $lotesAgrupados[$insumo->idInsumo] = $lotes;
+                $lotesAgrupados[$insumo->idInsumo] = $lotes; // Lotes con bajo stock
             }
         }
 
@@ -78,6 +82,8 @@ class LoteInsumoController extends Controller
 
         return view('lotes.stock', compact('lotesAgrupados', 'bandera', 'insumos'));
     }
+
+
 
     public function eliminar(Request $request, LoteInsumo $lote)
     {

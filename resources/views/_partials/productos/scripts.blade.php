@@ -8,7 +8,7 @@
 <script src="{{ asset('js/productos/busquedaInsumos.js') }}"></script>
 
 <!-- Para controlar que el porcentaje llegue siempre a 100% -->
-<!-- <script src="{{ asset('js/productos/controlarPorcentaje.js') }}"></script> -->
+<script src="{{ asset('js/productos/controlarPorcentaje.js') }}"></script>
 
 <!-- Para calcular la suma total de los porcentajes -->
 <script src="{{ asset('js/productos/calcularPorcentajeTotal.js') }}"></script>

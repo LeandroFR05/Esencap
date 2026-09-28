@@ -56,8 +56,10 @@ class DashboardService
         $stockBajo = 0;
 
         foreach ($insumos as $insumo) {
+            // Detecta la unidad de medida de un insumo
             $stockMinimo = encontrarStockBajo($insumo);
 
+            // Busca un lote de este insumo, que tenga un stock menor al mínimo
             $stockBajo += LoteInsumo::where('idInsumo', $insumo->idInsumo)->where('stockActual', '<', $stockMinimo)->count();
         }
 

@@ -89,7 +89,7 @@
                     </div>
 
                     <!-- Volumen total de lote -->
-                    <div class="volumen-total-lote mb-3" aria-live="polite">
+                    <div class="volumen-total-lote mb-3 flex-wrap">
                         <div class="volumen-total-lote__descripcion">
                             <div class="volumen-total-lote__titulo">
                                 <i class="bi bi-hourglass-split me-1"></i>
@@ -102,6 +102,7 @@
                             <small>gramos</small>
                         </div>
                     </div>
+                    
 
                     <!-- Fecha de Elaboración -->
                     <div class="mb-3">
@@ -243,13 +244,18 @@
                 </div>
 
                 <div class="formula-actions mt-4">
-                    <div class="suma-total-porcentaje">
-                        <div class="suma-total-porcentaje__titulo">Suma total de porcentaje:</div>
-                        <div class="suma-total-porcentaje__valor">
-                            <span id="sumaTotalPorcentaje">0</span> %
+                    <div class="flex-wrap" aria-live="polite">
+                        <div class="suma-total-porcentaje">
+                            <div class="suma-total-porcentaje__titulo">Suma total de porcentaje:</div>
+                            <div class="suma-total-porcentaje__valor">
+                                <span id="sumaTotalPorcentaje">0</span> %
+                            </div>
+                        </div>
+                        <div id="error-porcentaje" class="text-danger w-100 mt-2" style="display: none; font-size: 13px; font-weight: 600;">
+                            La suma de porcentajes debe ser 100%.
                         </div>
                     </div>
-                    <button type="button" id="btn-agregar" class="btn btn-outline-primary">
+                    <button type="button" id="btn-agregar" class="btn btn-outline-primary align-self-start">
                         <i class="bi bi-plus-circle me-2"></i>Agregar fila
                     </button>
                 </div>
