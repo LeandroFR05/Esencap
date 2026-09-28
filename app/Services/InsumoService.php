@@ -170,6 +170,8 @@ class InsumoService
         $insumo->update($validated);
     }
 
+    
+
     public function obtenerHistorial(Request $request)
     {
         $query = LoteInsumo::withTrashed()->with([

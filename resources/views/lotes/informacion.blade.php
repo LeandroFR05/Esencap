@@ -1,9 +1,10 @@
 @section('styles')
     @vite('resources/css/Productos/estCreate.css')
     @vite('resources/css/estTablas.css')
+    <link rel="stylesheet" href="{{ asset('css/Lotes/scroll.css') }}">
 @endsection
 
-<link rel="stylesheet" href="{{ asset('css/Lotes/scroll.css') }}">
+
 
 @section('content')
     @component('components.cards')
