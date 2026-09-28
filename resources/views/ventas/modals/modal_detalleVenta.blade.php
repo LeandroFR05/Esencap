@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-6 px-4 py-3">
                             <p class="mb-1 text-muted small text-uppercase fw-semibold">
-                                <i class="bi bi-calendar-event me-1"></i>Fecha
+                                <i class="bi bi-calendar-event me-1"></i>Fecha y hora
                             </p>
                             <p class="fw-semibold mb-0">{{ $v->fecha }}</p>
                         </div>
@@ -33,11 +33,8 @@
                         <p class="text-muted small text-uppercase fw-semibold mb-2">
                             <i class="bi bi-cart3 me-1"></i>Productos vendidos
                         </p>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered align-middle text-center mb-0"
-                               style="table-layout: fixed; width: 100%;">
-                            <thead class="table-dark">
+                        <table class="w-100">
+                            <thead>
                                 <tr>
                                     <th class="small text-uppercase text-start">Nombre</th>
                                     <th class="small text-uppercase" style="width: 160px;">Cantidad</th>
@@ -91,9 +88,8 @@
                             </tfoot>
                         </table>
                     </div>
-
                 </div>
-
+                <br>
                 <div class="modal-footer bg-light border-top">
                     <small class="text-muted me-auto">
                         <i class="bi bi-bag me-1"></i>
