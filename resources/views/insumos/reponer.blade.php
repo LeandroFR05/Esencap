@@ -35,8 +35,8 @@
                         <label for="stockInicial" class="form-label fw-semibold">Stock inicial</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-boxes"></i></span>
-                            <input type="number" name="stockInicial" id="stockInicial"
-                                    class="form-control" step="0.1" min="0.1" required>
+                            <input type="number" name="stockInicial" id="stockInicial" value="{{ old('stockInicial') }}"
+                                   class="form-control" step="0.01" min="0.1" max="99999.99" required>
                             <span class="input-group-text">{{ $insumo->unidadDeMedida }}</span>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <label for="fechaCompra" class="form-label fw-semibold">Fecha de compra</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-calendar-plus"></i></span>
-                            <input type="date" name="fechaCompra" id="fechaCompra"
+                            <input type="date" name="fechaCompra" id="fechaCompra" value="{{ old('fechaCompra') }}"
                                     class="form-control @error('fechaCompra') is-invalid @enderror" required>
                             @error('fechaCompra')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -57,7 +57,7 @@
                         <label for="fechaVencimiento" class="form-label fw-semibold">Fecha de vencimiento</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-calendar-x"></i></span>
-                            <input type="date" name="fechaVencimiento" id="fechaVencimiento"
+                            <input type="date" name="fechaVencimiento" id="fechaVencimiento" value="{{ old('fechaVencimiento') }}"
                                     class="form-control @error('fechaVencimiento') is-invalid @enderror" required>
                             @error('fechaVencimiento')
                                 <div class="invalid-feedback">{{ $message }}</div>
