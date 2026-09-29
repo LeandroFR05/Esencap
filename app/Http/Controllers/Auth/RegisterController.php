@@ -54,6 +54,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
             'password.min' => 'La nueva contraseña debe tener al menos 8 caracteres.',
+            'email.unique' => 'Esta dirección de correo ya existe.'
         ]);
     }
 
