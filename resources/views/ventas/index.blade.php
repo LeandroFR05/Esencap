@@ -38,13 +38,14 @@
                             </span>
                             <input type="text" name="cliente" id="cliente" value="{{ old('cliente') }}" 
                                 class="form-control @error('cliente') is-invalid @enderror" required>
+                            @error('cliente')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
-                        @error('cliente')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
                     </div>
+                    
                     <div class="col-md-6">
                         <label for="fecha" class="form-label fw-semibold">Fecha:</label>
                         <div class="input-group">
@@ -70,7 +71,7 @@
                 <div class="row g-3 align-items-end">
                     <div class="col-md-4">
                         <label for="producto" class="form-label fw-medium">Producto:</label>
-                        <input type="text" name="producto" id="producto" class="form-control" autocomplete="off" placeholder="Buscar producto..." required>
+                        <input type="text" name="producto" id="producto" class="form-control" autocomplete="off" placeholder="Buscar producto...">
                         <input type="hidden" id="idProducto">
                         <ul id="lista-productos" class="list-group position-absolute shadow" style="z-index: 1000; max-height: 200px; overflow-y: auto;"></ul>
                     </div>
@@ -82,7 +83,7 @@
                         <label for="precioUnitario" class="form-label fw-medium">Precio Unitario:</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input type="number" name="precioUnitario" id="precioUnitario" class="form-control" min="0" step="0.01" required>
+                            <input type="number" name="precioUnitario" id="precioUnitario" class="form-control" min="0" step="0.01">
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -126,15 +127,16 @@
                 <input type="hidden" id="carrito-old" value="{{ session('carrito') ? json_encode(session('carrito')) : old('carrito') }}">
             @endslot
         @endcomponent
-    </form><br>
+        <br>
 
-    @component('components.cards')
-        @slot('contenido')
-            <button type="button" id="btn-submit" class="btn w-100">
-                <i class="bi bi-check-lg"></i> Registrar Venta
-            </button>
-        @endslot
-    @endcomponent
+        @component('components.cards')
+            @slot('contenido')
+                <button type="submit" id="btn-submit" class="btn w-100">
+                    <i class="bi bi-check-lg"></i> Registrar Venta
+                </button>
+            @endslot
+        @endcomponent
+    </form>
 @endsection
 
 

@@ -224,34 +224,19 @@ function renderizarCarrito() {
 }
 
 // Registrar venta
-btnRegistrar.addEventListener('click', function() {
-    const clienteInput = document.getElementById('cliente');
-    const fechaInput = document.getElementById('fecha');
-
-    const cliente = clienteInput.value.trim();
-    const fecha = fechaInput.value;
-
-    // Limpiar mensajes previos
-    clienteInput.setCustomValidity('');
-    fechaInput.setCustomValidity('');
-
-    // Validar cliente
-    if (!cliente) {
-        clienteInput.setCustomValidity('Complete este campo');
-        clienteInput.reportValidity();
-        clienteInput.focus();
+formVenta.addEventListener('submit', function(e) {
+    // Comprobar primero errores del navegador
+    if (!formVenta.checkValidity()) {
+        e.preventDefault();
+        formVenta.reportValidity();
         return;
     }
 
-    // Validar fecha
-    if (!fecha) {
-        fechaInput.setCustomValidity('Seleccione una fecha');
-        fechaInput.reportValidity();
-        fechaInput.focus();
-        return;
-    }
+    // Actualizar el input oculto del carrito antes de que el form se envíe
+    carritoInput.value = JSON.stringify(carrito);
 
     if (carrito.length === 0) {
+        e.preventDefault();
         Swal.fire({
             icon: 'warning',
             title: 'Carrito vacío',
@@ -259,22 +244,7 @@ btnRegistrar.addEventListener('click', function() {
             confirmButtonText: 'Entendido',
             confirmButtonColor: '#3085d6'
         });
-        return;
     }
-
-    // Actualizar inputs ocultos para enviar
-    const inputs = formVenta.querySelectorAll('input[name="carrito"], input[name="cliente"], input[name="fecha"]');
-    inputs.forEach(input => {
-        if (input.name === 'carrito') {
-            input.value = JSON.stringify(carrito);
-        } else if (input.name === 'cliente') {
-            input.value = cliente;
-        } else if (input.name === 'fecha') {
-            input.value = fecha;
-        }
-    });
-
-    formVenta.submit();
 });
 
 // Inicializar fecha con hoy (solo si no hay un valor previo)
