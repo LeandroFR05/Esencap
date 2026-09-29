@@ -64,7 +64,7 @@ class ProductoRequest extends FormRequest
             'contenidoPorUnidad.required' => 'El contenido por unidad es obligatorio.',
             'contenidoPorUnidad.numeric' => 'El contenido por unidad debe ser un número.',
             'contenidoPorUnidad.min' => 'El contenido por unidad debe ser mayor a cero.',
-            'contenidoPorUnidad.max' => 'El contenido por unidad no puede superar 999999,99.',
+            'contenidoPorUnidad.max' => 'El contenido por unidad no puede superar 99999,99.',
 
             'foto.image' => 'El archivo debe ser una imagen.',
             'foto.mimes' => 'Formato inválido.',

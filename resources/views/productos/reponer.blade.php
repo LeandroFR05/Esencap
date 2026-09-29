@@ -14,7 +14,7 @@
 
 <!-- CONTENIDO -->
 @section('content')
-    <form action="{{ route('productos.reponer.store', $producto->idProducto) }}" method="POST">
+    <form id="formProductos" action="{{ route('productos.reponer.store', $producto->idProducto) }}" method="POST">
         @csrf
         @component('components.cards')
             @slot('titulo')<small><i class="bi bi-plus-square me-2"></i></small>Reponer {{ $producto->nombre }}@endslot
@@ -36,7 +36,7 @@
                                 id="stockInicial"
                                 class="form-control stockInicial @error('stockInicial') is-invalid @enderror"
                                 value="{{ old('stockInicial') }}"
-                                min="1"
+                                min="1" max="99999"
                                 required>
                             <div class="unidad-container">
                                 <span class="unidad">unidades</span>
@@ -195,13 +195,18 @@
                 </div>
 
                 <div class="formula-actions mt-4">
-                    <div class="suma-total-porcentaje">
-                        <div class="suma-total-porcentaje__titulo">Suma total de porcentaje:</div>
-                        <div class="suma-total-porcentaje__valor">
-                            <span id="sumaTotalPorcentaje">0</span> %
+                    <div class="flex-wrap" aria-live="polite">
+                        <div class="suma-total-porcentaje">
+                            <div class="suma-total-porcentaje__titulo">Suma total de porcentaje:</div>
+                            <div class="suma-total-porcentaje__valor">
+                                <span id="sumaTotalPorcentaje">0</span> %
+                            </div>
+                        </div>
+                        <div id="error-porcentaje" class="text-danger w-100 mt-2" style="display: none; font-size: 13px; font-weight: 600;">
+                            La suma de porcentajes debe ser 100%.
                         </div>
                     </div>
-                    <button type="button" id="btn-agregar" class="btn btn-outline-primary">
+                    <button type="button" id="btn-agregar" class="btn btn-outline-primary align-self-start">
                         <i class="bi bi-plus-circle me-2"></i>Agregar fila
                     </button>
                 </div>

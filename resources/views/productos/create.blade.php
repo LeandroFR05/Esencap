@@ -48,7 +48,8 @@
                                     <i class="bi bi-box"></i>
                                 </span>
                                 <input type="number" name="stockInicial" id="stockInicial" value="{{ old('stockInicial') }}"
-                                    class="form-control stockInicial @error('stockInicial') is-invalid @enderror" min="1" required>
+                                    class="form-control stockInicial @error('stockInicial') is-invalid @enderror" 
+                                    min="1" max="99999" required>
 
                                 <div class="unidad-container">
                                     <span class="unidad">
@@ -72,7 +73,8 @@
                                     <i class="bi bi-archive"></i>
                                 </span>
                                 <input type="number" name="contenidoPorUnidad" id="contenidoPorUnidad" value="{{ old('contenidoPorUnidad') }}"
-                                    class="form-control contenidoPorUnidad @error('contenidoPorUnidad') is-invalid @enderror" min="1" step="0.01" required>
+                                    class="form-control contenidoPorUnidad @error('contenidoPorUnidad') is-invalid @enderror" 
+                                    min="1" max="99999.99" step="0.01" required>
 
                                 <div class="unidad-container">
                                     <span class="unidad">
