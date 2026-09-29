@@ -16,7 +16,7 @@ class UserRequest extends FormRequest
     {
         return [
             'current_password' => ['required', 'current_password'],
-            'new_password' => ['required', 'confirmed', Password::defaults()],
+            'new_password' => ['required', 'confirmed', 'min:8', Password::defaults()],
         ];
     }
 
@@ -25,6 +25,7 @@ class UserRequest extends FormRequest
         return [
             'current_password.current_password' => 'La contraseña actual es incorrecta.',
             'new_password.confirmed' => 'No coincide con la nueva contraseña.',
+            'new_password.min' => 'La nueva contraseña debe tener al menos 8 caracteres.',
         ];
     }
 }

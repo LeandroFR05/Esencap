@@ -35,4 +35,22 @@ class LoginTest extends TestCase
         // Alternativamente, puedes usar:
         // $this->assertAuthenticated();
     }
+
+    public function test_el_registro_rechaza_contrasenas_de_menos_de_ocho_caracteres()
+    {
+        $admin = User::factory()->create();
+
+        $this->actingAs($admin)
+            ->post('/register', [
+                'name' => 'Nuevo usuario',
+                'email' => 'nuevo@example.com',
+                'password' => '1234567',
+                'password_confirmation' => '1234567',
+            ])
+            ->assertSessionHasErrors([
+                'password' => 'La nueva contraseña debe tener al menos 8 caracteres.',
+            ]);
+
+        $this->assertDatabaseMissing('users', ['email' => 'nuevo@example.com']);
+    }
 }

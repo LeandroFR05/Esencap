@@ -45,6 +45,25 @@ class UserProfileTest extends TestCase
         $this->assertTrue(Hash::check('password-nueva', $user->fresh()->password));
     }
 
+    public function test_no_actualiza_la_contrasena_si_tiene_menos_de_ocho_caracteres(): void
+    {
+        $user = User::factory()->create([
+            'password' => 'password-original',
+        ]);
+
+        $this->actingAs($user)
+            ->put(route('profile.password.update'), [
+                'current_password' => 'password-original',
+                'new_password' => '1234567',
+                'new_password_confirmation' => '1234567',
+            ])
+            ->assertSessionHasErrors([
+                'new_password' => 'La nueva contraseña debe tener al menos 8 caracteres.',
+            ]);
+
+        $this->assertTrue(Hash::check('password-original', $user->fresh()->password));
+    }
+
     public function test_devuelve_error_si_las_nuevas_contrasenas_no_coinciden(): void
     {
         $user = User::factory()->create([
