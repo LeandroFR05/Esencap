@@ -133,14 +133,48 @@
                 <p>Última Elaboración</p>
                 @include('_partials.productos.estrFormula1')
                 <div id="contenedor-formulas">
-                    @foreach($lote->formulas as $fila)
+                    @php
+                        $oldPorcentajes = old('porcentaje', null);
+                        $oldFamilias = old('familia', []);
+                        $oldInsumos = old('insumo', []);
+                        $oldContenidos = old('contenido', []);
+
+                        $filasRender = [];
+                        if ($oldPorcentajes !== null) {
+                            foreach($oldPorcentajes as $index => $porcentaje) {
+                                $filasRender[] = [
+                                    'porcentaje' => $porcentaje,
+                                    'idFamilia' => $oldFamilias[$index] ?? null,
+                                    'idInsumo' => $oldInsumos[$index] ?? null,
+                                    'contenido' => isset($oldContenidos[$index]) && $oldContenidos[$index] !== '' ? number_format((float) $oldContenidos[$index], 2, '.', '') : '',
+                                ];
+                            }
+                        } else {
+                            foreach($lote->formulas as $fila) {
+                                $filasRender[] = [
+                                    'porcentaje' => $fila->porcentaje,
+                                    'idFamilia' => $fila->insumo->familia->idFamilia ?? null,
+                                    'idInsumo' => $fila->insumo->idInsumo ?? null,
+                                    'contenido' => number_format((float) $fila->contenido, 2, '.', ''),
+                                ];
+                            }
+                        }
+                    @endphp
+                    
+                    @foreach($filasRender as $filaRender)
+                        @php
+                            $selectedFamilia = $filaRender['idFamilia'];
+                            $selectedInsumo = $filaRender['idInsumo'];
+                            $familiaObj = $familias->firstWhere('idFamilia', $selectedFamilia);
+                            $insumosPorFamilia = $familiaObj ? $familiaObj->insumos : collect();
+                        @endphp
                         <div class="row formula-item g-3 mb-2 align-items-center">
                             <!-- Porcentaje -->
                             <div class="col">
                                 <div class="input-group">
                                     <input type="number" 
                                            name="porcentaje[]" 
-                                           value="{{ $fila->porcentaje }}" 
+                                           value="{{ $filaRender['porcentaje'] }}" 
                                            class="form-control form-control-sm porcentaje" 
                                            placeholder="0.00"
                                            step="0.01"
@@ -155,7 +189,7 @@
                                     <option value="">Seleccione una familia</option>
                                     @foreach($familias as $familia)
                                         <option value="{{ $familia->idFamilia }}"
-                                            @selected($familia->idFamilia == $fila->insumo->familia->idFamilia)>
+                                            @selected($familia->idFamilia == $selectedFamilia)>
                                             {{ $familia->nombre }}
                                         </option>
                                     @endforeach
@@ -166,7 +200,7 @@
                                 <div class="input-group">
                                     <input type="number" 
                                            name="contenido[]" 
-                                           value="{{ number_format((float) $fila->contenido, 2, '.', '') }}" 
+                                           value="{{ $filaRender['contenido'] }}" 
                                            class="form-control form-control-sm contenido" 
                                            step="0.01" 
                                            readonly>
@@ -176,11 +210,11 @@
                             <!-- Insumo -->
                             <div class="col">
                                 <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
-                                    <option value="{{ $fila->insumo->idInsumo }}" selected>{{ $fila->insumo->nombre }}</option>
-                                    @foreach($fila->insumo->familia->insumos as $insumo)
-                                        @if($insumo->idInsumo !== $fila->insumo->idInsumo)
-                                            <option value="{{ $insumo->idInsumo }}">{{ $insumo->nombre }}</option>
-                                        @endif
+                                    <option value="">Seleccione un insumo</option>
+                                    @foreach($insumosPorFamilia as $insumo)
+                                        <option value="{{ $insumo->idInsumo }}" @selected($insumo->idInsumo == $selectedInsumo)>
+                                            {{ $insumo->nombre }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
