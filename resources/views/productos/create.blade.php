@@ -140,63 +140,20 @@
                     $oldFamilias = old('familia', []);
                     $oldInsumos = old('insumo', []);
                     $oldContenidos = old('contenido', []);
+
+                    // Si es la primera vez que se carga la vista, inicializamos con un elemento vacío
+                    // para que se renderice al menos una fila.
+                    if (count($oldPorcentajes) === 0) {
+                        $oldPorcentajes = [''];
+                    }
                 @endphp
                 <div id="contenedor-formulas">
-                    @if(count($oldPorcentajes) > 0)
-                        @foreach($oldPorcentajes as $index => $porcentaje)
-                            @php
-                                $selectedFamilia = $oldFamilias[$index] ?? null;
-                                $selectedInsumo = $oldInsumos[$index] ?? null;
-                                $insumosPorFamilia = $selectedFamilia && isset($insumos[$selectedFamilia]) ? $insumos[$selectedFamilia] : collect();
-                            @endphp
-                            <div class="row formula-item g-3 mb-2 align-items-center">
-                                <!-- Porcentaje -->
-                                <div class="col">
-                                    <div class="input-group">
-                                        <input type="number" 
-                                           name="porcentaje[]" 
-                                           class="form-control form-control-sm porcentaje" 
-                                           step="0.01" 
-                                           min="1" max="99999.99"
-                                           required>
-                                        <span class="input-group-text input-group-text-sm"><small>%</small></span>
-                                    </div>
-                                </div>
-                                <!-- Familia -->
-                                <div class="col">
-                                    <select name="familia[]" class="form-select form-select-sm select-familia" required>
-                                        <option value="">Seleccione una familia</option>
-                                        @foreach($familias as $familia)
-                                            <option value="{{ $familia->idFamilia }}" {{ $selectedFamilia == $familia->idFamilia ? 'selected' : '' }}>{{ $familia->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <!-- Contenido -->
-                                <div class="col">
-                                    <div class="input-group">
-                                        <input type="number" name="contenido[]" 
-                                            class="form-control form-control-sm contenido" readonly value="{{ isset($oldContenidos[$index]) && $oldContenidos[$index] !== '' ? number_format((float) $oldContenidos[$index], 2, '.', '') : '' }}" step="0.01">
-                                        <span class="input-group-text input-group-text-sm"><small>gr</small></span>
-                                    </div>
-                                </div>
-                                <!-- Insumo -->
-                                <div class="col">
-                                    <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
-                                        <option value="">Insumo</option>
-                                        @foreach($insumosPorFamilia as $insumo)
-                                            <option value="{{ $insumo->idInsumo }}" {{ $selectedInsumo == $insumo->idInsumo ? 'selected' : '' }}>{{ $insumo->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <!-- Eliminar -->
-                                <div class="col">
-                                    <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
+                    @foreach($oldPorcentajes as $index => $porcentaje)
+                        @php
+                            $selectedFamilia = $oldFamilias[$index] ?? null;
+                            $selectedInsumo = $oldInsumos[$index] ?? null;
+                            $insumosPorFamilia = $selectedFamilia && isset($insumos[$selectedFamilia]) ? $insumos[$selectedFamilia] : collect();
+                        @endphp
                         <div class="row formula-item g-3 mb-2 align-items-center">
                             <!-- Porcentaje -->
                             <div class="col">
@@ -204,9 +161,10 @@
                                     <input type="number" 
                                            name="porcentaje[]" 
                                            class="form-control form-control-sm porcentaje" 
-                                           placeholder="0.00" 
                                            step="0.01" 
                                            min="1" max="99999.99"
+                                           placeholder="0.00"
+                                           value="{{ $porcentaje }}"
                                            required>
                                     <span class="input-group-text input-group-text-sm"><small>%</small></span>
                                 </div>
@@ -216,14 +174,15 @@
                                 <select name="familia[]" class="form-select form-select-sm select-familia" required>
                                     <option value="">Seleccione una familia</option>
                                     @foreach($familias as $familia)
-                                        <option value="{{ $familia->idFamilia }}">{{ $familia->nombre }}</option>
+                                        <option value="{{ $familia->idFamilia }}" {{ $selectedFamilia == $familia->idFamilia ? 'selected' : '' }}>{{ $familia->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <!-- Contenido -->
                             <div class="col">
                                 <div class="input-group">
-                                    <input type="number" name="contenido[]" class="form-control form-control-sm contenido" readonly>
+                                    <input type="number" name="contenido[]" 
+                                        class="form-control form-control-sm contenido" readonly value="{{ isset($oldContenidos[$index]) && $oldContenidos[$index] !== '' ? number_format((float) $oldContenidos[$index], 2, '.', '') : '' }}" step="0.01">
                                     <span class="input-group-text input-group-text-sm"><small>gr</small></span>
                                 </div>
                             </div>
@@ -231,6 +190,9 @@
                             <div class="col">
                                 <select name="insumo[]" class="form-select form-select-sm select-insumo" required>
                                     <option value="">Insumo</option>
+                                    @foreach($insumosPorFamilia as $insumo)
+                                        <option value="{{ $insumo->idInsumo }}" {{ $selectedInsumo == $insumo->idInsumo ? 'selected' : '' }}>{{ $insumo->nombre }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <!-- Eliminar -->
@@ -240,7 +202,7 @@
                                 </button>
                             </div>
                         </div>
-                    @endif
+                    @endforeach
                 </div>
 
                 <div class="formula-actions mt-4">

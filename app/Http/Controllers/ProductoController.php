@@ -41,7 +41,7 @@ class ProductoController extends Controller
 
             // Filtra por producto
             ->when($request->filled('nombre'), function ($query) use ($request) {
-                $query->where('nombre', 'like', '%' . $request->nombre . '%');
+                $query->whereRaw('LOWER(nombre) LIKE LOWER(?)', ['%' . $request->nombre . '%']);
             })
             // Filtra por fecha
             ->when($request->filled('fecha'), function ($query) use ($request) {
