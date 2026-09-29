@@ -85,14 +85,7 @@ producto.addEventListener('input', function() {
     }, 400);
 });
 
-// Ocultar lista al perder foco
-// producto.addEventListener('blur', function() {
-//     setTimeout(() => {
-//         if (!busquedaActiva) {
-//             lista.innerHTML = '';
-//         }
-//     }, 200);
-// });
+
 
 // Agregar producto al carrito
 btnAgregar.addEventListener('click', function() {
@@ -143,6 +136,8 @@ btnAgregar.addEventListener('click', function() {
     precioUnitario.value = '0.00';
     producto.focus();
 });
+
+
 
 // Renderizar carrito
 function renderizarCarrito() {

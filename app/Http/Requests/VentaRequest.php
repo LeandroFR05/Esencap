@@ -25,7 +25,7 @@ class VentaRequest extends FormRequest
             'idProducto' => 'required|sometimes|exists:productos,idProducto',
             'cliente' => 'required|sometimes|string|max:50',
             'cantidad' => 'required|integer|min:1',
-            'fecha' => 'bail|sometimes|required|date_format:Y-m-d',
+            'fecha' => 'bail|sometimes|required|date_format:Y-m-d|before_or_equal:today',
         ];
     }
 
@@ -40,6 +40,7 @@ class VentaRequest extends FormRequest
             'fecha.required' => 'La fecha es obligatoria.',
             'fecha.date' => 'La fecha no es válida.',
             'fecha.date_format' => 'El formato de fecha debe ser dd/mm/yyyy.',
+            'fecha.before_or_equal' => 'La fecha no puede ser futura.',
         ];
     }
 }
