@@ -23,7 +23,7 @@ class InsumoRequest extends FormRequest
     {
         return [
             'nombre' => 'required|sometimes|string|max:50',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif,webp|max:2048|dimensions:max_width=2000,max_height=2000',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif,webp|max:5120|dimensions:max_width=2000,max_height=2000',
             'fase' => 'required|sometimes|string|max:10',
             'idFamilia' => 'required|sometimes|exists:familias,idFamilia',
             'stockInicial' => 'required|sometimes|numeric|max:999999.99',
@@ -41,7 +41,7 @@ class InsumoRequest extends FormRequest
 
             'foto.image' => 'El archivo debe ser una imagen.',
             'foto.mimes' => 'Formato inválido (jpeg, png, jpg, gif, avif, webp).',
-            'foto.max' => 'La imagen no debe superar los 2MB.',
+            'foto.max' => 'La imagen no debe superar los 5MB.',
             'foto.dimensions' => 'Dimensión máxima permitida para la imagen: 2000x2000.',
 
             'fase.required' => 'La fase es obligatoria.',

@@ -42,7 +42,7 @@ class ProductoRequest extends FormRequest
             'nombre' => 'required|sometimes|string|max:50',
             'stockInicial' => 'required|sometimes|numeric|min:1|max:99999.99',
             'contenidoPorUnidad' => 'required|numeric|min:0.01|max:99999.99',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048|dimensions:max_width=2000,max_height=2000',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120|dimensions:max_width=2000,max_height=2000',
             'fechaElaboracion' => 'bail|sometimes|required|date_format:Y-m-d',
         ];
     }
@@ -68,7 +68,7 @@ class ProductoRequest extends FormRequest
 
             'foto.image' => 'El archivo debe ser una imagen.',
             'foto.mimes' => 'Formato inválido.',
-            'foto.max' => 'La imagen no debe superar los 2MB.',
+            'foto.max' => 'La imagen no debe superar los 5MB.',
             'foto.dimensions' => 'Tamaño máximo permitido: 2000x2000px.',
 
             'fechaElaboracion.required' => 'La fecha de elaboración es obligatoria.',
