@@ -164,7 +164,7 @@
                                            name="porcentaje[]" 
                                            class="form-control form-control-sm porcentaje" 
                                            step="0.01" 
-                                           min="1" max="99999.99"
+                                           min="0.1" max="99999.99"
                                            placeholder="0.00"
                                            value="{{ $porcentaje }}"
                                            required>
@@ -184,7 +184,7 @@
                             <div class="col">
                                 <div class="input-group">
                                     <input type="number" name="contenido[]" 
-                                        class="form-control form-control-sm contenido" readonly value="{{ isset($oldContenidos[$index]) && $oldContenidos[$index] !== '' ? number_format((float) $oldContenidos[$index], 2, '.', '') : '' }}" step="0.01">
+                                        class="form-control form-control-sm contenido" readonly value="{{ isset($oldContenidos[$index]) && $oldContenidos[$index] !== '' ? number_format((float) $oldContenidos[$index], 2, '.', '') : '' }}" step="0.01" min="0.1">
                                     <span class="input-group-text input-group-text-sm"><small>gr</small></span>
                                 </div>
                             </div>
