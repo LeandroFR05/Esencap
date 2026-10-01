@@ -7,10 +7,7 @@
 
     const actualizarSumaTotal = () => {
         const total = Array.from(document.querySelectorAll('.porcentaje'))
-            .reduce((suma, input) => {
-                const valor = Number(input.value.replace(',', '.')) || 0;
-                return suma + valor;
-            }, 0);
+            .reduce((suma, input) => suma + (Number(input.value) || 0), 0);
 
         sumaTotalPorcentaje.textContent = total.toLocaleString('es-AR', {
             maximumFractionDigits: 2,

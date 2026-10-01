@@ -25,7 +25,7 @@ function validarPorcentajes() {
         suma += valor;
     });
 
-    if(suma === 100) 
+    if(Math.round(suma * 100) / 100 === 100) 
         resultado = true;
 
     return resultado;
